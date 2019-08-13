@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Thibault Taillandier"
+		]
+	},
+	"templateimporter-desc": "Provides the ability to import external templates from source code.",
+	"templateimporter-specialimportpages-title": "Import templates",
+	"templateimporter-specialimportpages-button-submit": "Import",
+	"templateimporter-specialimportpages-status-new": "New page",
+	"templateimporter-specialimportpages-status-willupdate": "Will update",
+	"templateimporter-specialimportpages-status-uptodate": "Page up to date",
+	"templateimporter-specialimportpages-status-unchanged": "Page unchanged",
+	"templateimporter-specialimportpages-status-unknown": "Unknown version",
+	"templateimporter-specialimportpages-column-pagename": "Page",
+	"templateimporter-specialimportpages-column-pageversion": "Your Page Version",
+	"templateimporter-specialimportpages-column-packageversion": "Current Package Version",
+	"templateimporter-specialimportpages-column-status": "Status"
+}

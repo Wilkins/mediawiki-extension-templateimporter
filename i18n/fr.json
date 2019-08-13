@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Thibault Taillandier"
+		]
+	},
+	"templateimporter-desc": "Offre la possibilité d'importer des modèles à partir de code source.",
+	"templateimporter-specialimportpages-title": "Import des modèles",
+	"templateimporter-specialimportpages-button-submit": "Importer",
+	"templateimporter-specialimportpages-status-new": "Nouvelle page",
+	"templateimporter-specialimportpages-status-willupdate": "Sera mise à jour",
+	"templateimporter-specialimportpages-status-uptodate": "Page à jour",
+	"templateimporter-specialimportpages-status-unchanged": "Aucun changement",
+	"templateimporter-specialimportpages-status-unknown": "Version inconnue",
+	"templateimporter-specialimportpages-column-pagename": "Page",
+	"templateimporter-specialimportpages-column-pageversion": "Version de votre page",
+	"templateimporter-specialimportpages-column-packageversion": "Version du paquet",
+	"templateimporter-specialimportpages-column-status": "Statut"
+}

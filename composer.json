@@ -11,13 +11,13 @@
 		"optimize-autoloader": true,
 		"prepend-autoloader": false
 	},
-	"homepage": "https://www.mediawiki.org/wiki/Extension:TemplateImporter",
+	"homepage": "https://www.mediawiki.org/wiki/Extension:Template_Importer",
 	"license": "GPL-2.0+",
 	"authors": [
 		{
 			"name": "Thibault Taillandier",
 			"email": "thibault@taillandier.name",
-			"role": "Developer"
+			"role": "Maintainer"
 		}
 	],
 	"require-dev": {
@@ -25,10 +25,10 @@
 	},
 	"scripts": {
 		"test": [
-			"phpcs --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor,extensions -p ."
+			"phpcs --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor -p ."
 		],
 		"fix": [
-			"phpcbf --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor,extensions -p ."
+			"phpcbf --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor -p ."
 		]
 	},
 	"autoload": {
