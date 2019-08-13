@@ -1,0 +1,35 @@
+{
+	"private": true,
+	"main": "Gruntfile.js",
+	"scripts": {
+		"test": "grunt test"
+	},
+	"name": "TemplateImporter",
+	"version": "0.3.0",
+	"description": "MediaWiki extension import templates",
+	"dependencies": {
+		"grunt-sass": "~3.0",
+		"load-grunt-tasks": "~3.3.0"
+	},
+	"devDependencies": {
+		"grunt": "^1.0.4",
+		"grunt-contrib-clean": "~1.0",
+		"grunt-contrib-jshint": "1.1.0",
+		"grunt-contrib-sass": "~0.9.2",
+		"grunt-contrib-watch": "~1.0",
+		"grunt-banana-checker": "0.5.0",
+		"grunt-jsonlint": "1.1.0",
+		"watch": "~0.16.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "ssh://gerrit.wikimedia.org:29418/mediawiki/extensions/TemplateImporter.git"
+	},
+	"keywords": [
+		"Template",
+		"Import",
+		"Mediawiki"
+	],
+	"author": "Thibault Taillandier <thibault@taillandier.name>",
+	"license": "BSD-2-Clause"
+}

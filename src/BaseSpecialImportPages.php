@@ -11,7 +11,7 @@ use TemplateImporter\Page;
  * Special page that allow importing templates
  *
  * @file    SpecialImportFiles.php
- * @ingroup SemanticTravel
+ * @ingroup TemplateImporter
  *
  * @licence GNU GPL v2+
  * @author  Thibault Taillandier <thibault@taillandier.name>
@@ -28,7 +28,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return void
 	 */
-	public function __construct( $name = 'ImportTravelPages' ) {
+	public function __construct( $name ) {
 		parent::__construct( $name, '' );
 		$this->mIncludable = false;
 	}
@@ -100,7 +100,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	}
 
 	/**
-	 * Display the search form for a travel tree
+	 * Display the templates status page
 	 *
 	 * @param array $params the array of search parameters
 	 *
@@ -113,7 +113,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 			return false;
 		}
 		$output = $this->getOutput();
-		// $output->addModuleStyles( 'ext.smg.specialtraveltree' );
 
 		$files = $this->importer->listFiles();
 		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );

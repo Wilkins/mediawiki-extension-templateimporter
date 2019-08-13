@@ -1,8 +1,8 @@
 <?php
 /**
- * Initialization file for the Semantic Travel extension.
+ * Initialization file for the Template Importer extension.
  *
- * On MediaWiki.org: https://www.mediawiki.org/wiki/Extension:Semantic_Travel
+ * On MediaWiki.org: https://www.mediawiki.org/wiki/Extension:Template_Importer
  *
  * @file    TemplateImporter.php
  * @ingroup TemplateImporter
@@ -12,12 +12,12 @@
  */
 
 /**
- * This documentation group collects source code files belonging to Semantic Travel.
+ * This documentation group collects source code files belonging to Template Importer
  *
  * Please do not use this group name for other code.
- * If you have an extension to Semantic Travel, please use your own group definition.
+ * If you have an extension, please use your own group definition.
  *
- * @defgroup TemplateImporter Semantic Travel
+ * @defgroup TemplateImporter Template Importer
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -25,10 +25,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 if ( version_compare( $wgVersion, '1.23', '<' ) ) {
-	die( '<b>Error:</b> This version of Semantic Travel requires MediaWiki 1.23 or above.' );
+	die( '<b>Error:</b> This version of Template Importer requires MediaWiki 1.23 or above.' );
 }
 
-// Beware, SG_VERSION conflicts with SemanticGlossary
 if ( !defined( 'TI_VERSION' ) ) {
 	define( 'TI_VERSION', '0.1.0' );
 }
@@ -46,7 +45,6 @@ $wgExtensionCredits['semantic'][] = [
 ];
 
 $wgMessagesDirs['TemplateImporter'] = __DIR__ . '/i18n';
-$wgTemplateImporterPath = __DIR__;
 $wgTemplateImporterMWPath = __DIR__.'/../..';
 
 /*
@@ -66,6 +64,7 @@ $templateImporterClasses = array(
 	'TemplateImporter\Exception'              => __DIR__ . '/src/Exception.php',
 	'TemplateImporter\NamespaceManager'       => __DIR__ . '/src/NamespaceManager.php',
 	'TemplateImporter\Page'                   => __DIR__ . '/src/Page.php',
+	'TemplateImporter\TemplateImporter'       => __DIR__ . '/src/TemplateImporter.php',
 );
 
 $GLOBALS['wgAutoloadClasses'] = array_merge(
@@ -74,12 +73,23 @@ $GLOBALS['wgAutoloadClasses'] = array_merge(
 );
 
 
-/*
 $moduleTemplate = [
 	'localBasePath' => __DIR__,
 	'remoteBasePath' => ( $wgExtensionAssetsPath === false ? $wgScriptPath
 		. '/extensions' : $wgExtensionAssetsPath ) . '/TemplateImporter',
-	'group' => 'ext.smg'
+	'group' => 'ext.ti'
 ];
-*/
+$wgResourceModules['ext.ti.templateimporter'] = $moduleTemplate + [
+	// 'scripts' => 'modules/specialFamilyTree.js',
+	'styles' => 'modules/styles.css',
+	/*
+	'dependencies' => [
+		'jquery.ui.autocomplete'
+    ],
+     */
+	'messages' => [
+	]
+];
+
+$wgHooks['ParserBeforeTidy'][] = '\TemplateImporter\TemplateImporter::addTemplateImporterCSS';
 

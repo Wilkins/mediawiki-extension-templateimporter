@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Thibault Taillandier"
+		]
+	},
+	"templateimporter-desc": "{{desc|name=Template Importer|url=https://www.mediawiki.org/wiki/Extension:Template_Importer}}",
+	"templateimporter-specialimportpages-title": "Title of the Special import pages that can be overridden",
+	"templateimporter-specialimportpages-button-submit": "Label of the import button",
+	"templateimporter-specialimportpages-status-new": "Label for new page",
+	"templateimporter-specialimportpages-status-willupdate": "Label for page that will update",
+	"templateimporter-specialimportpages-status-uptodate": "Label for up to date page",
+	"templateimporter-specialimportpages-status-unchanged": "Label for upchanged page",
+	"templateimporter-specialimportpages-status-unknown": "Label for unknown version page",
+	"templateimporter-specialimportpages-column-pagename": "Label for page column",
+	"templateimporter-specialimportpages-column-pageversion": "Label for page version column",
+	"templateimporter-specialimportpages-column-packageversion": "Label for package version column",
+	"templateimporter-specialimportpages-column-status": "Label for Status column"
+}

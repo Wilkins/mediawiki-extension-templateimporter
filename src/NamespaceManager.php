@@ -41,10 +41,10 @@ class NamespaceManager {
 			throw new Exception( "Language file $filename doesn't exist" );
 		}
 		require_once $filename;
-		foreach ( $customExtensionNamespaces as $travelNs ) {
-			$nsId = $travelNs[0];
-			$nsConstant = $travelNs[1];
-			$nsName = $travelNs[2];
+		foreach ( $customExtensionNamespaces as $customNs ) {
+			$nsId = $customNs[0];
+			$nsConstant = $customNs[1];
+			$nsName = $customNs[2];
 			if ( !defined( $nsConstant ) ) {
 				define( $nsConstant, $nsId );
 			}

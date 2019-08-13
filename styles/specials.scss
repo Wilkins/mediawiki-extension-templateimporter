@@ -1,0 +1,59 @@
+
+// Green
+$status-ok: #27ae60;
+// Blue
+$status-update: #2980b9;
+// Red
+$status-alert: #c0392b;
+// Grey
+$status-unknown: #95a5a6;
+
+@mixin linestatus($color) {
+	td:nth-of-type(3),
+	td:nth-of-type(4) {
+		color: white;
+		font-weight: bold;
+		background-color: $color;
+	}
+}
+
+#templateimporter-import-form {
+
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+	td,
+	th {
+	  border: 1px solid #ccc;
+	  padding: 3px;
+	  line-height: 1;
+	}
+	th {
+	  background-color: #888888;
+	  color: white;
+	}
+	tr {
+		td:nth-of-type(2),
+		td:nth-of-type(3) {
+			text-align: center;
+		}
+		&.status-new {
+			@include linestatus($status-update);
+		}
+		&.status-unknown {
+			@include linestatus($status-alert);
+		}
+		&.status-uptodate {
+			@include linestatus($status-ok);
+		}
+		&.status-unchanged {
+			@include linestatus($status-ok);
+		}
+		&.status-willupdate {
+			@include linestatus($status-update);
+		}
+	}
+
+	p {
+		margin: 0;
+	}
+}
