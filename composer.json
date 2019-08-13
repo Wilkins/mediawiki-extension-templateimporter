@@ -1,0 +1,39 @@
+{
+	"name": "mediawiki/templateimporter",
+	"type": "mediawiki-extension",
+	"description": "The Template Importer extension the ability to load external templates from source code.",
+	"minimum-stability": "dev",
+	"keywords": [
+		"Template",
+		"Importer"
+	],
+	"config": {
+		"optimize-autoloader": true,
+		"prepend-autoloader": false
+	},
+	"homepage": "https://www.mediawiki.org/wiki/Extension:TemplateImporter",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Thibault Taillandier",
+			"email": "thibault@taillandier.name",
+			"role": "Developer"
+		}
+	],
+	"require-dev": {
+		"mediawiki/mediawiki-codesniffer": "0.4.0"
+	},
+	"scripts": {
+		"test": [
+			"phpcs --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor,extensions -p ."
+		],
+		"fix": [
+			"phpcbf --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --extensions=php,php5,inc --ignore=vendor,extensions -p ."
+		]
+	},
+	"autoload": {
+		"psr-4": {
+			"TemplateImporter\\" : "src/"
+		}
+	}
+}
