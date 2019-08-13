@@ -1,5 +1,5 @@
 {
-	"name": "mediawiki/templateimporter",
+	"name": "wilkins/mediawiki-extension-templateimporter",
 	"type": "mediawiki-extension",
 	"description": "The Template Importer extension the ability to load external templates from source code.",
 	"minimum-stability": "dev",
