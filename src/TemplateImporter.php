@@ -3,7 +3,7 @@
 namespace TemplateImporter;
 
 class TemplateImporter {
-	function addTemplateImporterCSS( &$parser, &$text ) {
+	public static function addExtensionCSS( &$parser, &$text ) {
 		global $wgTemplateImporterCSSLoaded;
 		if ( $wgTemplateImporterCSSLoaded === true ) {
 			return true;

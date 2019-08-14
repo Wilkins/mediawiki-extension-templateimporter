@@ -19,6 +19,7 @@ use TemplateImporter\Page;
 class BaseSpecialImportPages extends \SpecialPage {
 
 	public $importer;
+	public $version;
 	public $groupName = 'templateimporter';
 
 	/**
@@ -35,6 +36,17 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public function initImporter( $importer ) {
 		$this->importer = $importer;
+	}
+
+	public function getLangTemplateDir() {
+
+		throw new Exception( "You must declare a getLangTemplateDir method "
+			."in you SpecialPage class, where we can find the templates text files" );
+	}
+
+	public function getVersion() {
+
+		return $this->version;
 	}
 
 	/**
@@ -60,6 +72,12 @@ class BaseSpecialImportPages extends \SpecialPage {
 		header( "Location: $url" );
 	}
 
+	public function getNewComment() {
+
+		return "Update from $this->name (v".$this->getVersion().")";
+	}
+
+
 	/**
 	 * Execute the Special Page
 	 *
@@ -80,12 +98,12 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$output = $this->getOutput();
 
 		try {
-			$files = $this->importer->listFiles();
+			$files = $this->importer->listFiles( $this->getLangTemplateDir() );
 			foreach ( $files as $displayName => $page ) {
 				$wgOut->addWikiText( "Import de $displayName" );
-				$page->checkVersion();
+				$page->checkVersion( $this->getVersion() );
 				if ( $page->needsUpdate() && $page->hasChanged() ) {
-					$importer->importFile( $page->path );
+					$page->import( $this->getNewComment() );
 				}
 			}
 		} catch ( Exception $e ) {
@@ -114,9 +132,9 @@ class BaseSpecialImportPages extends \SpecialPage {
 		}
 		$output = $this->getOutput();
 
-		$files = $this->importer->listFiles();
+		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
 		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );
-		$output->addHTML( '<th>'
+		$output->addHTML( '<th colspan="2">'
 			. $this->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
 			. '</th>' );
 		$output->addHTML( '<th>'
@@ -131,14 +149,22 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$output->addHTML( '</tr>' );
 
 		foreach ( $files as $displayName => $page ) {
-
+			$page->checkVersion( $this->getVersion() );
 			$status = $this->msg( 'templateimporter-specialimportpages-status-'
 				.$page->getVersionTag() )->text();
 			$output->addHTML( '<tr class="status-' . $page->getVersionTag() . '"><td>' );
-			$output->addWikiText( '[[' . ( $page->isCategory() ? ':' : '' ) . $displayName . ']]' );
+			// Small hack to decide wether we display HTML or WikiText
+			$icone = $page->getWikiIcone();
+			if ( preg_match( '#\[\[#', $icone ) ) {
+				$output->addWikiText( $icone );
+			} else {
+				$output->addHtml( $icone );
+			}
+			$output->addHTML( '</td><td>' );
+			$output->addWikiText( $page->getWikiText() );
 			$output->addHTML( '</td>' );
 
-			$output->addHTML( '<td>' . $this->importer->getVersion() . '</td>' );
+			$output->addHTML( '<td>' . $this->getVersion() . '</td>' );
 			$output->addHTML( '<td>' . $page->getVersion() . '</td>' );
 			$output->addHTML( '<td>' . $status . '</td></tr>' );
 		}

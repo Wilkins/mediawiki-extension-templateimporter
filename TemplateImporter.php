@@ -45,7 +45,9 @@ $wgExtensionCredits['semantic'][] = [
 ];
 
 $wgMessagesDirs['TemplateImporter'] = __DIR__ . '/i18n';
-$wgTemplateImporterMWPath = __DIR__.'/../..';
+// Quite dumb, but php code sniffer yells about importing global variables with "$IP" name...
+// So we copy it into a $wg variable with an extension name
+$wgTemplateImporterMWPath = $IP;
 
 /*
 $autoloadFile = __DIR__.'/vendor/autoload.php';
@@ -63,7 +65,10 @@ $templateImporterClasses = array(
 	'TemplateImporter\BaseSpecialImportPages' => __DIR__ . '/src/BaseSpecialImportPages.php',
 	'TemplateImporter\Exception'              => __DIR__ . '/src/Exception.php',
 	'TemplateImporter\NamespaceManager'       => __DIR__ . '/src/NamespaceManager.php',
+	'TemplateImporter\PageFactory'            => __DIR__ . '/src/PageFactory.php',
 	'TemplateImporter\Page'                   => __DIR__ . '/src/Page.php',
+	'TemplateImporter\PageText'               => __DIR__ . '/src/PageText.php',
+	'TemplateImporter\PageImage'              => __DIR__ . '/src/PageImage.php',
 	'TemplateImporter\TemplateImporter'       => __DIR__ . '/src/TemplateImporter.php',
 );
 
@@ -91,5 +96,5 @@ $wgResourceModules['ext.ti.templateimporter'] = $moduleTemplate + [
 	]
 ];
 
-$wgHooks['ParserBeforeTidy'][] = '\TemplateImporter\TemplateImporter::addTemplateImporterCSS';
+$wgHooks['ParserBeforeTidy'][] = '\TemplateImporter\TemplateImporter::addExtensionCSS';
 

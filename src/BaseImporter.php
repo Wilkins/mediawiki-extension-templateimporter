@@ -4,22 +4,11 @@ namespace TemplateImporter;
 
 use DirectoryIterator;
 use TemplateImporter\Exception;
+use TemplateImporter\PageFactory;
 
 class BaseImporter {
 
 	public $lang;
-
-	public $version = "1.0";
-
-	public function getVersion() {
-
-		return $this->version;
-	}
-
-	public function getText() {
-
-		return "Update from $this->name (v".$this->version.")";
-	}
 
 	/**
 	 * @constructor
@@ -42,11 +31,13 @@ class BaseImporter {
 	 *
 	 * @return void
 	 */
+	/*
 	public function importFile( $file ) {
+		global $wgTemplateImporterMWPath;
 		// TODO Use "where" command if windows platform ?
 		$php = trim( shell_exec( "which php" ) );
-		$maintenanceScript = "$IP/maintenance/importTextFiles.php";
-		$config = "$IP/LocalSettings.php";
+		$maintenanceScript = "$wgTemplateImporterMWPath/maintenance/importTextFiles.php";
+		$config = "$wgTemplateImporterMWPath/LocalSettings.php";
 		$text = $this->getText();
 
 		$command = "$php $maintenanceScript --conf=$config "
@@ -54,21 +45,15 @@ class BaseImporter {
 		// echo "$command\n";
 		$res = shell_exec( $command );
 		// echo $res;
-	}
-
-	public function getLangTemplateDir() {
-
-		throw new Exception( "You must declare a getLangTemplateDir method "
-			."in you SpecialPage class, where we can find the templates text files" );
-	}
+    }
+     */
 
 	/**
 	 * List all the importable files from the given lang
 	 *
 	 * @return array the list of importable files
 	 */
-	public function listFiles() {
-		$filesDir = $this->getLangTemplateDir();
+	public function listFiles( $filesDir ) {
 		if ( !is_dir( $filesDir ) ) {
 			throw new Exception( "Directory $filesDir does not exist." );
 		}
@@ -80,16 +65,27 @@ class BaseImporter {
 			if ( !$file->isFile() ) {
 				continue;
 			}
-			if ( !preg_match( "#.txt$#", $file->getFilename() ) ) {
+
+			// FIXME
+			/*
+            if ( $file->getBasename() != 'Pin-village.png'
+                && $file->getBasename() != 'Fichier:Pin-village.png.txt' ) {
+                continue;
+            }
+             */
+
+			$page = PageFactory::create(
+				$file->getBasename(),
+				$file->getPathname()
+			);
+			if ( !$page ) {
 				continue;
 			}
 
-			$displayName = preg_replace( "#.txt$#", "", $file->getBasename() );
-			$page = new Page( $displayName, $file->getPathname(), $this->getVersion() );
-			$files[ $displayName ] = $page;
-			// file->getPathname();
+			$files[ $page->pageName ] = $page;
 		}
-		asort( $files );
+
+		ksort( $files );
 		return $files;
 	}
 }
