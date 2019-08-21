@@ -77,14 +77,31 @@ class NamespaceManager {
 		if ( !defined( 'SMW_VERSION' ) ) {
 			return;
 		}
+		/*
 		$filemessages = "$wgTemplateImporterMWPath/extensions/SemanticMediaWiki/languages/"
 			."SMW_Language".ucfirst( $lang ).".php";
-		// echo $filemessages;
-		require_once $filemessages;
-		$className = "SMWLanguage".ucfirst( $lang );
-		$c = new $className;
-		$namespaceNames = $c->getNamespaces();
+		#require_once $filemessages;
+        #$className = "SMWLanguage".ucfirst( $lang );
+        */
+		// Official Namespace loading from SMW
+		/*
+		$ns = new \SMW\NamespaceManager(
+			$GLOBALS,
+			"$wgTemplateImporterMWPath/extensions/SemanticMediaWiki/"
+		);
+        $ns->run();
+         */
+		$lg = \SMW\Lang\Lang::getInstance();
+		$lg = $lg->fetch( $lang );
+		$ns = \SMW\NamespaceManager::initCustomNamespace(
+			$GLOBALS,
+			$lg
+		);
+		$namespaceNames = $lg->getNamespaces();
 		foreach ( $namespaceNames as $nsId => $nsName ) {
+			if ( !is_integer( $nsId ) ) {
+				continue;
+			}
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 			$wgExtraNamespaces[$nsId] = $nsName;
 			$wgNamespaceAliases[$nsName] = $nsId;
@@ -95,6 +112,8 @@ class NamespaceManager {
 		$this->loadNamespacesMediawiki( $lang );
 		$this->loadNamespacesPageForms( $lang );
 		$this->loadNamespacesSMW( $lang );
+		/*
+         */
 	}
 
 	/**

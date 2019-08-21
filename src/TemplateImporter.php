@@ -19,4 +19,14 @@ class TemplateImporter {
 
 		return true;
 	}
+
+	public static function initExtension( $credits = [] ) {
+		global $wgTemplateImporterMWPath;
+
+		// We create a $IP variable with this extension name
+		// We recreate with the same value as includes/WebStart.php:60
+		$wgTemplateImporterMWPath = realpath( '.' );
+
+		define( 'TI_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'N/A' );
+	}
 }

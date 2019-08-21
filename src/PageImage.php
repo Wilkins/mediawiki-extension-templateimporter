@@ -132,9 +132,19 @@ class PageImage extends Page {
 			." --limit=1 --overwrite "
 			." --summary=\"$comment\" ";
 
-		echo "$command<br>\n";
+		# echo "$command<br>\n";
 		$res = shell_exec( $command );
-		echo $res;
+		# echo $res;
+
+		$this->updateMetadataDescription( "File:".$this->pageName, $comment );
+	}
+
+
+	public function updateMetadataDescription( $pageName, $comment ) {
+
+		$pagetext = new PageText( $pageName );
+		$pagetext->setComment( $comment );
+
 	}
 }
 

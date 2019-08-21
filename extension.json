@@ -5,12 +5,12 @@
 	"author": [
 		"Thibault Taillandier"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:Template importer",
+	"url": "https://www.mediawiki.org/wiki/Extension:Template_importer",
 	"descriptionmsg": "templateimporter-desc",
 	"license-name": "GPL-2.0+",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.27.0"
+		"MediaWiki": ">= 1.23.0"
 	},
 	"MessagesDirs": {
 		"TemplateImporter": [
@@ -18,260 +18,31 @@
 		]
 	},
 	"AutoloadClasses": {
-      "BaseImporter": "src/BaseImporter.php",
-      "Exception": "src/Exception.php",
-      "NamespaceManager": "src/NamespaceManager.php",
-      "Page": "src/Page.php",
-      "BaseSpecialImportPages": "src/BaseSpecialImportPages.php"
+      "TemplateImporter\\BaseImporter": "src/BaseImporter.php",
+      "TemplateImporter\\Exception": "src/Exception.php",
+      "TemplateImporter\\NamespaceManager": "src/NamespaceManager.php",
+      "TemplateImporter\\Page": "src/Page.php",
+      "TemplateImporter\\PageText": "src/PageText.php",
+      "TemplateImporter\\PageImage": "src/PageImage.php",
+      "TemplateImporter\\PageFactory": "src/PageFactory.php",
+      "TemplateImporter\\TemplateImporter": "src/TemplateImporter.php",
+      "TemplateImporter\\BaseSpecialImportPages": "src/BaseSpecialImportPages.php"
 	},
-	"@ResourceModules": {
-		"ext.pageforms.main": {
-			"scripts": [
-				"libs/PageForms.js",
-				"libs/PF_preview.js"
-			],
+    "callback": "TemplateImporter\\TemplateImporter::initExtension",
+    "Hooks": {
+      "ParserBeforeTidy": [
+        "TemplateImporter\\TemplateImporter::addExtensionCSS"
+      ]
+    },
+	"ResourceModules": {
+		"ext.ti.templateimporter": {
 			"styles": [
-				"skins/PageForms.css",
-				"skins/PF_jquery_ui_overrides.css"
-			],
-			"dependencies": [
-				"jquery.ui.core",
-				"jquery.ui.autocomplete",
-				"jquery.ui.button",
-				"jquery.ui.sortable",
-				"jquery.ui.widget",
-				"ext.pageforms.fancybox",
-				"ext.pageforms.autogrow",
-				"mediawiki.util",
-				"ext.pageforms.select2"
-			],
-			"messages": [
-				"pf_formerrors_header",
-				"pf_too_few_instances_error",
-				"pf_too_many_instances_error",
-				"pf_blank_error",
-				"pf_not_unique_error",
-				"pf_bad_url_error",
-				"pf_bad_email_error",
-				"pf_bad_number_error",
-				"pf_bad_date_error",
-				"pf_modified_input_error",
-				"pf_pipe_error"
+				"modules/styles.css"
 			]
-		},
-		"ext.pageforms.browser": {
-			"scripts": [
-				"libs/jquery.browser.js"
-			]
-		},
-		"ext.pageforms.fancybox": {
-			"scripts": "libs/jquery.fancybox.js",
-			"styles": "skins/jquery.fancybox.css",
-			"dependencies": [
-				"ext.pageforms.browser"
-			]
-		},
-		"ext.pageforms.dynatree": {
-			"dependencies": [
-				"jquery.ui.widget"
-			],
-			"scripts": [
-				"libs/jquery.dynatree.js",
-				"libs/PF_dynatree.js"
-			],
-			"styles": "skins/ui.dynatree.css"
-		},
-		"ext.pageforms.autogrow": {
-			"scripts": [
-				"libs/PF_autogrow.js"
-			]
-		},
-		"ext.pageforms.popupformedit": {
-			"scripts": "libs/PF_popupform.js",
-			"styles": "skins/PF_popupform.css",
-			"dependencies": [
-				"ext.pageforms.browser"
-			]
-		},
-		"ext.pageforms.autoedit": {
-			"scripts": "libs/PF_autoedit.js",
-			"styles": "skins/PF_autoedit.css",
-			"messages": [
-				"pf-autoedit-wait",
-				"pf_autoedit_anoneditwarning"
-			]
-		},
-		"ext.pageforms.submit": {
-			"scripts": [
-				"libs/PF_submit.js"
-			],
-			"styles": [
-				"skins/PF_submit.css"
-			],
-			"messages": [
-				"pf_formedit_saveandcontinue_summary",
-				"pf_formedit_saveandcontinueediting"
-			]
-		},
-		"ext.pageforms.collapsible": {
-			"scripts": [
-				"libs/PF_collapsible.js"
-			],
-			"styles": [
-				"skins/PF_collapsible.css"
-			]
-		},
-		"ext.pageforms.imagepreview": {
-			"scripts": [
-				"libs/PF_imagePreview.js"
-			]
-		},
-		"ext.pageforms.checkboxes": {
-			"scripts": [
-				"libs/PF_checkboxes.js"
-			],
-			"styles": [
-				"skins/PF_checkboxes.css"
-			],
-			"messages": [
-				"pf_forminputs_checkboxes_select_all",
-				"pf_forminputs_checkboxes_select_none"
-			]
-		},
-		"ext.pageforms.datepicker": {
-			"scripts": [
-				"libs/PF_datepicker.js"
-			],
-			"dependencies": [
-				"jquery.ui.datepicker",
-				"ext.pageforms.main"
-			],
-			"position": "bottom"
-		},
-		"ext.pageforms.timepicker": {
-			"scripts": "libs/PF_timepicker.js",
-			"styles": "skins/PF_Timepicker.css",
-			"position": "bottom"
-		},
-		"ext.pageforms.datetimepicker": {
-			"scripts": "libs/PF_datetimepicker.js",
-			"dependencies": [
-				"ext.pageforms.datepicker",
-				"ext.pageforms.timepicker"
-			],
-			"position": "bottom"
-		},
-		"ext.pageforms.regexp": {
-			"scripts": "libs/PF_regexp.js",
-			"dependencies": [
-				"ext.pageforms.main"
-			]
-		},
-		"ext.pageforms.rating": {
-			"scripts": [
-				"libs/jquery.rateyo.js",
-				"libs/PF_rating.js"
-			],
-			"styles": "skins/jquery.rateyo.css"
-		},
-		"ext.pageforms.simpleupload": {
-			"scripts": [
-				"libs/PF_simpleupload.js"
-			],
-			"messages": [
-				"pf_forminputs_change_file",
-				"upload-dialog-button-upload"
-			]
-		},
-		"ext.pageforms.select2": {
-			"scripts": [
-				"libs/select2.js",
-				"libs/ext.pf.select2.base.js",
-				"libs/ext.pf.select2.combobox.js",
-				"libs/ext.pf.select2.tokens.js"
-			],
-			"styles": [
-				"skins/select2/select2.css",
-				"skins/select2/select2-bootstrap.css",
-				"skins/ext.pf.select2.css"
-			],
-			"dependencies": [
-				"ext.pageforms",
-				"mediawiki.jqueryMsg"
-			],
-			"messages": [
-				"pf-select2-no-matches",
-				"pf-select2-searching",
-				"pf-select2-input-too-short",
-				"pf-select2-selection-too-big"
-			]
-		},
-		"ext.pageforms.jsgrid": {
-			"scripts": [
-				"libs/jsgrid.js",
-				"libs/PF_jsGrid.js"
-			],
-			"styles": [
-				"skins/jsgrid/jsgrid.css",
-				"skins/jsgrid/theme.css"
-			],
-			"dependencies": [
-				"jquery.ui.sortable"
-			],
-			"messages": [
-				"htmlform-yes",
-				"htmlform-no"
-			]
-		},
-		"ext.pageforms.balloon": {
-			"styles": [
-				"skins/balloon.css"
-			]
-		},
-		"ext.pageforms": {
-			"scripts": [
-				"libs/ext.pf.js"
-			]
-		},
-		"ext.pageforms.PF_CreateProperty": {
-			"scripts": [
-				"libs/PF_CreateProperty.js"
-			]
-		},
-		"ext.pageforms.PF_PageSchemas": {
-			"scripts": [
-				"libs/PF_PageSchemas.js"
-			]
-		},
-		"ext.pageforms.PF_CreateTemplate": {
-			"scripts": [
-				"libs/PF_CreateTemplate.js"
-			],
-			"messages": [
-				"pf_blank_error",
-				"pf_createtemplate_hierarchystructureplaceholder"
-			]
-		},
-		"ext.pageforms.PF_CreateClass": {
-			"scripts": [
-				"libs/PF_CreateClass.js"
-			],
-			"messages": [
-				"pf_createtemplate_hierarchystructureplaceholder"
-			]
-		},
-		"ext.pageforms.PF_CreateForm": {
-			"scripts": [
-				"libs/PF_CreateForm.js"
-			],
-			"messages": [
-				"pf_blank_error"
-			]
-		}
-	},
-	"@ResourceFileModulePaths": {
-		"localBasePath": "",
-		"remoteExtPath": "PageForms"
+        }
+    },
+	"ResourceFileModulePaths": {
+		"localBasePath": ""
 	},
 	"manifest_version": 1
 }

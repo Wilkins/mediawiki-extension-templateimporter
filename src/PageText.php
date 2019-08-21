@@ -10,7 +10,7 @@ class PageText extends Page {
 		return "#\.txt$#";
 	}
 
-	public function __construct( $pageName, $path ) {
+	public function __construct( $pageName, $path = '/dev/null' ) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
 		parent::__construct( $pageName, $path );
 		$this->textFile = file_get_contents( $this->path );
@@ -115,6 +115,61 @@ class PageText extends Page {
 	}
 
 	/**
+	 * Retrieve the last comment from the database for a given namespace:pagename
+	 *
+	 * @param integer $namespace the namespace id
+	 * @param string  $pagename  the pagename
+	 *
+	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
+	 */
+	public function getCurrentRevision() {
+		$dbr = wfGetDb( DB_MASTER );
+
+		error_log( "page_title = '{$this->pageTitle}' and page_namespace={$this->namespaceId}" );
+		$res = $dbr->select(
+			[ 'page' ],
+			[ 'page_latest' ],
+				"page_title = '{$this->pageTitle}' and page_namespace={$this->namespaceId}",
+				__METHOD__
+		);
+
+		if ( $res->result->num_rows >= 0 ) {
+			foreach ( $res->result as $row ) {
+				return $row['page_latest'];
+			}
+		}
+		return -1;
+		// throw new Exception( "" );
+	}
+
+	public function setComment( $comment ) {
+		$dbr = wfGetDb( DB_MASTER );
+
+		$rev_id = $this->getCurrentRevision();
+
+		error_log( "setComment : ".$this->pageName );
+		error_log( "mettre $comment sur revision $rev_id\n" );
+
+		$dbr->update( 'revision',
+			[ 'rev_comment' => $comment ],
+			[ 'rev_id' => $rev_id+1 ],
+			__METHOD__
+		);
+
+		$success = ( $dbr->affectedRows() > 0 );
+		/*
+        $success = 1;
+         */
+
+		if ( $success ) {
+			error_log( "Commentaire changé avec succès" );
+		} else {
+			error_log( "Erreur" );
+		}
+
+	}
+
+	/**
 	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
 	 *
 	 * @param string $file the full file path
@@ -131,8 +186,8 @@ class PageText extends Page {
 
 		$command = "$php $maintenanceScript --conf=$config "
 			." -s '$comment' --overwrite --rc \"$path\"";
-		echo "$command<br>\n";
-		# $res = shell_exec( $command );
-		echo $res;
+		# echo "$command<br>\n";
+		$res = shell_exec( $command );
+		# echo $res;
 	}
 }
