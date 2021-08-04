@@ -10,24 +10,58 @@ namespace TemplateImporter;
 class NamespaceManager {
 
 	public $PageFormsLoaded = false;
-	public $defaultLang = 'en';
+    public $defaultLang = 'en';
+    private $mediawikiPath;
 
+    public function __construct( $mediawikiPath, $lang )
+    {
+        $this->mediawikiPath = $mediawikiPath;
+        $this->loadDefaultLang();
+        if ( $lang != $this->defaultLang ) {
+            $this->loadLang( $lang );
+        }
+    }
+
+    public function loadDefaultLang() {
+        $this->loadLang( $this->defaultLang );
+    }
+    public function loadLang( $lang ) {
+        $this->loadNamespaceData( $lang );
+    }
+    /*
 	public function loadAll() {
 
-		global $wgLanguageCode;
+        global $wgLanguageCode;
+        echo "wgLanguageCode : $wgLanguageCode\n";
 		$this->loadNamespaceData( $this->defaultLang );
 
 		if ( $wgLanguageCode != 'en' ) {
 			$this->loadNamespaceData( $wgLanguageCode );
 		}
-	}
+    }
+    */
 
 	public function loadNamespacesMediawiki( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-			$wgTemplateImporterMWPath;
-		$filemessages = "$wgTemplateImporterMWPath/languages/messages/Messages".ucfirst( $lang ).".php";
-		// echo $filemessages;
-		require_once $filemessages;
+            $wgTemplateImporterMWPath;
+        #$wgTemplateImporterMWPath = "/home/web/mediawiki1.34"; ///home/web/mediawiki"; 
+        //null; //"/var/www/nous.taillandier.name";
+        //echo "lang : $lang\n";
+        #echo "wgNamespaceAliases : $wgNamespaceAliases\n";
+        #echo "wgExtraNamespaces : $wgExtraNamespaces\n";
+        #echo "wgCanonicalNamespaceNames : $wgCanonicalNamespaceNames\n";
+        //echo "wgTemplateImporterMWPath; : $wgTemplateImporterMWPath\n";
+        $filemessages = $this->mediawikiPath
+            ."/languages/messages/Messages".ucfirst( $lang ).".php";
+        //echo $filemessages." - File exists : ".(file_exists($filemessages) ? "oui" : "non")."\n";
+        #throw new Exception("trace");
+        //if ( !file_exists( $filemessages ) ) {
+        //}
+        // echo $filemessages;
+        global $namespaceNames;
+        #echo file_get_contents($filemessages);
+        include $filemessages;
+        #print_r( $namespaceNames );
 		foreach ( $namespaceNames as $nsId => $nsName ) {
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 			$wgExtraNamespaces[$nsId] = $nsName;
@@ -40,7 +74,7 @@ class NamespaceManager {
 		if ( !file_exists( $filename ) ) {
 			throw new Exception( "Language file $filename doesn't exist" );
 		}
-		require_once $filename;
+		include $filename;
 		foreach ( $customExtensionNamespaces as $customNs ) {
 			$nsId = $customNs[0];
 			$nsConstant = $customNs[1];
@@ -61,8 +95,8 @@ class NamespaceManager {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
 			$wgTemplateImporterMWPath;
 
-		$filemessages = "$wgTemplateImporterMWPath/extensions/PageForms/languages/PF_Namespaces.php";
-		require $filemessages;
+		$filemessages = $this->mediawikiPath."/extensions/PageForms/languages/PF_Namespaces.php";
+		include $filemessages;
 
 		foreach ( $namespaceNames[$lang] as $nsId => $nsName ) {
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
@@ -92,7 +126,8 @@ class NamespaceManager {
         $ns->run();
          */
 		$lg = \SMW\Lang\Lang::getInstance();
-		$lg = $lg->fetch( $lang );
+        $lg = $lg->fetch( $lang );
+        //print_r($lg);
 		$ns = \SMW\NamespaceManager::initCustomNamespace(
 			$GLOBALS,
 			$lg
@@ -108,10 +143,11 @@ class NamespaceManager {
 		}
 	}
 
-	public function loadNamespaceData( $lang ) {
+    public function loadNamespaceData( $lang ) {
+        //error_log( "loadNamespaceData( $lang )" );
 		$this->loadNamespacesMediawiki( $lang );
 		$this->loadNamespacesPageForms( $lang );
-		$this->loadNamespacesSMW( $lang );
+		//$this->loadNamespacesSMW( $lang );
 		/*
          */
 	}
