@@ -28,36 +28,17 @@ class NamespaceManager {
     public function loadLang( $lang ) {
         $this->loadNamespaceData( $lang );
     }
-    /*
-	public function loadAll() {
-
-        global $wgLanguageCode;
-        echo "wgLanguageCode : $wgLanguageCode\n";
-		$this->loadNamespaceData( $this->defaultLang );
-
-		if ( $wgLanguageCode != 'en' ) {
-			$this->loadNamespaceData( $wgLanguageCode );
-		}
-    }
-    */
 
 	public function loadNamespacesMediawiki( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
             $wgTemplateImporterMWPath;
-        #$wgTemplateImporterMWPath = "/home/web/mediawiki1.34"; ///home/web/mediawiki"; 
-        //null; //"/var/www/nous.taillandier.name";
-        //echo "lang : $lang\n";
-        #echo "wgNamespaceAliases : $wgNamespaceAliases\n";
-        #echo "wgExtraNamespaces : $wgExtraNamespaces\n";
-        #echo "wgCanonicalNamespaceNames : $wgCanonicalNamespaceNames\n";
-        //echo "wgTemplateImporterMWPath; : $wgTemplateImporterMWPath\n";
         $filemessages = $this->mediawikiPath
             ."/languages/messages/Messages".ucfirst( $lang ).".php";
         //echo $filemessages." - File exists : ".(file_exists($filemessages) ? "oui" : "non")."\n";
         #throw new Exception("trace");
         //if ( !file_exists( $filemessages ) ) {
         //}
-        // echo $filemessages;
+        //echo $filemessages;
         global $namespaceNames;
         #echo file_get_contents($filemessages);
         include $filemessages;
