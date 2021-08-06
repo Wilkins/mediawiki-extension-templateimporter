@@ -16,17 +16,10 @@ class NamespaceManager {
     public function __construct( $mediawikiPath, $lang )
     {
         $this->mediawikiPath = $mediawikiPath;
-        $this->loadDefaultLang();
+        $this->loadNamespaceData( $this->defaultLang );
         if ( $lang != $this->defaultLang ) {
-            $this->loadLang( $lang );
+            $this->loadNamespaceData( $lang );
         }
-    }
-
-    public function loadDefaultLang() {
-        $this->loadLang( $this->defaultLang );
-    }
-    public function loadLang( $lang ) {
-        $this->loadNamespaceData( $lang );
     }
 
 	public function loadNamespacesMediawiki( $lang ) {
@@ -34,15 +27,8 @@ class NamespaceManager {
             $wgTemplateImporterMWPath;
         $filemessages = $this->mediawikiPath
             ."/languages/messages/Messages".ucfirst( $lang ).".php";
-        //echo $filemessages." - File exists : ".(file_exists($filemessages) ? "oui" : "non")."\n";
-        #throw new Exception("trace");
-        //if ( !file_exists( $filemessages ) ) {
-        //}
-        //echo $filemessages;
         global $namespaceNames;
-        #echo file_get_contents($filemessages);
         include $filemessages;
-        #print_r( $namespaceNames );
 		foreach ( $namespaceNames as $nsId => $nsName ) {
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 			$wgExtraNamespaces[$nsId] = $nsName;
@@ -88,41 +74,17 @@ class NamespaceManager {
 
 	public function loadNamespacesSMW( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-            $wgTemplateImporterMWPath;
-        global $wgLanguageCode;
-        //echo "SMW_VERSION : ".SMW_VERSION."\n";
+            $wgTemplateImporterMWPath, $wgLanguageCode;;
         if ( !defined( 'SMW_VERSION' ) ) {
-            //error_log( "loadNamespacesSMW SMW_VERSION is not defined" );
 			return;
-		}
-		/*
-		$filemessages = "$wgTemplateImporterMWPath/extensions/SemanticMediaWiki/languages/"
-			."SMW_Language".ucfirst( $lang ).".php";
-		#require_once $filemessages;
-        #$className = "SMWLanguage".ucfirst( $lang );
-        */
-		// Official Namespace loading from SMW
-		/*
-		$ns = new \SMW\NamespaceManager(
-			$GLOBALS,
-			"$wgTemplateImporterMWPath/extensions/SemanticMediaWiki/"
-		);
-        $ns->run();
-         */
+        }
+        // We clear the \SMW\NamespaceManager::$initLanguageCode
+        // to avoid the SiteLanguageChangeException from 
+        // extensions/SemanticMediaWiki/src/NamespaceManager.php
         \SMW\NamespaceManager::clear();
         $lg = \SMW\Lang\Lang::getInstance();
-        //echo "\n\n";
-        //print_r( $lang );
-
-        //print_r( $wgLanguageCode );
-        //$lang= 'fr';
-        //echo "GLOBALS->wgLanguageCode(".$GLOBALS['wgLanguageCode'].")\n";
         $lg = $lg->fetch( $lang );
-        //echo "GLOBALS->wgLanguageCode(".$GLOBALS['wgLanguageCode'].")\n";
         $vars = array_merge( $GLOBALS, ['wgLanguageCode' => $lang] );
-        //echo "vars->wgLanguageCode(".$vars['wgLanguageCode'].")\n";
-        //print_r( $lg );
-        //echo "\n\n";
 		$ns = \SMW\NamespaceManager::initCustomNamespace(
             $vars,
 			$lg
@@ -139,12 +101,9 @@ class NamespaceManager {
 	}
 
     public function loadNamespaceData( $lang ) {
-        //error_log( "loadNamespaceData( $lang )" );
 		$this->loadNamespacesMediawiki( $lang );
 		$this->loadNamespacesPageForms( $lang );
 		$this->loadNamespacesSMW( $lang );
-		/*
-         */
 	}
 
 	/**
