@@ -76,6 +76,37 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
     }
 
     /**
+     * @dataProvider dataProviderNamespaceForms
+     */
+    public function testNamespaceConstantResolutionForms(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedId = constant( $namespaceConstant );
+        $this->assertequals( $namespaceId, $detectedId );
+    }
+
+    /**
+     * @dataProvider dataProviderNamespaceForms
+     */
+    public function testNamespaceNameResolutionForms(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+        $this->assertequals( $namespaceId, $detectedId );
+    }
+
+    /**
+     * @dataProvider dataProviderNamespaceForms
+     */
+    public function testNamespaceIdResolutionForms(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedName = $this->manager->getNamespaceName( $namespaceId );
+        $this->assertequals( $namespaceName, $detectedName );
+    }
+
+
+    /**
      * @dataProvider dataProviderNamespaceSemantic
      */
     public function testNamespaceNameResolutionSemantic(

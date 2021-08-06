@@ -29,6 +29,15 @@ class NamespaceProviderEn
         ];
     }
 
+    public static function providerNamespacesForms()
+    {
+        return [
+            [ 106, 'PF_NS_FORM', 'Form' ],
+            [ 107, 'PF_NS_FORM_TALK', 'Form_talk' ],
+        ];
+    }
+    
+
     public static function providerNamespacesSemantic()
     {
         return [

@@ -12,6 +12,11 @@ class NamespaceManagerEnTest extends NamespaceManagerBase
         return NamespaceProviderEn::providerNamespacesCore();
     }
 
+    public function dataProviderNamespaceForms()
+    {
+        return NamespaceProviderEn::providerNamespacesForms();
+    }
+
     public function dataProviderNamespaceSemantic()
     {
         return NamespaceProviderEn::providerNamespacesSemantic();

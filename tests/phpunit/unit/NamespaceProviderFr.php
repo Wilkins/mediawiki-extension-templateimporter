@@ -34,6 +34,14 @@ class NamespaceProviderFr
 
         ];
     }
+    public static function providerNamespacesForms()
+    {
+        return [
+            [ 106, 'PF_NS_FORM', 'Formulaire' ],
+            [ 107, 'PF_NS_FORM_TALK', 'Discussion_formulaire' ],
+        ];
+    }
+    
     public static function providerNamespacesSemantic()
     {
         return [
