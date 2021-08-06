@@ -88,8 +88,11 @@ class NamespaceManager {
 
 	public function loadNamespacesSMW( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-			$wgTemplateImporterMWPath;
-		if ( !defined( 'SMW_VERSION' ) ) {
+            $wgTemplateImporterMWPath;
+        global $wgLanguageCode;
+        //echo "SMW_VERSION : ".SMW_VERSION."\n";
+        if ( !defined( 'SMW_VERSION' ) ) {
+            //error_log( "loadNamespacesSMW SMW_VERSION is not defined" );
 			return;
 		}
 		/*
@@ -106,11 +109,22 @@ class NamespaceManager {
 		);
         $ns->run();
          */
-		$lg = \SMW\Lang\Lang::getInstance();
+        \SMW\NamespaceManager::clear();
+        $lg = \SMW\Lang\Lang::getInstance();
+        //echo "\n\n";
+        //print_r( $lang );
+
+        //print_r( $wgLanguageCode );
+        //$lang= 'fr';
+        //echo "GLOBALS->wgLanguageCode(".$GLOBALS['wgLanguageCode'].")\n";
         $lg = $lg->fetch( $lang );
-        //print_r($lg);
+        //echo "GLOBALS->wgLanguageCode(".$GLOBALS['wgLanguageCode'].")\n";
+        $vars = array_merge( $GLOBALS, ['wgLanguageCode' => $lang] );
+        //echo "vars->wgLanguageCode(".$vars['wgLanguageCode'].")\n";
+        //print_r( $lg );
+        //echo "\n\n";
 		$ns = \SMW\NamespaceManager::initCustomNamespace(
-			$GLOBALS,
+            $vars,
 			$lg
 		);
 		$namespaceNames = $lg->getNamespaces();
@@ -128,7 +142,7 @@ class NamespaceManager {
         //error_log( "loadNamespaceData( $lang )" );
 		$this->loadNamespacesMediawiki( $lang );
 		$this->loadNamespacesPageForms( $lang );
-		//$this->loadNamespacesSMW( $lang );
+		$this->loadNamespacesSMW( $lang );
 		/*
          */
 	}

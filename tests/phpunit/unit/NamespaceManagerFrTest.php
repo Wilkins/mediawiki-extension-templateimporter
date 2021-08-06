@@ -12,6 +12,11 @@ class NamespaceManagerFrTest extends NamespaceManagerBase
         return NamespaceProviderFr::providerNamespacesCore();
     }
 
+    public function dataProviderNamespaceSemantic()
+    {
+        return NamespaceProviderFr::providerNamespacesSemantic();
+    }
+
     public function dataProviderNamespaceTravel()
     {
         return NamespaceProviderFr::providerNamespacesTravel();

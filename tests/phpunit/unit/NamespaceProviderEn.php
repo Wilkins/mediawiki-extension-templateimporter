@@ -28,6 +28,29 @@ class NamespaceProviderEn
             [ 15, 'NS_CATEGORY_TALK', 'Category_talk' ],
         ];
     }
+
+    public static function providerNamespacesSemantic()
+    {
+        return [
+            /*
+            [ 100, 'SMW_NS_RELATION', 'Relation' ],
+            [ 101, 'SMW_NS_RELATION_TALK', 'Relation_talk' ],
+             */
+            [ 102, 'SMW_NS_PROPERTY', 'Property' ],
+            [ 103, 'SMW_NS_PROPERTY_TALK', 'Property_talk' ],
+            /*
+            [ 104, 'SMW_NS_TYPE', 'Type' ],
+            [ 105, 'SMW_NS_TYPE_TALK', 'Type_talk' ],
+             */
+            [ 108, 'SMW_NS_CONCEPT', 'Concept' ],
+            [ 109, 'SMW_NS_CONCEPT_TALK', 'Concept_talk' ],
+            [ 112, 'SMW_NS_SCHEMA', 'smw/schema' ],
+            [ 113, 'SMW_NS_SCHEMA_TALK', 'smw/schema_talk' ],
+            [ 114, 'SMW_NS_RULE', 'Rule' ],
+            [ 115, 'SMW_NS_RULE_TALK', 'Rule_talk' ],
+
+        ];
+    }
     public static function providerNamespacesTravel()
     {
         return [

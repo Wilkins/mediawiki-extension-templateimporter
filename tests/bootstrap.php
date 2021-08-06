@@ -6,6 +6,14 @@ require_once __DIR__.'/phpunit/unit/NamespaceProviderEn.php';
 require_once __DIR__.'/phpunit/unit/NamespaceProviderFr.php';
 require_once __DIR__.'/phpunit/unit/NamespaceManagerBase.php';
 
+
+echo "BOOTSTRAP\n";
+echo microtime(true)."\n";
+#global $wgLanguageCode;
+echo "GLOBAL : ".$GLOBALS['wgLanguageCode']."\n"; // = 'fr';
+
+
+require_once __DIR__.'/../../../LocalSettings.php';
 error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 ini_set( 'log_errors', 1 );

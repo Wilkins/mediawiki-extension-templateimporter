@@ -12,9 +12,20 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
     public $manager;
     public $lang;
 
+    /*
+    public static function setUpBeforeClass() : void
+    {
+        echo "SetupBeforeClass\n";
+    }
+     */
+    
     public function setUp() : void
     {
+        //echo "SetUp\n";
         $this->mediawikiPath = __DIR__."/../../../../../";
+        //include $this->mediawikiPath.'/LocalSettings.php';
+        //print_r( $GLOBALS );
+        //echo $GLOBALS['wgLanguageCode'];
         $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
     }
 
@@ -48,6 +59,36 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
      * @dataProvider dataProviderNamespaceCore
      */
     public function testNamespaceIdResolutionCore(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedName = $this->manager->getNamespaceName( $namespaceId );
+        $this->assertequals( $namespaceName, $detectedName );
+    }
+
+    /**
+     * @dataProvider dataProviderNamespaceSemantic
+     */
+    public function testNamespaceConstantResolutionSemantic(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedId = constant( $namespaceConstant );
+        $this->assertequals( $namespaceId, $detectedId );
+    }
+
+    /**
+     * @dataProvider dataProviderNamespaceSemantic
+     */
+    public function testNamespaceNameResolutionSemantic(
+        $namespaceId, $namespaceConstant, $namespaceName )
+    {
+        $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+        $this->assertequals( $namespaceId, $detectedId );
+    }
+
+    /**
+     * @dataProvider dataProviderNamespaceSemantic
+     */
+    public function testNamespaceIdResolutionSemantic(
         $namespaceId, $namespaceConstant, $namespaceName )
     {
         $detectedName = $this->manager->getNamespaceName( $namespaceId );
@@ -95,6 +136,11 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
     public function dataProviderNamespaceCore()
     {
         throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceCore" );
+    }
+
+    public function dataProviderNamespaceSemantic()
+    {
+        throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceSemantic" );
     }
 
     public function dataProviderNamespaceTravel()
