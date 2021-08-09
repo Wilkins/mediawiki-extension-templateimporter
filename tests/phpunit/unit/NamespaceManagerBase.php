@@ -4,179 +4,179 @@ namespace TemplateImporter;
 
 use MediaWikiUnitTestCase;
 
-
 abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
 {
 
-    public $mediawikiPath;
-    public $manager;
-    public $lang;
+	public $mediawikiPath;
+	public $manager;
+	public $lang;
 
-    /*
+	/*
     public static function setUpBeforeClass() : void
     {
         echo "SetupBeforeClass\n";
     }
      */
-    
-    public function setUp() : void
-    {
-        //echo "SetUp\n";
-        $this->mediawikiPath = __DIR__."/../../../../../";
-        //include $this->mediawikiPath.'/LocalSettings.php';
-        //print_r( $GLOBALS );
-        //echo $GLOBALS['wgLanguageCode'];
-        $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
-    }
 
-    public function loadNamespacesTravel( $lang )
-    {
-        $this->manager->loadCustomNamespaces( 
-            __DIR__."/../../fixtures/customNamespaces.SemanticTravel.$lang.php" );
-    }
+	public function setUp() {
+	: void
 
-    /**
-     * @dataProvider dataProviderNamespaceCore
-     */
-    public function testNamespaceNameResolutionCore(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-            $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
-            $this->assertequals( $namespaceId, $detectedId );
-    }
+		// echo "SetUp\n";
+		$this->mediawikiPath = __DIR__."/../../../../../";
+		// include $this->mediawikiPath.'/LocalSettings.php';
+		// print_r( $GLOBALS );
+		// echo $GLOBALS['wgLanguageCode'];
+		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+	}
 
-    /**
-     * @dataProvider dataProviderNamespaceCore
-     */
-    public function testNamespaceConstantResolutionCore(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedId = constant( $namespaceConstant );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+	public function loadNamespacesTravel( $lang ) {
 
-    /**
-     * @dataProvider dataProviderNamespaceCore
-     */
-    public function testNamespaceIdResolutionCore(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedName = $this->manager->getNamespaceName( $namespaceId );
-        $this->assertequals( $namespaceName, $detectedName );
-    }
+		$this->manager->loadCustomNamespaces(
+			__DIR__."/../../fixtures/customNamespaces.SemanticTravel.$lang.php" );
+	}
 
-    /**
-     * @dataProvider dataProviderNamespaceSemantic
-     */
-    public function testNamespaceConstantResolutionSemantic(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedId = constant( $namespaceConstant );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+	/**
+	 * @dataProvider dataProviderNamespaceCore
+	 */
+	public function testNamespaceNameResolutionCore(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-    /**
-     * @dataProvider dataProviderNamespaceForms
-     */
-    public function testNamespaceConstantResolutionForms(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedId = constant( $namespaceConstant );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+			$detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+			$this->assertequals( $namespaceId, $detectedId );
+	}
 
-    /**
-     * @dataProvider dataProviderNamespaceForms
-     */
-    public function testNamespaceNameResolutionForms(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+	/**
+	 * @dataProvider dataProviderNamespaceCore
+	 */
+	public function testNamespaceConstantResolutionCore(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-    /**
-     * @dataProvider dataProviderNamespaceForms
-     */
-    public function testNamespaceIdResolutionForms(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedName = $this->manager->getNamespaceName( $namespaceId );
-        $this->assertequals( $namespaceName, $detectedName );
-    }
+		$detectedId = constant( $namespaceConstant );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
 
+	/**
+	 * @dataProvider dataProviderNamespaceCore
+	 */
+	public function testNamespaceIdResolutionCore(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-    /**
-     * @dataProvider dataProviderNamespaceSemantic
-     */
-    public function testNamespaceNameResolutionSemantic(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+		$detectedName = $this->manager->getNamespaceName( $namespaceId );
+		$this->assertequals( $namespaceName, $detectedName );
+	}
 
-    /**
-     * @dataProvider dataProviderNamespaceSemantic
-     */
-    public function testNamespaceIdResolutionSemantic(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $detectedName = $this->manager->getNamespaceName( $namespaceId );
-        $this->assertequals( $namespaceName, $detectedName );
-    }
+	/**
+	 * @dataProvider dataProviderNamespaceSemantic
+	 */
+	public function testNamespaceConstantResolutionSemantic(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$detectedId = constant( $namespaceConstant );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
+
+	/**
+	 * @dataProvider dataProviderNamespaceForms
+	 */
+	public function testNamespaceConstantResolutionForms(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$detectedId = constant( $namespaceConstant );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
+
+	/**
+	 * @dataProvider dataProviderNamespaceForms
+	 */
+	public function testNamespaceNameResolutionForms(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
+
+	/**
+	 * @dataProvider dataProviderNamespaceForms
+	 */
+	public function testNamespaceIdResolutionForms(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$detectedName = $this->manager->getNamespaceName( $namespaceId );
+		$this->assertequals( $namespaceName, $detectedName );
+	}
 
 
-    /**
-     * @dataProvider dataProviderNamespaceTravel
-     */
-    public function testNamespaceNameResolutionExtensions(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $this->loadNamespacesTravel( $this->lang );
+	/**
+	 * @dataProvider dataProviderNamespaceSemantic
+	 */
+	public function testNamespaceNameResolutionSemantic(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-        $detectedId = $this->manager->getNamespaceFromName( $namespaceName );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
+		$detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
 
-    /**
-     * @dataProvider dataProviderNamespaceTravel
-     */
-    public function testNamespaceConstantResolutionExtensions(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $this->loadNamespacesTravel( $this->lang );
+	/**
+	 * @dataProvider dataProviderNamespaceSemantic
+	 */
+	public function testNamespaceIdResolutionSemantic(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-        $detectedId = constant( $namespaceConstant );
-        $this->assertequals( $namespaceId, $detectedId );
-    }
-
-    /**
-     * @dataProvider dataProviderNamespaceTravel
-     */
-    public function testNamespaceIdResolutionExtensions(
-        $namespaceId, $namespaceConstant, $namespaceName )
-    {
-        $this->loadNamespacesTravel( $this->lang );
-
-        $detectedName = $this->manager->getNamespaceName( $namespaceId );
-        $this->assertequals( $namespaceName, $detectedName );
-    }
+		$detectedName = $this->manager->getNamespaceName( $namespaceId );
+		$this->assertequals( $namespaceName, $detectedName );
+	}
 
 
-    public function dataProviderNamespaceCore()
-    {
-        throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceCore" );
-    }
+	/**
+	 * @dataProvider dataProviderNamespaceTravel
+	 */
+	public function testNamespaceNameResolutionExtensions(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
 
-    public function dataProviderNamespaceSemantic()
-    {
-        throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceSemantic" );
-    }
+		$this->loadNamespacesTravel( $this->lang );
 
-    public function dataProviderNamespaceTravel()
-    {
-        throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceTravel" );
-    }
+		$detectedId = $this->manager->getNamespaceFromName( $namespaceName );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
+
+	/**
+	 * @dataProvider dataProviderNamespaceTravel
+	 */
+	public function testNamespaceConstantResolutionExtensions(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$this->loadNamespacesTravel( $this->lang );
+
+		$detectedId = constant( $namespaceConstant );
+		$this->assertequals( $namespaceId, $detectedId );
+	}
+
+	/**
+	 * @dataProvider dataProviderNamespaceTravel
+	 */
+	public function testNamespaceIdResolutionExtensions(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+
+		$this->loadNamespacesTravel( $this->lang );
+
+		$detectedName = $this->manager->getNamespaceName( $namespaceId );
+		$this->assertequals( $namespaceName, $detectedName );
+	}
+
+
+	public function dataProviderNamespaceCore() {
+
+		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceCore" );
+	}
+
+	public function dataProviderNamespaceSemantic() {
+
+		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceSemantic" );
+	}
+
+	public function dataProviderNamespaceTravel() {
+
+		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceTravel" );
+	}
 
 }

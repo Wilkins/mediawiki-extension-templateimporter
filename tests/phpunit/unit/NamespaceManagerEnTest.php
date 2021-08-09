@@ -5,26 +5,26 @@ namespace TemplateImporter;
 class NamespaceManagerEnTest extends NamespaceManagerBase
 {
 
-    public $lang = 'en';
+	public $lang = 'en';
 
-    public function dataProviderNamespaceCore()
-    {
-        return NamespaceProviderEn::providerNamespacesCore();
-    }
+	public function dataProviderNamespaceCore() {
 
-    public function dataProviderNamespaceForms()
-    {
-        return NamespaceProviderEn::providerNamespacesForms();
-    }
+		return NamespaceProviderEn::providerNamespacesCore();
+	}
 
-    public function dataProviderNamespaceSemantic()
-    {
-        return NamespaceProviderEn::providerNamespacesSemantic();
-    }
+	public function dataProviderNamespaceForms() {
 
-    public function dataProviderNamespaceTravel()
-    {
-        return NamespaceProviderEn::providerNamespacesTravel();
-    }
+		return NamespaceProviderEn::providerNamespacesForms();
+	}
+
+	public function dataProviderNamespaceSemantic() {
+
+		return NamespaceProviderEn::providerNamespacesSemantic();
+	}
+
+	public function dataProviderNamespaceTravel() {
+
+		return NamespaceProviderEn::providerNamespacesTravel();
+	}
 
 }

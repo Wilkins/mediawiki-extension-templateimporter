@@ -12,8 +12,8 @@ class NamespaceManager {
 	public $defaultLang = 'en';
 	private $mediawikiPath;
 
-	public function __construct( $mediawikiPath, $lang )
-	{
+	public function __construct( $mediawikiPath, $lang ) {
+
 		$this->mediawikiPath = $mediawikiPath;
 		$this->loadNamespaceData( $this->defaultLang );
 		if ( $lang != $this->defaultLang ) {
