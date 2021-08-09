@@ -70,6 +70,10 @@ class PageTextTest extends MediaWikiUnitTestCase
             [ 'Attribut:Longueur.txt', -1, "2.0.0", 'new', true, true ],
             [ 'Attribut:Longueur.txt', "(v1.12.1)", "1.12.1", 'uptodate', true, false ],
             [ 'Attribut:Longueur.txt', "(v1.12.1)", "2.0.0", 'unchanged', true, false ],
+
+            // Undetected current content
+            [ 'Attribut:Longueur.txt', "foobar", "2.0.0", 'unknown', false, false ],
+            [ 'Attribut:Longueur.txt', "machinbidule", "2.0.0", 'unknown', false, false ],
             /*
             [ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
             [ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
@@ -118,6 +122,8 @@ class PageTextTest extends MediaWikiUnitTestCase
             [ 'Attribut:Longueur.txt', false, 'SMW_NS_PROPERTY', '[[Attribut:Longueur]]' ],
             [ 'Catégorie:Voyages.txt', true, 'NS_CATEGORY', '[[:Catégorie:Voyages]]' ],
             [ 'Modèle:Radian.txt', false, 'NS_TEMPLATE', '[[Modèle:Radian]]' ],
+            [ 'Fichier:Toureiffel.jpg.txt', false, 'NS_FILE', '[[:Fichier:Toureiffel.jpg]] (Metadata)' ],
+            [ 'Toureiffel.jpg', false, null, '[[Toureiffel.jpg]]' ],
             //[ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
         ];
     }
@@ -137,7 +143,8 @@ class PageTextTest extends MediaWikiUnitTestCase
             $this->repository
         );
 
-        $this->assertEquals( constant( $namespaceConstant ), $page->namespaceId,
+        $constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;
+        $this->assertEquals( $constantValue, $page->namespaceId,
             "Detected namespace does not match expected"
         );
         

@@ -1,0 +1,62 @@
+<noinclude>
+Ceci est le formulaire « Voyage ».
+Pour créer une page avec ce formulaire, entrez le nom de la page ci-dessous ;
+si une page avec ce nom existe déjà, vous serez dirigé vers un formulaire pour l’éditer.
+
+
+{{#forminput:form=Voyage}}
+
+</noinclude><includeonly>
+<div id="wikiPreview" style="display: none; padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid #AAAAAA;"></div>
+{{{for template|Voyage}}}
+{| class="formtable"
+! Lieu:
+| {{{field|lieu}}}
+|-
+! Mois (ex: août) :
+| {{{field|mois}}}
+|-
+! Mois_num (ex: 8) :
+| {{{field|mois_num}}}
+|-
+! Dates (ex du 14 juin au 3 juillet) :
+| {{{field|dates}}}
+|-
+! Année:
+| {{{field|année}}}
+|-
+! Photobox (0 ou 1):
+| {{{field|photobox}}}
+|-
+! Coordonnées :
+| {{{field|coords}}}
+|-
+! Voyageurs:
+| {{{field|voyageurs
+  |input type=checkboxes
+  |values from property=Voyageur
+  |default=Anne-Sophie Déniel,Lily Taillandier,Thibault Taillandier
+  |delimiter=,
+  }}}
+|-
+! Blog:
+| {{{field|blog}}}
+|-
+! Bateau:
+| {{{field|bateau}}}
+|-
+! Catastrophe:
+| {{{field|catastrophe}}}
+|}
+{{{end template}}}
+
+'''Texte libre:'''
+
+{{{standard input|free text|rows=10|preload=Modèle:Voyage texte }}}
+
+{{{standard input|summary}}}
+
+{{{standard input|minor edit}}} {{{standard input|watch}}}
+
+{{{standard input|save}}} {{{standard input|preview}}} {{{standard input|changes}}} {{{standard input|cancel}}}
+</includeonly>
