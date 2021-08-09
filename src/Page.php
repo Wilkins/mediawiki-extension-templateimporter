@@ -19,7 +19,8 @@ class Page {
 	public $version = '';
 	public $versionTag;
 	public $comment;
-	public $extensionVersion;
+    public $extensionVersion;
+    public $repository;
 
 	public static function match( $filename ) {
 		return preg_match( static::getRegexp(), $filename );
@@ -31,10 +32,11 @@ class Page {
 	}
 
 
-	public function __construct( $pageName, $path ) {
+	public function __construct( $pageName, $path, $repository ) {
 
 		$this->pageName = $pageName;
-		$this->path = $path;
+        $this->path = $path;
+        $this->repository = $repository;
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
@@ -94,7 +96,7 @@ class Page {
 	 * @return void
 	 */
 	public function detectVersion() {
-		$this->comment = $this->getComment();
+        $this->comment = $this->repository->getComment( $this->pageTitle, $this->namespaceId );
 
 		if ( $this->comment != -1 && preg_match( "#".static::VERSION_REGEXP."#", $this->comment ) ) {
 
@@ -102,8 +104,8 @@ class Page {
 				"#.*".static::VERSION_REGEXP.".*#",
 				"$1",
 				$this->comment
-			 );
-		}
+            );
+        }
 	}
 
 	/**

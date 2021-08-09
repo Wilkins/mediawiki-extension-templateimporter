@@ -1,0 +1,15 @@
+{{#default_form:Voyage}}
+
+{{#ask:
+[[Catégorie:Voyages]]
+[[année::!2100]]
+|?lieu
+|?année
+|?dates
+|?blog
+|?Catastrophe
+|?Mission bateau
+|?voyageurs
+|format=table
+|limit=200
+}}

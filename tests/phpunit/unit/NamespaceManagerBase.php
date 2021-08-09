@@ -11,21 +11,10 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
 	public $manager;
 	public $lang;
 
-	/*
-    public static function setUpBeforeClass() : void
+    public function setUp() : void
     {
-        echo "SetupBeforeClass\n";
-    }
-     */
 
-	public function setUp() {
-	: void
-
-		// echo "SetUp\n";
 		$this->mediawikiPath = __DIR__."/../../../../../";
-		// include $this->mediawikiPath.'/LocalSettings.php';
-		// print_r( $GLOBALS );
-		// echo $GLOBALS['wgLanguageCode'];
 		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
 	}
 

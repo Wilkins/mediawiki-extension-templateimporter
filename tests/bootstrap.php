@@ -6,6 +6,9 @@ require_once __DIR__.'/phpunit/unit/NamespaceProviderFr.php';
 require_once __DIR__.'/phpunit/unit/NamespaceManagerBase.php';
 
 
+require_once __DIR__.'/../src/PageRepository.php';
+require_once __DIR__.'/../src/MemoryPageRepository.php';
+
 # echo "BOOTSTRAP\n";
 
 error_reporting( E_ALL );

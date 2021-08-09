@@ -12,8 +12,8 @@ class PageImage extends Page {
 		return "#\.($ext)$#";
 	}
 
-	public function __construct( $pageName, $path ) {
-		parent::__construct( $pageName, $path );
+	public function __construct( $pageName, $path, $repository ) {
+		parent::__construct( $pageName, $path, $repository );
 		$this->fileSize = filesize( $this->path );
 		$this->currentSize = $this->getCurrentSize();
 

@@ -1,0 +1,13 @@
+<includeonly>{{#expr:{{{1}}}*pi/180}}</includeonly><noinclude>
+
+== Usage ==
+<pre>
+{{Radian|100}}
+</pre>
+
+== Rendu ==
+{{Radian|100}}
+
+
+[[Catégorie:Modèles]]
+</noinclude>
