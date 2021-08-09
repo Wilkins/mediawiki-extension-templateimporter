@@ -5,7 +5,7 @@ namespace TemplateImporter\Repository;
 /**
  * @codeCoverageIgnore
  */
-class DbPageImageRepository implements PageImageRepository {
+class DbPageImageRepository implements PageImageRepositoryInterface {
 
 	/**
 	 * Retrieve the last comment from the database for a given image name

@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Repository\PageRepository;
+use TemplateImporter\Repository\PageRepositoryInterface;
 
 class PageText extends Page {
 	public $textFile;
@@ -12,7 +12,7 @@ class PageText extends Page {
 		return "#\.txt$#";
 	}
 
-	public function __construct( $pageName, $path = '/dev/null', PageRepository $repository ) {
+	public function __construct( $pageName, $path = '/dev/null', PageRepositoryInterface $repository ) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
 		parent::__construct( $pageName, $path, $repository );
 		$this->textFile = file_get_contents( $this->path );

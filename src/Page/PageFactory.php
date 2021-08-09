@@ -2,11 +2,11 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Repository\PageRepository;
+use TemplateImporter\Repository\PageRepositoryInterface;
 
 class PageFactory {
 
-	public static function create( $basename, $pathname, PageRepository $repository ) {
+	public static function create( $basename, $pathname, PageRepositoryInterface $repository ) {
 
 		if ( PageText::match( $basename ) ) {
 			return new PageText( $basename, $pathname, $repository );

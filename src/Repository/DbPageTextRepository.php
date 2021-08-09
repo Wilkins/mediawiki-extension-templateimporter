@@ -5,7 +5,7 @@ namespace TemplateImporter\Repository;
 /**
  * @codeCoverageIgnore
  */
-class DbPageTextRepository implements PageTextRepository {
+class DbPageTextRepository implements PageTextRepositoryInterface {
 
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename

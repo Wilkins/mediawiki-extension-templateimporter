@@ -3,7 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\NamespaceManager;
-use TemplateImporter\Repository\PageRepository;
+use TemplateImporter\Repository\PageRepositoryInterface;
 
 abstract class Page {
 
@@ -32,7 +32,7 @@ abstract class Page {
 	public abstract static function getRegexp();
 
 
-	public function __construct( $pageName, $path, PageRepository $repository ) {
+	public function __construct( $pageName, $path, PageRepositoryInterface $repository ) {
 
 		$this->pageName = $pageName;
         $this->path = $path;

@@ -2,6 +2,6 @@
 
 namespace TemplateImporter\Repository;
 
-interface PageRepository  {
+interface PageRepositoryInterface {
 
 }

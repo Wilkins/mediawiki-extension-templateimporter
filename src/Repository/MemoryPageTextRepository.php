@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Repository;
 
-class MemoryPageTextRepository implements PageTextRepository {
+class MemoryPageTextRepository implements PageTextRepositoryInterface {
 
     public $comment = -1;
 

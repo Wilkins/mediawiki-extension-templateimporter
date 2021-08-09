@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Repository;
 
-interface PageImageRepository extends PageRepository {
+interface PageImageRepositoryInterface extends PageRepositoryInterface {
 
     public function getCurrentSize( $pageTitle, $namespaceId );
     public function getComment( $pageTitle, $namespace );
