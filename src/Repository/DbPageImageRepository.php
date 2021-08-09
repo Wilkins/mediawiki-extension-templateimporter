@@ -2,6 +2,9 @@
 
 namespace TemplateImporter\Repository;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DbPageImageRepository implements PageImageRepository {
 
 	/**

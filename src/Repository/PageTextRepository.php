@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Repository;
 
-interface PageTextRepository  {
+interface PageTextRepository extends PageRepository {
 
     public function getCurrentText( $pageTitle, $namespaceId );
     public function getCurrentRevision( $pageTitle, $namespaceId );

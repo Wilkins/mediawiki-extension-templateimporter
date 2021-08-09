@@ -2,6 +2,8 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Repository\PageRepository;
+
 class PageImage extends Page {
 	public $fileSize;
 	public $currentSize;
@@ -15,7 +17,7 @@ class PageImage extends Page {
 		return "#\.($ext)$#";
 	}
 
-	public function __construct( $pageName, $path, $repository ) {
+	public function __construct( $pageName, $path, PageRepository $repository ) {
 		parent::__construct( $pageName, $path, $repository );
 		$this->fileSize = filesize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
