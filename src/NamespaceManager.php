@@ -9,26 +9,31 @@ namespace TemplateImporter;
  */
 class NamespaceManager {
 
-	public $PageFormsLoaded = false;
-    public $defaultLang = 'en';
-    private $mediawikiPath;
+	public $defaultLang = 'en';
+	private $mediawikiPath;
 
-    public function __construct( $mediawikiPath, $lang )
-    {
-        $this->mediawikiPath = $mediawikiPath;
-        $this->loadNamespaceData( $this->defaultLang );
-        if ( $lang != $this->defaultLang ) {
-            $this->loadNamespaceData( $lang );
-        }
-    }
+	public function __construct( $mediawikiPath, $lang )
+	{
+		$this->mediawikiPath = $mediawikiPath;
+		$this->loadNamespaceData( $this->defaultLang );
+		if ( $lang != $this->defaultLang ) {
+			$this->loadNamespaceData( $lang );
+		}
+	}
+
+	public function checkFileExists( $filename ) {
+
+		if ( !file_exists( $filename ) ) {
+			throw new Exception( "File $filename does not exist." );
+		}
+	}
 
 	public function loadNamespacesMediawiki( $lang ) {
-		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-            $wgTemplateImporterMWPath;
-        $filemessages = $this->mediawikiPath
-            ."/languages/messages/Messages".ucfirst( $lang ).".php";
-        global $namespaceNames;
-        include $filemessages;
+		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
+		$filemessages = $this->mediawikiPath
+			."/languages/messages/Messages".ucfirst( $lang ).".php";
+		$this->checkFileExists( $filemessages );
+		include $filemessages;
 		foreach ( $namespaceNames as $nsId => $nsName ) {
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 			$wgExtraNamespaces[$nsId] = $nsName;
@@ -38,14 +43,10 @@ class NamespaceManager {
 
 	public function loadCustomNamespaces( $filename ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
-		if ( !file_exists( $filename ) ) {
-			throw new Exception( "Language file $filename doesn't exist" );
-		}
+		$this->checkFileExists( $filename );
 		include $filename;
 		foreach ( $customExtensionNamespaces as $customNs ) {
-			$nsId = $customNs[0];
-			$nsConstant = $customNs[1];
-			$nsName = $customNs[2];
+			list( $nsId, $nsConstant, $nsName ) = $customNs;
 			if ( !defined( $nsConstant ) ) {
 				define( $nsConstant, $nsId );
 			}
@@ -53,16 +54,18 @@ class NamespaceManager {
 
 			// If a specific lang is used, it will override the english one.
 			$wgExtraNamespaces[$nsId] = $nsName;
-
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 		}
 	}
 
 	public function loadNamespacesPageForms( $lang ) {
-		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-			$wgTemplateImporterMWPath;
+		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
+		if ( !defined( 'PF_VERSION' ) ) {
+			return;
+		}
 
 		$filemessages = $this->mediawikiPath."/extensions/PageForms/languages/PF_Namespaces.php";
+		$this->checkFileExists( $filemessages );
 		include $filemessages;
 
 		foreach ( $namespaceNames[$lang] as $nsId => $nsName ) {
@@ -73,20 +76,19 @@ class NamespaceManager {
 	}
 
 	public function loadNamespacesSMW( $lang ) {
-		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames,
-            $wgTemplateImporterMWPath, $wgLanguageCode;;
-        if ( !defined( 'SMW_VERSION' ) ) {
+		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
+		if ( !defined( 'SMW_VERSION' ) ) {
 			return;
-        }
-        // We clear the \SMW\NamespaceManager::$initLanguageCode
-        // to avoid the SiteLanguageChangeException from 
-        // extensions/SemanticMediaWiki/src/NamespaceManager.php
-        \SMW\NamespaceManager::clear();
-        $lg = \SMW\Lang\Lang::getInstance();
-        $lg = $lg->fetch( $lang );
-        $vars = array_merge( $GLOBALS, ['wgLanguageCode' => $lang] );
+		}
+		// We clear the \SMW\NamespaceManager::$initLanguageCode
+		// to avoid the SiteLanguageChangeException from
+		// extensions/SemanticMediaWiki/src/NamespaceManager.php
+		\SMW\NamespaceManager::clear();
+		$lg = \SMW\Lang\Lang::getInstance();
+		$lg = $lg->fetch( $lang );
+		$vars = array_merge( $GLOBALS, ['wgLanguageCode' => $lang] );
 		$ns = \SMW\NamespaceManager::initCustomNamespace(
-            $vars,
+			$vars,
 			$lg
 		);
 		$namespaceNames = $lg->getNamespaces();
@@ -100,7 +102,7 @@ class NamespaceManager {
 		}
 	}
 
-    public function loadNamespaceData( $lang ) {
+	public function loadNamespaceData( $lang ) {
 		$this->loadNamespacesMediawiki( $lang );
 		$this->loadNamespacesPageForms( $lang );
 		$this->loadNamespacesSMW( $lang );
@@ -145,5 +147,4 @@ class NamespaceManager {
 		throw new Exception( "Namespace name « ${nsId} » was not found in TemplateImporter."
 			." This should not happen, please contact developpers extension with tag: Error102" );
 	}
-
 }
