@@ -2,7 +2,7 @@
 
 namespace TemplateImporter;
 
-class Page {
+abstract class Page {
 
 	const PAGE_NEW = "NEW";
 	const PAGE_UNKNOWN = "UNKNOWN";
@@ -26,10 +26,7 @@ class Page {
 		return preg_match( static::getRegexp(), $filename );
 	}
 
-	public static function getRegexp() {
-		throw new Exception( "This getRegexp static method "
-		   ." should be used and defined only in subclasses of Page class" );
-	}
+	public abstract static function getRegexp();
 
 
 	public function __construct( $pageName, $path, $repository ) {
@@ -57,9 +54,6 @@ class Page {
 	public function isCategory() {
 		return $this->namespaceId == NS_CATEGORY ? true : false;
 	}
-	public function getWikiHtml() {
-		return '';
-	}
 
 	/**
 	 * Get version from the pagename
@@ -86,8 +80,9 @@ class Page {
 	 */
 	public function needsUpdate() {
 		return ( $this->versionTag == static::PAGE_WILLUPDATE
-			|| $this->versionTag == static::PAGE_NEW )
-			&& $this->hasChanged();
+            && $this->hasChanged()
+            )
+			|| $this->versionTag == static::PAGE_NEW ;
 	}
 
 	/**
@@ -131,8 +126,7 @@ class Page {
 		}
 	}
 
-	public function import( $comment ) {
-	}
+	public abstract function import( $comment );
 
 
 
