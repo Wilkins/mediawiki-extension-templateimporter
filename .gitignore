@@ -1,4 +1,5 @@
 vendor
+build
 node_modules
 styles/.sass-cache
 tests/.phpunit.result.cache
