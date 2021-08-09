@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Repository;
 
-class DbPageRepository implements PageRepository {
+class DbPageTextRepository implements PageTextRepository {
 
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename
@@ -83,11 +83,11 @@ class DbPageRepository implements PageRepository {
 	public function getCurrentRevision( $pageTitle, $namespaceId ) {
 		$dbr = wfGetDb( DB_MASTER );
 
-		//error_log( "page_title = '{$this->pageTitle}' and page_namespace={$this->namespaceId}" );
+		//error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );
 		$res = $dbr->select(
 			[ 'page' ],
 			[ 'page_latest' ],
-				"page_title = '{$this->pageTitle}' and page_namespace={$this->namespaceId}",
+				"page_title = '{$pageTitle}' and page_namespace={$namespaceId}",
 				__METHOD__
 		);
 

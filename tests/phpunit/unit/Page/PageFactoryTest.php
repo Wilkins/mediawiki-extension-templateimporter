@@ -8,35 +8,44 @@ class PageFactoryTest extends PageBaseTest
     public function dataProviderPages()
     {
         return [
-            [ 'Attribut:Longueur.txt',  'TemplateImporter\Page\PageText' ],
-            [ 'Catégorie:Voyages.txt',  'TemplateImporter\Page\PageText' ],
-            [ 'Toureiffel.jpg', 'TemplateImporter\Page\PageImage' ],
+            [
+                'Attribut:Longueur.txt',
+                'TemplateImporter\Page\PageText',
+                'TemplateImporter\Repository\MemoryPageTextRepository',
+        ],
+
+            [ 
+                'Catégorie:Voyages.txt', 
+                'TemplateImporter\Page\PageText',
+                'TemplateImporter\Repository\MemoryPageTextRepository',
+            ],
+            [
+                'Toureiffel.jpg',
+                'TemplateImporter\Page\PageImage',
+                'TemplateImporter\Repository\MemoryPageImageRepository',
+            ],
         ];
     }
 
     /**
      * @dataProvider dataProviderPages
      */
-    /*
-    public function testPageDetection( $filename, $expectedClass )
+    public function testPageDetection( $filename, $expectedClass, $repoClass )
     {
 
         $file = $this->getFixture( $filename );
+
+        $repo = new $repoClass();
 
         global $wgFileExtensions;
         $wgFileExtensions = [ 'jpg', 'png'];
         $page = PageFactory::create(
             $file->getBasename(),
             $file->getPathname(),
-            $this->repository
+            $repo
         );
 
         
         $this->assertEquals( $expectedClass, get_class( $page ) );
     }
-     */
-
-
-
-
 }

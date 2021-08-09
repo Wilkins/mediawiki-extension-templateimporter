@@ -6,21 +6,22 @@ namespace TemplateImporter\Page;
 class PageImageTest extends PageBaseTest
 {
 
+    public $repositoryClass = 'TemplateImporter\Repository\MemoryPageImageRepository';
+
     public function dataProviderPages() {
         // Filename
         // is a Category page
         // Constant namespace
         // Get Link
         return [
-            [ 'Attribut:Longueur.txt', false, 'SMW_NS_PROPERTY', '[[Attribut:Longueur]]' ],
-            [ 'Catégorie:Voyages.txt', true, 'NS_CATEGORY', '[[:Catégorie:Voyages]]' ],
-            [ 'Modèle:Radian.txt', false, 'NS_TEMPLATE', '[[Modèle:Radian]]' ],
+            [ 'Toureiffel.jpg', false, 0, 'Toureiffel.jpg (contenu)' ],
             //[ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
         ];
     }
 
     /**
      * @dataProvider dataProviderPages
+     */
     public function testPageDetectPages( 
         $filename, $expectedCategoryStatus, $namespaceConstant, $expectedLinkText )
     {
@@ -33,7 +34,8 @@ class PageImageTest extends PageBaseTest
             $this->repository
         );
 
-        $this->assertEquals( constant( $namespaceConstant ), $page->namespaceId,
+        $constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;
+        $this->assertEquals( $constantValue, $page->namespaceId,
             "Detected namespace does not match expected"
         );
         
@@ -45,5 +47,4 @@ class PageImageTest extends PageBaseTest
             "Detected linktext does not match expected"
         );
     }
-     */
 }

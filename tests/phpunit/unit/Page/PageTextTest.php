@@ -6,6 +6,7 @@ namespace TemplateImporter\Page;
 class PageTextTest extends PageBaseTest
 {
 
+    public $repositoryClass = 'TemplateImporter\Repository\MemoryPageTextRepository';
 
     public function dataProviderVersionsMatch() {
         return [
