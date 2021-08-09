@@ -124,7 +124,8 @@ abstract class Page {
 				$this->versionTag = static::PAGE_WILLUPDATE;
 			}
 
-		} else {
+        } else {
+            // Basically, the page exists without having been imported by TemplateImporter
 			$this->versionTag = static::PAGE_UNKNOWN;
 		}
 	}
