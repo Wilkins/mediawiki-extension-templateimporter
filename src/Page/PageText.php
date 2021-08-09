@@ -1,6 +1,6 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Page;
 
 class PageText extends Page {
 	public $textFile;

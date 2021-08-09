@@ -1,24 +1,10 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Page;
 
-use MediaWikiUnitTestCase;
-use SplFileInfo;
 
-class PageTextTest extends MediaWikiUnitTestCase
+class PageTextTest extends PageBaseTest
 {
-    public $mediawikiPath;
-    public $lang = 'fr';
-    public $repository;
-
-    public function setUp() : void
-    {
-
-		$this->mediawikiPath = __DIR__."/../../../../../";
-		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
-        $this->repository = new MemoryPageRepository();
-	}
-
 
 
     public function dataProviderVersionsMatch() {
@@ -37,7 +23,7 @@ class PageTextTest extends MediaWikiUnitTestCase
         $filename, $expectedVersion, $comment )
     {
 
-        $file = new SplFileInfo( __DIR__.'/../../fixtures/'.$filename );
+        $file = $this->getFixture( $filename );
         $this->repository->comment = $comment;;
 
         $page = new PageText(
@@ -90,7 +76,7 @@ class PageTextTest extends MediaWikiUnitTestCase
         $filename, $currentVersion, $targetVersion, $expectedStatus, $sameContent, $needsChange )
     {
 
-        $file = new SplFileInfo( __DIR__.'/../../fixtures/'.$filename );
+        $file = $this->getFixture( $filename );
         $this->repository->comment = $currentVersion;
 
         $page = new PageText(
@@ -135,7 +121,7 @@ class PageTextTest extends MediaWikiUnitTestCase
         $filename, $expectedCategoryStatus, $namespaceConstant, $expectedLinkText )
     {
 
-        $file = new SplFileInfo( __DIR__.'/../../fixtures/'.$filename );
+        $file = $this->getFixture( $filename );
 
         $page = new PageText(
             $file->getBasename(),

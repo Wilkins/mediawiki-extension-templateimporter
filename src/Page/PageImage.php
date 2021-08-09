@@ -1,13 +1,16 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Page;
 
 class PageImage extends Page {
 	public $fileSize;
 	public $currentSize;
 
 	public static function getRegexp() {
-		global $wgFileExtensions;
+        global $wgFileExtensions;
+        if ( !isset( $wgFileExtensions ) ) {
+            $wgFileExtensions = [];
+        }
 		$ext = implode( '|', $wgFileExtensions );
 		return "#\.($ext)$#";
 	}

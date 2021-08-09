@@ -1,6 +1,8 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Page;
+
+use TemplateImporter\NamespaceManager;
 
 abstract class Page {
 

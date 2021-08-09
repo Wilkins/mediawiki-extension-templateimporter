@@ -1,9 +1,7 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Page;
 
-use TemplateImporter\PageText;
-use TemplateImporter\PageImage;
 
 class PageFactory {
 

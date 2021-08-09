@@ -1,13 +1,11 @@
 <?php
 
-#
+require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/phpunit/unit/NamespaceProviderEn.php';
 require_once __DIR__.'/phpunit/unit/NamespaceProviderFr.php';
 require_once __DIR__.'/phpunit/unit/NamespaceManagerBase.php';
 
 
-require_once __DIR__.'/../src/PageRepository.php';
-require_once __DIR__.'/../src/MemoryPageRepository.php';
 
 # echo "BOOTSTRAP\n";
 

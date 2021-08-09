@@ -1,6 +1,6 @@
 <?php
 
-namespace TemplateImporter;
+namespace TemplateImporter\Repository;
 
 class MemoryPageRepository implements PageRepository {
 
