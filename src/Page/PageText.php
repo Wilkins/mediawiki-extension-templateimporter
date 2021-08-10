@@ -21,7 +21,7 @@ class PageText extends Page {
 	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
 		parent::__construct( $pageName, $path, $factory, $command );
-        $this->repository = $factory->createPageTextRepository();
+		$this->repository = $factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );
 		$this->detectVersion();
@@ -72,11 +72,11 @@ class PageText extends Page {
 			. " -s '$comment' --overwrite --rc \"$path\"";
 		$res = $this->command->execute( $command );
 		return $res;
-    }
+	}
 
-    public function setComment( $comment ) {
-        $repository = $this->factory->createPageTextRepository();
-        return $repository->setComment( $this->pageTitle, $this->namespaceId, $comment );
-    }
+	public function setComment( $comment ) {
+		$repository = $this->factory->createPageTextRepository();
+		return $repository->setComment( $this->pageTitle, $this->namespaceId, $comment );
+	}
 
 }

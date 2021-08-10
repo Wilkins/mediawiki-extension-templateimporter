@@ -7,12 +7,11 @@ namespace TemplateImporter\Repository;
  */
 class DbPageImageRepository implements PageImageRepositoryInterface {
 
-    private $dbr;
+	private $dbr;
 
-    public function __construct()
-    {
-        $this->dbr = wfGetDb( DB_MASTER );
-    }
+	public function __construct() {
+		$this->dbr = wfGetDb( DB_MASTER );
+	}
 
 	/**
 	 * Retrieve the last comment from the database for a given image name

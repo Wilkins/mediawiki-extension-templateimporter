@@ -7,12 +7,12 @@ namespace TemplateImporter\Repository;
  */
 class DbFactoryRepository implements FactoryRepositoryInterface {
 
-    public function createPageTextRepository() : PageTextRepositoryInterface {
-        return new DbPageTextRepository();
-    }
-    public function createPageImageRepository() : PageImageRepositoryInterface {
-        return new DbPageImageRepository();
-    }
+	public function createPageTextRepository(): PageTextRepositoryInterface {
+		return new DbPageTextRepository();
+	}
+
+	public function createPageImageRepository(): PageImageRepositoryInterface {
+		return new DbPageImageRepository();
+	}
 
 }
-

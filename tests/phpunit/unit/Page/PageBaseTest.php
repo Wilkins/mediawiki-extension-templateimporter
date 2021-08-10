@@ -13,14 +13,14 @@ abstract class PageBaseTest extends MediaWikiUnitTestCase {
 	public $lang = 'fr';
 	public $repository;
 	public $repositoryClass;
-    public $fixtureDir = __DIR__ . '/../../../fixtures';
+	public $fixtureDir = __DIR__ . '/../../../fixtures';
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";
-        $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
 
-        $this->factory = new MemoryFactoryRepository();
-        $this->repository = $this->getRepositoryClass();
+		$this->factory = new MemoryFactoryRepository();
+		$this->repository = $this->getRepositoryClass();
 	}
 
 	public function getFixture( $filename ) {

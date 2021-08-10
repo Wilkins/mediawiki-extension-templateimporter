@@ -7,12 +7,11 @@ namespace TemplateImporter\Repository;
  */
 class DbPageTextRepository implements PageTextRepositoryInterface {
 
-    private $dbr;
+	private $dbr;
 
-    public function __construct()
-    {
-        $this->dbr = wfGetDb( DB_MASTER );
-    }
+	public function __construct() {
+		$this->dbr = wfGetDb( DB_MASTER );
+	}
 
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename
@@ -89,7 +88,6 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
 	private function getCurrentRevision( $pageTitle, $namespaceId ) {
-
 		// error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );
 		$res = $this->dbr->select(
 			[ 'page' ],
@@ -108,7 +106,6 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	}
 
 	public function setComment( $pageTitle, $namespaceId, $comment ) {
-
 		$rev_id = $this->getCurrentRevision( $pageTitle, $namespaceId );
 
 		// error_log( "setComment : ".$this->pageName );

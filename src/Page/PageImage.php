@@ -24,8 +24,8 @@ class PageImage extends Page {
 		FactoryRepositoryInterface $factory,
 		CommandInterface $command = null
 	) {
-        parent::__construct( $pageName, $path, $factory, $command );
-        $this->repository = $factory->createPageImageRepository();
+		parent::__construct( $pageName, $path, $factory, $command );
+		$this->repository = $factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
 		$this->detectVersion();
@@ -89,18 +89,18 @@ class PageImage extends Page {
 			. " --limit=1 --overwrite "
 			. " --summary=\"$comment\"";
 
-        $result = $this->command->execute( $command );
+		$result = $this->command->execute( $command );
 
-        $this->updateMetadataDescription( "File:" . $this->pageName, $comment );
-        return $result;
+		$this->updateMetadataDescription( "File:" . $this->pageName, $comment );
+		return $result;
 	}
 
 	public function updateMetadataDescription( $pageName, $comment ) {
 		$pagetext = new PageText(
 			$pageName,
-            '/dev/null',
-            $this->factory
+			'/dev/null',
+			$this->factory
 		);
-        $pagetext->setComment( $comment );
+		$pagetext->setComment( $comment );
 	}
 }

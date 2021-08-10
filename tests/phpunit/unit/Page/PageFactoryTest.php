@@ -6,9 +6,9 @@ use TemplateImporter\Repository\MemoryFactoryRepository;
 
 class PageFactoryTest extends PageBaseTest {
 
-    public function getRepositoryClass() {
-        return $this->factory->createPageTextRepository();
-    }
+	public function getRepositoryClass() {
+		return $this->factory->createPageTextRepository();
+	}
 
 	public function dataProviderPages() {
 		return [
@@ -37,7 +37,7 @@ class PageFactoryTest extends PageBaseTest {
 	public function testPageDetection( $filename, $expectedClass ) {
 		$file = $this->getFixture( $filename );
 
-        $factory = new MemoryFactoryRepository();
+		$factory = new MemoryFactoryRepository();
 
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];

@@ -3,13 +3,12 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\FakeCommand;
-use TemplateImporter\Repository\MemoryFactoryRepository;
 
 class PageTextTest extends PageBaseTest {
 
-    public function getRepositoryClass() {
-        return $this->factory->createPageTextRepository();
-    }
+	public function getRepositoryClass() {
+		return $this->factory->createPageTextRepository();
+	}
 
 	public function dataProviderVersionsMatch() {
 		return [
@@ -31,7 +30,7 @@ class PageTextTest extends PageBaseTest {
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-            $this->factory
+			$this->factory
 		);
 
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
@@ -206,7 +205,7 @@ class PageTextTest extends PageBaseTest {
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
 
-        $command = new FakeCommand();
+		$command = new FakeCommand();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
@@ -214,7 +213,7 @@ class PageTextTest extends PageBaseTest {
 			$command
 		);
 
-        $result = $page->import( "Test", "/path/to/mediawiki" );
+		$result = $page->import( "Test", "/path/to/mediawiki" );
 
 		$this->assertSame( $expectedCommand, $result );
 	}

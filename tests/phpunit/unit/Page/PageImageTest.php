@@ -2,13 +2,11 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Repository\MemoryFactoryRepository;
-
 class PageImageTest extends PageBaseTest {
 
-    public function getRepositoryClass() {
-        return $this->factory->createPageImageRepository();
-    }
+	public function getRepositoryClass() {
+		return $this->factory->createPageImageRepository();
+	}
 
 	public function dataProviderPages() {
 		// Filename
