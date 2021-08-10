@@ -23,30 +23,6 @@ class BaseImporter {
 	}
 
 	/**
-	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
-	 *
-	 * @param string $file the full file path
-	 *
-	 * @return void
-	 */
-	/*
-	public function importFile( $file ) {
-		global $wgTemplateImporterMWPath;
-		// TODO Use "where" command if windows platform ?
-		$php = trim( shell_exec( "which php" ) );
-		$maintenanceScript = "$wgTemplateImporterMWPath/maintenance/importTextFiles.php";
-		$config = "$wgTemplateImporterMWPath/LocalSettings.php";
-		$text = $this->getText();
-
-		$command = "$php $maintenanceScript --conf=$config "
-			." -s '$text' --overwrite --rc \"$file\"";
-		// echo "$command\n";
-		$res = shell_exec( $command );
-		// echo $res;
-	}
-	 */
-
-	/**
 	 * List all the importable files from the given lang
 	 *
 	 * @return array the list of importable files

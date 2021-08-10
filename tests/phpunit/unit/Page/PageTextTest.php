@@ -2,6 +2,8 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Command\FakeCommand;
+
 class PageTextTest extends PageBaseTest {
 
 	public $repositoryClass = 'TemplateImporter\Repository\MemoryPageTextRepository';
@@ -159,6 +161,66 @@ class PageTextTest extends PageBaseTest {
         $this->assertSame( $expectedIcone, $page->getWikiIcone(),
 			"Detected icone does not match expected"
 		);
+    }
 
-	}
+	public function dataProviderPagesCommand() {
+		// Filename
+        // Generated Command
+		return [
+            [ 
+                'Attribut:Longueur.txt', 
+                "Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"".$this->fixtureDir."/Attribut:Longueur.txt\" OK",
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+            ],
+            [
+                'Catégorie:Voyages.txt',
+                "Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"".$this->fixtureDir."/Catégorie:Voyages.txt\" OK",
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+            ],
+            [
+                'Modèle:Radian.txt',
+                "Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"".$this->fixtureDir."/Modèle:Radian.txt\" OK",
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+            ],
+            [
+                'Fichier:Toureiffel.jpg.txt',
+                "Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"".$this->fixtureDir."/Fichier:Toureiffel.jpg.txt\" OK",
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+            ],
+            [
+                'Toureiffel.jpg',
+                "Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php ".$this->fixtureDir." --from=\"Toureiffel.jpg\" --comment-file=\"".$this->fixtureDir."/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
+				'TemplateImporter\Repository\MemoryPageImageRepository',
+            ],
+            /*
+            [ 'Modèle:Radian.txt', 'TXT' ],
+			[ 'Fichier:Toureiffel.jpg.txt', '[[Fichier:Toureiffel.jpg|20px]]' ],
+            [ 'Toureiffel.jpg', 'TXT' ],
+             */
+		];
+    }
+
+	/**
+	 * @dataProvider dataProviderPagesCommand
+	 */
+	public function testImport( $filename, $expectedCommand, $repoClass ) {
+		$file = $this->getFixture( $filename );
+		global $wgFileExtensions;
+		$wgFileExtensions = [ 'jpg', 'png' ];
+		$repo = new $repoClass();
+
+        $command = new FakeCommand();
+		$page = PageFactory::create(
+			$file->getBasename(),
+			$file->getPathname(),
+            $repo,
+            $command
+        );
+
+        $result = $page->import( "Test", "/path/to/mediawiki" );
+
+        $this->assertSame( $expectedCommand, $result );
+    }
+
+
 }

@@ -3,6 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Command\CommandInterface;
 
 class PageImage extends Page {
 	public $fileSize;
@@ -17,8 +18,8 @@ class PageImage extends Page {
 		return "#\.($ext)$#";
 	}
 
-	public function __construct( $pageName, $path, PageRepositoryInterface $repository ) {
-		parent::__construct( $pageName, $path, $repository );
+	public function __construct( $pageName, $path, PageRepositoryInterface $repository, CommandInterface $command = null ) {
+		parent::__construct( $pageName, $path, $repository, $command );
 		$this->fileSize = filesize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
 	}
@@ -54,12 +55,11 @@ class PageImage extends Page {
 	 *
 	 * @return void
 	 */
-	public function import( $comment ) {
-		global $wgTemplateImporterMWPath, $wgFileExtensions;
-		// TODO Use "where" command if windows platform ?
-		$php = trim( shell_exec( "which php" ) );
-		$maintenanceScript = "$wgTemplateImporterMWPath/maintenance/importImages.php";
-		$config = "$wgTemplateImporterMWPath/LocalSettings.php";
+	public function import( $comment, $mediawikiPath ) {
+		global $wgFileExtensions;
+        $php = $this->command->which( 'php' );
+		$maintenanceScript = "$mediawikiPath/maintenance/importImages.php";
+		$config = "$mediawikiPath/LocalSettings.php";
 		$dir = dirname( $this->path );
 		$path = $this->path;
 		$from = $this->pageName;
@@ -73,25 +73,23 @@ class PageImage extends Page {
 		} else {
 			$commentFile = $files[0];
 		}
-		// $commentFile = $dir.'/Fichier:'.$from.'.txt';
 		$ext = implode( ',', $wgFileExtensions );
 
-		$command = "$php $maintenanceScript --conf=$config "
+		$command = "$php $maintenanceScript --conf=$config"
 			. " $dir --from=\"$from\""
 			. " --comment-file=\"$commentFile\""
 			. " --extensions=$ext"
 			. " --limit=1 --overwrite "
-			. " --summary=\"$comment\" ";
+			. " --summary=\"$comment\"";
 
-		# echo "$command<br>\n";
-		$res = shell_exec( $command );
-		# echo $res;
+        return $this->command->execute( $command );
 
-		$this->updateMetadataDescription( "File:" . $this->pageName, $comment );
+		//$this->updateMetadataDescription( "File:" . $this->pageName, $comment );
 	}
 
 	public function updateMetadataDescription( $pageName, $comment ) {
-		$pagetext = new PageText( $pageName );
-		$pagetext->setComment( $comment );
+        $pagetext = new PageText( $pageName, null, new \TemplateImporter\Repository\MemoryPageTextRepository() );
+        throw new Exception("setComment");
+		//$pagetext->setComment( $comment );
 	}
 }

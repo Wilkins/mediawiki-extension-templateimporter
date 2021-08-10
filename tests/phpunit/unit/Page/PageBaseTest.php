@@ -11,7 +11,8 @@ class PageBaseTest extends MediaWikiUnitTestCase {
 	public $mediawikiPath;
 	public $lang = 'fr';
 	public $repository;
-	public $repositoryClass;
+    public $repositoryClass;
+    public $fixtureDir = __DIR__ . '/../../../fixtures';
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";
@@ -22,7 +23,7 @@ class PageBaseTest extends MediaWikiUnitTestCase {
 	}
 
 	public function getFixture( $filename ) {
-		return new SplFileInfo( __DIR__ . '/../../../fixtures/' . $filename );
+		return new SplFileInfo( $this->fixtureDir . '/' . $filename );
 	}
 
 }

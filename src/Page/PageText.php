@@ -3,6 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Command\CommandInterface;
 
 class PageText extends Page {
 	public $textFile;
@@ -12,9 +13,9 @@ class PageText extends Page {
 		return "#\.txt$#";
 	}
 
-	public function __construct( $pageName, $path = '/dev/null', PageRepositoryInterface $repository ) {
+	public function __construct( $pageName, $path = '/dev/null', PageRepositoryInterface $repository, CommandInterface $command = null ) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
-		parent::__construct( $pageName, $path, $repository );
+		parent::__construct( $pageName, $path, $repository, $command );
 		$this->textFile = file_get_contents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );
 	}
@@ -54,18 +55,15 @@ class PageText extends Page {
 	 *
 	 * @return void
 	 */
-	public function import( $comment ) {
-		global $wgTemplateImporterMWPath;
-		// TODO Use "where" command if windows platform ?
-		$php = trim( shell_exec( "which php" ) );
-		$maintenanceScript = "$wgTemplateImporterMWPath/maintenance/importTextFiles.php";
-		$config = "$wgTemplateImporterMWPath/LocalSettings.php";
+    public function import( $comment, $mediawikiPath ) {
+        $php = $this->command->which( 'php' );
+		$maintenanceScript = "$mediawikiPath/maintenance/importTextFiles.php";
+		$config = "$mediawikiPath/LocalSettings.php";
 		$path = $this->path;
 
 		$command = "$php $maintenanceScript --conf=$config "
 			. " -s '$comment' --overwrite --rc \"$path\"";
-		# echo "$command<br>\n";
-		$res = shell_exec( $command );
-		# echo $res;
+        $res = $this->command->execute( $command );
+        return $res;
 	}
 }

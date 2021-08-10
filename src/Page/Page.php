@@ -4,6 +4,8 @@ namespace TemplateImporter\Page;
 
 use TemplateImporter\NamespaceManager;
 use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Command\CommandInterface;
+use TemplateImporter\Command\ShellCommand;
 
 abstract class Page {
 
@@ -22,8 +24,15 @@ abstract class Page {
 	public $version = '';
 	public $versionTag;
 	public $comment;
-	public $extensionVersion;
-	public $repository;
+    public $extensionVersion;
+    /**
+     * @var PageRepositoryInterface
+     */
+    public $repository;
+    /**
+     * @var CommandInterface
+     */
+    public $command;
 
 	public static function match( $filename ) {
 		return preg_match( static::getRegexp(), $filename );
@@ -31,7 +40,7 @@ abstract class Page {
 
 	abstract public static function getRegexp();
 
-	public function __construct( $pageName, $path, PageRepositoryInterface $repository ) {
+	public function __construct( $pageName, $path, PageRepositoryInterface $repository, CommandInterface $command = null ) {
 		$this->pageName = $pageName;
 		$this->path = $path;
 		$this->repository = $repository;
@@ -39,7 +48,12 @@ abstract class Page {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
 			list( $this->namespace, $this->pageTitle ) = [ '', $this->pageName ];
-		}
+        }
+        if ( $command ) {
+            $this->command = $command;
+        } else {
+            $this->command = new ShellCommand();
+        }
 		$this->namespaceId = NamespaceManager::getNamespaceFromName( $this->namespace );
 // file_put_contents( '/tmp/base-'.$pageName, $this->textBase );
 // 		file_put_contents( '/tmp/file-'.$pageName, $this->textFile );
@@ -124,5 +138,5 @@ abstract class Page {
 		}
 	}
 
-	abstract public function import( $comment );
+	abstract public function import( $comment, $mediawikiPath );
 }
