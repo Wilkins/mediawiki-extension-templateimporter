@@ -2,8 +2,7 @@
 
 namespace TemplateImporter;
 
-class NamespaceProviderFr
-{
+class NamespaceProviderFr {
 
 	/**
 	 * @dataProvider
@@ -11,7 +10,6 @@ class NamespaceProviderFr
 	 */
 
 	public static function providerNamespacesCore() {
-
 		return [
 			[ -2, 'NS_MEDIA', 'Média' ],
 			[ -1, 'NS_SPECIAL', 'Spécial' ],
@@ -33,8 +31,8 @@ class NamespaceProviderFr
 
 		];
 	}
-	public static function providerNamespacesForms() {
 
+	public static function providerNamespacesForms() {
 		return [
 			[ 106, 'PF_NS_FORM', 'Formulaire' ],
 			[ 107, 'PF_NS_FORM_TALK', 'Discussion_formulaire' ],
@@ -42,18 +40,17 @@ class NamespaceProviderFr
 	}
 
 	public static function providerNamespacesSemantic() {
-
 		return [
 			/*
-            [ 100, 'SMW_NS_RELATION', 'Relation' ],
-            [ 101, 'SMW_NS_RELATION_TALK', 'Relation_talk' ],
-             */
+			[ 100, 'SMW_NS_RELATION', 'Relation' ],
+			[ 101, 'SMW_NS_RELATION_TALK', 'Relation_talk' ],
+			 */
 			[ 102, 'SMW_NS_PROPERTY', 'Attribut' ],
 			[ 103, 'SMW_NS_PROPERTY_TALK', 'Discussion_attribut' ],
 			/*
-            [ 104, 'SMW_NS_TYPE', 'Type' ],
-            [ 105, 'SMW_NS_TYPE_TALK', 'Type_talk' ],
-             */
+			[ 104, 'SMW_NS_TYPE', 'Type' ],
+			[ 105, 'SMW_NS_TYPE_TALK', 'Type_talk' ],
+			 */
 			[ 108, 'SMW_NS_CONCEPT', 'Concept' ],
 			[ 109, 'SMW_NS_CONCEPT_TALK', 'Discussion_concept' ],
 			[ 112, 'SMW_NS_SCHEMA', 'smw/schema' ],
@@ -65,7 +62,6 @@ class NamespaceProviderFr
 	}
 
 	public static function providerNamespacesTravel() {
-
 		return [
 			[ 2900, 'NS_TRAVEL', 'Voyage' ],
 			[ 2901, 'NS_TRAVEL_TALK', 'Discussion_voyage' ],
@@ -77,7 +73,6 @@ class NamespaceProviderFr
 	}
 
 	public static function providerNamespacesGenealogy() {
-
 		return [
 			[ 2700, 'NS_SGENEALOGY', 'Généalogie' ],
 			[ 2701, 'NS_SGENEALOGY_TALK', 'Discussion_généalogie' ],

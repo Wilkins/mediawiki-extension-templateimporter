@@ -2,8 +2,7 @@
 
 namespace TemplateImporter\Page;
 
-class PageImageTest extends PageBaseTest
-{
+class PageImageTest extends PageBaseTest {
 
 	public $repositoryClass = 'TemplateImporter\Repository\MemoryPageImageRepository';
 
@@ -23,7 +22,6 @@ class PageImageTest extends PageBaseTest
 	 */
 	public function testPageDetectPages(
 		$filename, $expectedCategoryStatus, $namespaceConstant, $expectedLinkText ) {
-
 		$file = $this->getFixture( $filename );
 
 		$page = new PageImage(

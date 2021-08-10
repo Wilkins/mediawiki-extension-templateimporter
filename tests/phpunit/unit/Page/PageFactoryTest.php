@@ -2,11 +2,9 @@
 
 namespace TemplateImporter\Page;
 
-class PageFactoryTest extends PageBaseTest
-{
+class PageFactoryTest extends PageBaseTest {
 
 	public function dataProviderPages() {
-
 		return [
 			[
 				'Attribut:Longueur.txt',
@@ -31,13 +29,12 @@ class PageFactoryTest extends PageBaseTest
 	 * @dataProvider dataProviderPages
 	 */
 	public function testPageDetection( $filename, $expectedClass, $repoClass ) {
-
 		$file = $this->getFixture( $filename );
 
 		$repo = new $repoClass();
 
 		global $wgFileExtensions;
-		$wgFileExtensions = [ 'jpg', 'png'];
+		$wgFileExtensions = [ 'jpg', 'png' ];
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),

@@ -2,10 +2,9 @@
 
 namespace TemplateImporter;
 
-use Xml;
 use Html;
 use Status;
-use TemplateImporter\Page;
+use Xml;
 
 /**
  * Special page that allow importing templates
@@ -13,7 +12,7 @@ use TemplateImporter\Page;
  * @file    SpecialImportFiles.php
  * @ingroup TemplateImporter
  *
- * @licence GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @author  Thibault Taillandier <thibault@taillandier.name>
  */
 class BaseSpecialImportPages extends \SpecialPage {
@@ -39,13 +38,11 @@ class BaseSpecialImportPages extends \SpecialPage {
 	}
 
 	public function getLangTemplateDir() {
-
 		throw new Exception( "You must declare a getLangTemplateDir method "
-			."in you SpecialPage class, where we can find the templates text files" );
+			. "in you SpecialPage class, where we can find the templates text files" );
 	}
 
 	public function getVersion() {
-
 		return $this->version;
 	}
 
@@ -73,17 +70,15 @@ class BaseSpecialImportPages extends \SpecialPage {
 	}
 
 	public function getNewComment() {
-
-		return "Update from $this->name (v".$this->getVersion().")";
+		return "Update from $this->name (v" . $this->getVersion() . ")";
 	}
-
 
 	/**
 	 * Execute the Special Page
 	 *
 	 * @param string $par the url part
 	 *
-	 * @return boolean the status of the rendered page
+	 * @return bool the status of the rendered page
 	 */
 	public function execute( $par ) {
 		global $wgOut, $wgRequest;
@@ -107,10 +102,10 @@ class BaseSpecialImportPages extends \SpecialPage {
 				}
 			}
 		} catch ( Exception $e ) {
-			$wgOut->addWikiText( '<span class="error">' .  $e->getMessage() . '</span>' );
+			$wgOut->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
 		} catch ( \Exception $e ) {
-			$wgOut->addWikiText( '<span class="error">' .  $e->getMessage() . '</span>' );
+			$wgOut->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
 		}
 		$this->redirect();
@@ -119,8 +114,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	/**
 	 * Display the templates status page
-	 *
-	 * @param array $params the array of search parameters
 	 *
 	 * @return void
 	 */
@@ -151,7 +144,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 		foreach ( $files as $displayName => $page ) {
 			$page->checkVersion( $this->getVersion() );
 			$status = $this->msg( 'templateimporter-specialimportpages-status-'
-				.$page->getVersionTag() )->text();
+				. $page->getVersionTag() )->text();
 			$output->addHTML( '<tr class="status-' . $page->getVersionTag() . '"><td>' );
 			// Small hack to decide wether we display HTML or WikiText
 			$icone = $page->getWikiIcone();
@@ -186,7 +179,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	/**
 	 * Wether the page is cachable
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isCacheable() {
 		return false;
@@ -210,4 +203,3 @@ class BaseSpecialImportPages extends \SpecialPage {
 		return $this->groupName;
 	}
 }
-

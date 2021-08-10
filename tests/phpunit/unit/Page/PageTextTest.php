@@ -2,8 +2,7 @@
 
 namespace TemplateImporter\Page;
 
-class PageTextTest extends PageBaseTest
-{
+class PageTextTest extends PageBaseTest {
 
 	public $repositoryClass = 'TemplateImporter\Repository\MemoryPageTextRepository';
 
@@ -21,10 +20,8 @@ class PageTextTest extends PageBaseTest
 	 */
 	public function testPageDetectVersion(
 		$filename, $expectedVersion, $comment ) {
-
 		$file = $this->getFixture( $filename );
 		$this->repository->comment = $comment;
-;
 
 		$page = new PageText(
 			$file->getBasename(),
@@ -35,9 +32,7 @@ class PageTextTest extends PageBaseTest
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
 			"Detected version does not match expected"
 		);
-
 	}
-
 
 	public function dataProviderVersionsChange() {
 		// Filename
@@ -61,20 +56,18 @@ class PageTextTest extends PageBaseTest
 			[ 'Attribut:Longueur.txt', "foobar", "2.0.0", 'unknown', false, false ],
 			[ 'Attribut:Longueur.txt', "machinbidule", "2.0.0", 'unknown', false, false ],
 			/*
-            [ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
-            [ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
-             */
+			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
+			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
+			 */
 			// [ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
 		];
 	}
-
 
 	/**
 	 * @dataProvider dataProviderVersionsChange
 	 */
 	public function testPageDetectVersionChange(
 		$filename, $currentVersion, $targetVersion, $expectedStatus, $sameContent, $needsChange ) {
-
 		$file = $this->getFixture( $filename );
 		$this->repository->comment = $currentVersion;
 
@@ -84,7 +77,7 @@ class PageTextTest extends PageBaseTest
 			$this->repository
 		);
 		$page->textFile = "dummy";
-		$page->textBase = ( $sameContent ? "" : "no" )."dummy";
+		$page->textBase = ( $sameContent ? "" : "no" ) . "dummy";
 
 		$page->checkVersion( $targetVersion );
 		$resultStatus = $page->getVersionTag();
@@ -94,9 +87,7 @@ class PageTextTest extends PageBaseTest
 		);
 
 		$this->assertSame( $needsChange, $page->needsUpdate() );
-
 	}
-
 
 	public function dataProviderPages() {
 		// Filename
@@ -118,7 +109,6 @@ class PageTextTest extends PageBaseTest
 	 */
 	public function testPageDetectPages(
 		$filename, $expectedCategoryStatus, $namespaceConstant, $expectedLinkText ) {
-
 		$file = $this->getFixture( $filename );
 
 		$page = new PageText(

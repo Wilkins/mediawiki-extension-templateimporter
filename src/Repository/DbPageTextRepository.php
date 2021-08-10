@@ -41,8 +41,8 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename
 	 *
-	 * @param integer $namespace the namespace id
-	 * @param string  $pagename  the pagename
+	 * @param int $namespace the namespace id
+	 * @param string $pagename the pagename
 	 *
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
@@ -78,8 +78,8 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename
 	 *
-	 * @param integer $namespace the namespace id
-	 * @param string  $pagename  the pagename
+	 * @param int $namespace the namespace id
+	 * @param string $pagename the pagename
 	 *
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
@@ -113,23 +113,20 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 
 		$dbr->update( 'revision',
 			[ 'rev_comment' => $comment ],
-			[ 'rev_id' => $rev_id+1 ],
+			[ 'rev_id' => $rev_id + 1 ],
 			__METHOD__
 		);
 
 		$success = ( $dbr->affectedRows() > 0 );
 		/*
-        $success = 1;
-         */
+		$success = 1;
+		 */
 
 		if ( $success ) {
 			error_log( "Commentaire changé avec succès" );
 		} else {
 			error_log( "Erreur" );
 		}
-
 	}
 
-
 }
-

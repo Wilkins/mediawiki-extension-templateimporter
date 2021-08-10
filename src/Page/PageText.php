@@ -22,7 +22,7 @@ class PageText extends Page {
 	/**
 	 * Check if the page namespace is a Category
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasChanged() {
 		return trim( $this->textBase ) != trim( $this->textFile );
@@ -33,20 +33,19 @@ class PageText extends Page {
 		if ( $this->namespaceId == NS_CATEGORY ) {
 			return 'CAT';
 		} elseif ( $this->namespaceId == NS_FILE && $this->versionTag != static::PAGE_NEW ) {
-			return '[['.$this->pageName.'|20px]]';
+			return '[[' . $this->pageName . '|20px]]';
 		}
 		return 'TXT';
 	}
 
 	public function getWikiText() {
 		if ( $this->namespaceId == NS_CATEGORY ) {
-			return '[[:'.$this->pageName.']]';
+			return '[[:' . $this->pageName . ']]';
 		} elseif ( $this->namespaceId == NS_FILE && $this->versionTag != static::PAGE_NEW ) {
-			return '[[:'.$this->pageName.']] (Metadata)';
+			return '[[:' . $this->pageName . ']] (Metadata)';
 		}
-		return '[['.$this->pageName.']]';
+		return '[[' . $this->pageName . ']]';
 	}
-
 
 	/**
 	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
@@ -64,7 +63,7 @@ class PageText extends Page {
 		$path = $this->path;
 
 		$command = "$php $maintenanceScript --conf=$config "
-			." -s '$comment' --overwrite --rc \"$path\"";
+			. " -s '$comment' --overwrite --rc \"$path\"";
 		# echo "$command<br>\n";
 		$res = shell_exec( $command );
 		# echo $res;

@@ -11,8 +11,8 @@ class TemplateImporter {
 
 		$parser->mOutput->addHeadItem(
 			'<link rel="stylesheet" href="/load.php?debug=false&amp;lang=en'
-			.'&amp;modules=ext.ti.templateimporter&amp;only=styles'
-			.'&amp;skin=templateimporter"/>'
+			. '&amp;modules=ext.ti.templateimporter&amp;only=styles'
+			. '&amp;skin=templateimporter"/>'
 		);
 
 		$wgTemplateImporterCSSLoaded = true;

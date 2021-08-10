@@ -8,9 +8,8 @@ namespace TemplateImporter;
  * @file    Exception.php
  * @ingroup TemplateImporter
  *
- * @licence GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @author  Thibault Taillandier <thibault@taillandier.name>
  */
-class Exception extends \Exception
-{
+class Exception extends \Exception {
 }

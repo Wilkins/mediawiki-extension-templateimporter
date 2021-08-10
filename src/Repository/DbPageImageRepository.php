@@ -31,8 +31,6 @@ class DbPageImageRepository implements PageImageRepositoryInterface {
 		return -1;
 	}
 
-
-
 	/**
 	 * Retrieve the current size of the image from the database
 	 *
@@ -57,7 +55,4 @@ class DbPageImageRepository implements PageImageRepositoryInterface {
 		return -1;
 	}
 
-
-
 }
-

@@ -7,7 +7,6 @@ use TemplateImporter\Repository\PageRepositoryInterface;
 class PageFactory {
 
 	public static function create( $basename, $pathname, PageRepositoryInterface $repository ) {
-
 		if ( PageText::match( $basename ) ) {
 			return new PageText( $basename, $pathname, $repository );
 		} elseif ( PageImage::match( $basename ) ) {

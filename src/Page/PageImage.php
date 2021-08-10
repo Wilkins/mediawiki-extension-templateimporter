@@ -21,12 +21,12 @@ class PageImage extends Page {
 		parent::__construct( $pageName, $path, $repository );
 		$this->fileSize = filesize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
-
 	}
+
 	/**
 	 * Check if the page namespace is a Category
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasChanged() {
 		return trim( $this->fileSize ) != trim( $this->currentSize );
@@ -36,15 +36,13 @@ class PageImage extends Page {
 		$base64 = base64_encode( file_get_contents( $this->path ) );
 
 		return '<img src="data:image/png;base64, '
-			.$base64.'" alt="'.$this->pageName
-			.'" width="20px"/>';
+			. $base64 . '" alt="' . $this->pageName
+			. '" width="20px"/>';
 	}
 
 	public function getWikiText() {
-		return $this->pageName.' (contenu)';
+		return $this->pageName . ' (contenu)';
 	}
-
-
 
 	/**
 	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
@@ -65,12 +63,12 @@ class PageImage extends Page {
 		$dir = dirname( $this->path );
 		$path = $this->path;
 		$from = $this->pageName;
-		$files = glob( $dir.'/*:'.$from.'.txt' );
+		$files = glob( $dir . '/*:' . $from . '.txt' );
 		if ( count( $files ) != 1 ) {
 			throw new Exception(
 				"Unable to find the correct metadata file for $this->pageName"
-				." found multiples possibilities : <br>"
-				.implode( '<br>\n', $files )
+				. " found multiples possibilities : <br>"
+				. implode( '<br>\n', $files )
 			);
 		} else {
 			$commentFile = $files[0];
@@ -79,25 +77,21 @@ class PageImage extends Page {
 		$ext = implode( ',', $wgFileExtensions );
 
 		$command = "$php $maintenanceScript --conf=$config "
-			." $dir --from=\"$from\""
-			." --comment-file=\"$commentFile\""
-			." --extensions=$ext"
-			." --limit=1 --overwrite "
-			." --summary=\"$comment\" ";
+			. " $dir --from=\"$from\""
+			. " --comment-file=\"$commentFile\""
+			. " --extensions=$ext"
+			. " --limit=1 --overwrite "
+			. " --summary=\"$comment\" ";
 
 		# echo "$command<br>\n";
 		$res = shell_exec( $command );
 		# echo $res;
 
-		$this->updateMetadataDescription( "File:".$this->pageName, $comment );
+		$this->updateMetadataDescription( "File:" . $this->pageName, $comment );
 	}
-
 
 	public function updateMetadataDescription( $pageName, $comment ) {
-
 		$pagetext = new PageText( $pageName );
 		$pagetext->setComment( $comment );
-
 	}
 }
-

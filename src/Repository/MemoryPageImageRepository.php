@@ -6,7 +6,6 @@ class MemoryPageImageRepository implements PageImageRepositoryInterface {
 
 	public $comment = -1;
 
-
 	public function getComment( $pageTitle, $namespaceId ) {
 		return $this->comment;
 	}
@@ -14,4 +13,3 @@ class MemoryPageImageRepository implements PageImageRepositoryInterface {
 	public function getCurrentSize( $pageTitle, $namespaceId ) {
 	}
 }
-

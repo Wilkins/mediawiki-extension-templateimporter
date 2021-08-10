@@ -3,7 +3,7 @@
 namespace TemplateImporter;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  *
  * @author Thibault Taillandier <thibault@taillandier.name>
  */
@@ -13,7 +13,6 @@ class NamespaceManager {
 	private $mediawikiPath;
 
 	public function __construct( $mediawikiPath, $lang ) {
-
 		$this->mediawikiPath = $mediawikiPath;
 		$this->loadNamespaceData( $this->defaultLang );
 		if ( $lang != $this->defaultLang ) {
@@ -22,7 +21,6 @@ class NamespaceManager {
 	}
 
 	public function checkFileExists( $filename ) {
-
 		if ( !file_exists( $filename ) ) {
 			throw new Exception( "File $filename does not exist." );
 		}
@@ -31,7 +29,7 @@ class NamespaceManager {
 	public function loadNamespacesMediawiki( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
 		$filemessages = $this->mediawikiPath
-			."/languages/messages/Messages".ucfirst( $lang ).".php";
+			. "/languages/messages/Messages" . ucfirst( $lang ) . ".php";
 		$this->checkFileExists( $filemessages );
 		include $filemessages;
 		foreach ( $namespaceNames as $nsId => $nsName ) {
@@ -64,7 +62,7 @@ class NamespaceManager {
 			return;
 		}
 
-		$filemessages = $this->mediawikiPath."/extensions/PageForms/languages/PF_Namespaces.php";
+		$filemessages = $this->mediawikiPath . "/extensions/PageForms/languages/PF_Namespaces.php";
 		$this->checkFileExists( $filemessages );
 		include $filemessages;
 
@@ -86,14 +84,14 @@ class NamespaceManager {
 		\SMW\NamespaceManager::clear();
 		$lg = \SMW\Lang\Lang::getInstance();
 		$lg = $lg->fetch( $lang );
-		$vars = array_merge( $GLOBALS, ['wgLanguageCode' => $lang] );
+		$vars = array_merge( $GLOBALS, [ 'wgLanguageCode' => $lang ] );
 		$ns = \SMW\NamespaceManager::initCustomNamespace(
 			$vars,
 			$lg
 		);
 		$namespaceNames = $lg->getNamespaces();
 		foreach ( $namespaceNames as $nsId => $nsName ) {
-			if ( !is_integer( $nsId ) ) {
+			if ( !is_int( $nsId ) ) {
 				continue;
 			}
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
@@ -115,7 +113,7 @@ class NamespaceManager {
 	 *
 	 * @param string $searchName the namespace we are looking for
 	 *
-	 * @return integer the id of the namespace
+	 * @return int the id of the namespace
 	 */
 	public static function getNamespaceFromName( $searchName ) {
 		global $wgNamespaceAliases;
@@ -125,7 +123,7 @@ class NamespaceManager {
 		}
 
 		throw new Exception( "Namespace name « ${searchName} » was not found in TemplateImporter."
-			." This should not happen, please contact developpers extension with tag: Error101" );
+			. " This should not happen, please contact developpers extension with tag: Error101" );
 	}
 
 	/**
@@ -135,7 +133,7 @@ class NamespaceManager {
 	 *
 	 * @param string $searchName the namespace we are looking for
 	 *
-	 * @return integer the id of the namespace
+	 * @return int the id of the namespace
 	 */
 	public static function getNamespaceName( $nsId ) {
 		global $wgExtraNamespaces;
@@ -145,6 +143,6 @@ class NamespaceManager {
 		}
 
 		throw new Exception( "Namespace name « ${nsId} » was not found in TemplateImporter."
-			." This should not happen, please contact developpers extension with tag: Error102" );
+			. " This should not happen, please contact developpers extension with tag: Error102" );
 	}
 }

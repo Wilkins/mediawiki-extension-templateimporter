@@ -3,8 +3,6 @@
 namespace TemplateImporter;
 
 use DirectoryIterator;
-use TemplateImporter\Exception;
-use TemplateImporter\PageFactory;
 
 class BaseImporter {
 
@@ -16,7 +14,7 @@ class BaseImporter {
 	 * @param string $lang the 2 chars lang
 	 */
 	public function __construct( $lang ) {
-		if ( ! $lang ) {
+		if ( !$lang ) {
 			throw new Exception(
 				"Lang parameter not defined, could not construct the Importer object"
 			   );
@@ -45,8 +43,8 @@ class BaseImporter {
 		// echo "$command\n";
 		$res = shell_exec( $command );
 		// echo $res;
-    }
-     */
+	}
+	 */
 
 	/**
 	 * List all the importable files from the given lang
@@ -68,11 +66,11 @@ class BaseImporter {
 
 			// FIXME
 			/*
-            if ( $file->getBasename() != 'Pin-village.png'
-                && $file->getBasename() != 'Fichier:Pin-village.png.txt' ) {
-                continue;
-            }
-             */
+			if ( $file->getBasename() != 'Pin-village.png'
+				&& $file->getBasename() != 'Fichier:Pin-village.png.txt' ) {
+				continue;
+			}
+			 */
 
 			$page = PageFactory::create(
 				$file->getBasename(),
@@ -89,4 +87,3 @@ class BaseImporter {
 		return $files;
 	}
 }
-
