@@ -7,6 +7,13 @@ namespace TemplateImporter\Repository;
  */
 class DbPageImageRepository implements PageImageRepositoryInterface {
 
+    private $dbr;
+
+    public function __construct()
+    {
+        $this->dbr = wfGetDb( DB_MASTER );
+    }
+
 	/**
 	 * Retrieve the last comment from the database for a given image name
 	 *
@@ -15,8 +22,7 @@ class DbPageImageRepository implements PageImageRepositoryInterface {
 	 * @return the version number (ex: 3.0.1) or -1 if not found
 	 */
 	public function getComment( $pageTitle, $namespaceId ) {
-		$dbr = wfGetDb( DB_MASTER );
-		$res = $dbr->select(
+		$res = $this->dbr->select(
 			[ 'image' ],
 			[ 'img_description' ],
 				"img_name = '{$this->pageTitle}' ",
@@ -39,8 +45,7 @@ class DbPageImageRepository implements PageImageRepositoryInterface {
 	 * @return the size in bytes or -1 if unknown
 	 */
 	public function getCurrentSize( $pageTitle, $namespaceId ) {
-		$dbr = wfGetDb( DB_MASTER );
-		$res = $dbr->select(
+		$res = $this->dbr->select(
 			[ 'image' ],
 			[ 'img_size' ],
 				"img_name = '{$pageTitle}' ",

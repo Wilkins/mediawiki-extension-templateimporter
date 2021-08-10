@@ -7,6 +7,13 @@ namespace TemplateImporter\Repository;
  */
 class DbPageTextRepository implements PageTextRepositoryInterface {
 
+    private $dbr;
+
+    public function __construct()
+    {
+        $this->dbr = wfGetDb( DB_MASTER );
+    }
+
 	/**
 	 * Retrieve the last comment from the database for a given namespace:pagename
 	 *
@@ -15,8 +22,7 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	 * @return the version number (ex: 3.0.1) or -1 if not found
 	 */
 	public function getComment( $pageTitle, $namespaceId ) {
-		$dbr = wfGetDb( DB_MASTER );
-		$res = $dbr->select(
+		$res = $this->dbr->select(
 			[ 'revision', 'page' ],
 			[ 'rev_comment' ],
 				"page_title = '{$pageTitle}' and page_namespace={$namespaceId}",
@@ -47,8 +53,7 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
 	public function getCurrentText( $pageTitle, $namespaceId ) {
-		$dbr = wfGetDb( DB_MASTER );
-		$res = $dbr->select(
+		$res = $this->dbr->select(
 			[ 'text', 'revision', 'page' ],
 			[ 'old_text' ],
 				"page_title = '{$pageTitle}' and page_namespace={$namespaceId}",
@@ -84,10 +89,9 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
 	private function getCurrentRevision( $pageTitle, $namespaceId ) {
-		$dbr = wfGetDb( DB_MASTER );
 
 		// error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );
-		$res = $dbr->select(
+		$res = $this->dbr->select(
 			[ 'page' ],
 			[ 'page_latest' ],
 				"page_title = '{$pageTitle}' and page_namespace={$namespaceId}",
@@ -104,20 +108,19 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	}
 
 	public function setComment( $pageTitle, $namespaceId, $comment ) {
-		$dbr = wfGetDb( DB_MASTER );
 
 		$rev_id = $this->getCurrentRevision( $pageTitle, $namespaceId );
 
 		// error_log( "setComment : ".$this->pageName );
 		// error_log( "mettre $comment sur revision $rev_id\n" );
 
-		$dbr->update( 'revision',
+		$this->dbr->update( 'revision',
 			[ 'rev_comment' => $comment ],
 			[ 'rev_id' => $rev_id + 1 ],
 			__METHOD__
 		);
 
-		$success = ( $dbr->affectedRows() > 0 );
+		$success = ( $this->dbr->affectedRows() > 0 );
 		/*
 		$success = 1;
 		 */
