@@ -11,8 +11,7 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase
 	public $manager;
 	public $lang;
 
-    public function setUp() : void
-    {
+	public function setUp() : void {
 
 		$this->mediawikiPath = __DIR__."/../../../../../";
 		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );

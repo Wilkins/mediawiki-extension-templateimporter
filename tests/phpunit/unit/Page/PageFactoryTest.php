@@ -5,47 +5,45 @@ namespace TemplateImporter\Page;
 class PageFactoryTest extends PageBaseTest
 {
 
-    public function dataProviderPages()
-    {
-        return [
-            [
-                'Attribut:Longueur.txt',
-                'TemplateImporter\Page\PageText',
-                'TemplateImporter\Repository\MemoryPageTextRepository',
-        ],
+	public function dataProviderPages() {
 
-            [ 
-                'Catégorie:Voyages.txt', 
-                'TemplateImporter\Page\PageText',
-                'TemplateImporter\Repository\MemoryPageTextRepository',
-            ],
-            [
-                'Toureiffel.jpg',
-                'TemplateImporter\Page\PageImage',
-                'TemplateImporter\Repository\MemoryPageImageRepository',
-            ],
-        ];
-    }
+		return [
+			[
+				'Attribut:Longueur.txt',
+				'TemplateImporter\Page\PageText',
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+		],
 
-    /**
-     * @dataProvider dataProviderPages
-     */
-    public function testPageDetection( $filename, $expectedClass, $repoClass )
-    {
+			[
+				'Catégorie:Voyages.txt',
+				'TemplateImporter\Page\PageText',
+				'TemplateImporter\Repository\MemoryPageTextRepository',
+			],
+			[
+				'Toureiffel.jpg',
+				'TemplateImporter\Page\PageImage',
+				'TemplateImporter\Repository\MemoryPageImageRepository',
+			],
+		];
+	}
 
-        $file = $this->getFixture( $filename );
+	/**
+	 * @dataProvider dataProviderPages
+	 */
+	public function testPageDetection( $filename, $expectedClass, $repoClass ) {
 
-        $repo = new $repoClass();
+		$file = $this->getFixture( $filename );
 
-        global $wgFileExtensions;
-        $wgFileExtensions = [ 'jpg', 'png'];
-        $page = PageFactory::create(
-            $file->getBasename(),
-            $file->getPathname(),
-            $repo
-        );
+		$repo = new $repoClass();
 
-        
-        $this->assertEquals( $expectedClass, get_class( $page ) );
-    }
+		global $wgFileExtensions;
+		$wgFileExtensions = [ 'jpg', 'png'];
+		$page = PageFactory::create(
+			$file->getBasename(),
+			$file->getPathname(),
+			$repo
+		);
+
+		$this->assertEquals( $expectedClass, get_class( $page ) );
+	}
 }

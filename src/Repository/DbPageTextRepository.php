@@ -86,7 +86,7 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	public function getCurrentRevision( $pageTitle, $namespaceId ) {
 		$dbr = wfGetDb( DB_MASTER );
 
-		//error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );
+		// error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );
 		$res = $dbr->select(
 			[ 'page' ],
 			[ 'page_latest' ],
@@ -108,8 +108,8 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 
 		$rev_id = $this->getCurrentRevision( $pageTitle, $namespaceId );
 
-		//error_log( "setComment : ".$this->pageName );
-		//error_log( "mettre $comment sur revision $rev_id\n" );
+		// error_log( "setComment : ".$this->pageName );
+		// error_log( "mettre $comment sur revision $rev_id\n" );
 
 		$dbr->update( 'revision',
 			[ 'rev_comment' => $comment ],

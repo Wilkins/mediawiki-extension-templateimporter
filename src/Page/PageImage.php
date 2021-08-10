@@ -9,10 +9,10 @@ class PageImage extends Page {
 	public $currentSize;
 
 	public static function getRegexp() {
-        global $wgFileExtensions;
-        if ( !isset( $wgFileExtensions ) ) {
-            $wgFileExtensions = [];
-        }
+		global $wgFileExtensions;
+		if ( !isset( $wgFileExtensions ) ) {
+			$wgFileExtensions = [];
+		}
 		$ext = implode( '|', $wgFileExtensions );
 		return "#\.($ext)$#";
 	}

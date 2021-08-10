@@ -22,21 +22,21 @@ abstract class Page {
 	public $version = '';
 	public $versionTag;
 	public $comment;
-    public $extensionVersion;
-    public $repository;
+	public $extensionVersion;
+	public $repository;
 
 	public static function match( $filename ) {
 		return preg_match( static::getRegexp(), $filename );
 	}
 
-	public abstract static function getRegexp();
+	abstract public static function getRegexp();
 
 
 	public function __construct( $pageName, $path, PageRepositoryInterface $repository ) {
 
 		$this->pageName = $pageName;
-        $this->path = $path;
-        $this->repository = $repository;
+		$this->path = $path;
+		$this->repository = $repository;
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
@@ -83,9 +83,9 @@ abstract class Page {
 	 */
 	public function needsUpdate() {
 		return ( $this->versionTag == static::PAGE_WILLUPDATE
-            && $this->hasChanged()
-            )
-			|| $this->versionTag == static::PAGE_NEW ;
+			&& $this->hasChanged()
+			)
+			|| $this->versionTag == static::PAGE_NEW;
 	}
 
 	/**
@@ -94,7 +94,7 @@ abstract class Page {
 	 * @return void
 	 */
 	public function detectVersion() {
-        $this->comment = $this->repository->getComment( $this->pageTitle, $this->namespaceId );
+		$this->comment = $this->repository->getComment( $this->pageTitle, $this->namespaceId );
 
 		if ( $this->comment != -1 && preg_match( "#".static::VERSION_REGEXP."#", $this->comment ) ) {
 
@@ -102,8 +102,8 @@ abstract class Page {
 				"#.*".static::VERSION_REGEXP.".*#",
 				"$1",
 				$this->comment
-            );
-        }
+			);
+		}
 	}
 
 	/**
@@ -124,13 +124,13 @@ abstract class Page {
 				$this->versionTag = static::PAGE_WILLUPDATE;
 			}
 
-        } else {
-            // Basically, the page exists without having been imported by TemplateImporter
+		} else {
+			// Basically, the page exists without having been imported by TemplateImporter
 			$this->versionTag = static::PAGE_UNKNOWN;
 		}
 	}
 
-	public abstract function import( $comment );
+	abstract public function import( $comment );
 
 
 
