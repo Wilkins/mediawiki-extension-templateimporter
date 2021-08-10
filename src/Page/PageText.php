@@ -21,7 +21,7 @@ class PageText extends Page {
 	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
 		parent::__construct( $pageName, $path, $repository, $command );
-		$this->textFile = file_get_contents( $this->path );
+		$this->textFile = $this->command->getFileContents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );
 	}
 

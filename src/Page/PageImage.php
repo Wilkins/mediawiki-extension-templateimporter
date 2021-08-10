@@ -25,7 +25,7 @@ class PageImage extends Page {
 		CommandInterface $command = null
 	) {
 		parent::__construct( $pageName, $path, $repository, $command );
-		$this->fileSize = filesize( $this->path );
+		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
 	}
 
@@ -87,18 +87,19 @@ class PageImage extends Page {
 			. " --limit=1 --overwrite "
 			. " --summary=\"$comment\"";
 
-		return $this->command->execute( $command );
+        $result = $this->command->execute( $command );
 
-		// $this->updateMetadataDescription( "File:" . $this->pageName, $comment );
+        $this->updateMetadataDescription( "File:" . $this->pageName, $comment );
+        return $result;
 	}
 
 	public function updateMetadataDescription( $pageName, $comment ) {
 		$pagetext = new PageText(
 			$pageName,
-			null,
+            '/dev/null',
 			new \TemplateImporter\Repository\MemoryPageTextRepository()
 		);
-		throw new Exception( "setComment" );
-		// $pagetext->setComment( $comment );
+		// throw new Exception( "setComment" );
+		//$pagetext->setComment( $comment );
 	}
 }

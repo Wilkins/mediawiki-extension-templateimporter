@@ -16,5 +16,13 @@ class ShellCommand implements CommandInterface {
 
 	public function execute( $command ) {
 		return shell_exec( $command );
-	}
+    }
+
+    public function getFileSize( $filename ) {
+        return filesize( $filename );
+    }
+
+    public function getFileContents( $filename ) {
+        return file_get_contents( $filename );
+    }
 }
