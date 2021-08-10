@@ -10,8 +10,7 @@ class PageFactoryTest extends PageBaseTest {
 				'Attribut:Longueur.txt',
 				'TemplateImporter\Page\PageText',
 				'TemplateImporter\Repository\MemoryPageTextRepository',
-		],
-
+    		],
 			[
 				'Catégorie:Voyages.txt',
 				'TemplateImporter\Page\PageText',
@@ -21,6 +20,11 @@ class PageFactoryTest extends PageBaseTest {
 				'Toureiffel.jpg',
 				'TemplateImporter\Page\PageImage',
 				'TemplateImporter\Repository\MemoryPageImageRepository',
+			],
+			[
+				'Fake.truc',
+                null,
+				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 		];
 	}
@@ -41,6 +45,10 @@ class PageFactoryTest extends PageBaseTest {
 			$repo
 		);
 
-		$this->assertEquals( $expectedClass, get_class( $page ) );
+        if ( !is_null( $expectedClass ) ) {
+    		$this->assertEquals( $expectedClass, get_class( $page ) );
+        } else {
+            $this->assertNull( $page );
+        }
 	}
 }

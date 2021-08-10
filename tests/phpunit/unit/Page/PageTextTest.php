@@ -129,5 +129,36 @@ class PageTextTest extends PageBaseTest {
 		$this->assertSame( $expectedLinkText, $page->getWikiText(),
 			"Detected linktext does not match expected"
 		);
+    }
+
+	public function dataProviderPagesIcone() {
+		// Filename
+        // Get Wiki Icone
+		return [
+            [ 'Attribut:Longueur.txt', 'TXT' ],
+            [ 'Catégorie:Voyages.txt', 'CAT' ],
+            [ 'Modèle:Radian.txt', 'TXT' ],
+			[ 'Fichier:Toureiffel.jpg.txt', '[[Fichier:Toureiffel.jpg|20px]]' ],
+            [ 'Toureiffel.jpg', 'TXT' ],
+			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
+		];
+	}
+
+	/**
+	 * @dataProvider dataProviderPagesIcone
+	 */
+	public function testPageDetectPagesIcone( $filename, $expectedIcone ) {
+		$file = $this->getFixture( $filename );
+
+		$page = new PageText(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->repository
+		);
+
+        $this->assertSame( $expectedIcone, $page->getWikiIcone(),
+			"Detected icone does not match expected"
+		);
+
 	}
 }
