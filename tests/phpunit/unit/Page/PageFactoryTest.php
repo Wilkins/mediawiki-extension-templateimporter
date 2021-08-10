@@ -15,22 +15,18 @@ class PageFactoryTest extends PageBaseTest {
 			[
 				'Attribut:Longueur.txt',
 				'TemplateImporter\Page\PageText',
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Catégorie:Voyages.txt',
 				'TemplateImporter\Page\PageText',
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Toureiffel.jpg',
 				'TemplateImporter\Page\PageImage',
-				'TemplateImporter\Repository\MemoryPageImageRepository',
 			],
 			[
 				'Fake.truc',
 				null,
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 		];
 	}
@@ -38,7 +34,7 @@ class PageFactoryTest extends PageBaseTest {
 	/**
 	 * @dataProvider dataProviderPages
 	 */
-	public function testPageDetection( $filename, $expectedClass, $repoClass ) {
+	public function testPageDetection( $filename, $expectedClass ) {
 		$file = $this->getFixture( $filename );
 
         $factory = new MemoryFactoryRepository();

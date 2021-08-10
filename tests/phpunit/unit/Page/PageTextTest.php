@@ -173,27 +173,22 @@ class PageTextTest extends PageBaseTest {
 			[
 				'Attribut:Longueur.txt',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"" . $this->fixtureDir . "/Attribut:Longueur.txt\" OK",
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Catégorie:Voyages.txt',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"" . $this->fixtureDir . "/Catégorie:Voyages.txt\" OK",
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Modèle:Radian.txt',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"" . $this->fixtureDir . "/Modèle:Radian.txt\" OK",
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Fichier:Toureiffel.jpg.txt',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importTextFiles.php --conf=/path/to/mediawiki/LocalSettings.php  -s 'Test' --overwrite --rc \"" . $this->fixtureDir . "/Fichier:Toureiffel.jpg.txt\" OK",
-				'TemplateImporter\Repository\MemoryPageTextRepository',
 			],
 			[
 				'Toureiffel.jpg',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . $this->fixtureDir . " --from=\"Toureiffel.jpg\" --comment-file=\"" . $this->fixtureDir . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
-				'TemplateImporter\Repository\MemoryPageImageRepository',
 			],
 			/*
 			[ 'Modèle:Radian.txt', 'TXT' ],
@@ -206,12 +201,12 @@ class PageTextTest extends PageBaseTest {
 	/**
 	 * @dataProvider dataProviderPagesCommand
 	 */
-	public function testImport( $filename, $expectedCommand, $repoClass ) {
+	public function testImport( $filename, $expectedCommand ) {
 		$file = $this->getFixture( $filename );
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
 
-		$command = new FakeCommand();
+        $command = new FakeCommand();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
@@ -219,7 +214,7 @@ class PageTextTest extends PageBaseTest {
 			$command
 		);
 
-		$result = $page->import( "Test", "/path/to/mediawiki" );
+        $result = $page->import( "Test", "/path/to/mediawiki" );
 
 		$this->assertSame( $expectedCommand, $result );
 	}

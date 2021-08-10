@@ -72,5 +72,11 @@ class PageText extends Page {
 			. " -s '$comment' --overwrite --rc \"$path\"";
 		$res = $this->command->execute( $command );
 		return $res;
-	}
+    }
+
+    public function setComment( $comment ) {
+        $repository = $this->factory->createPageTextRepository();
+        return $repository->setComment( $this->pageTitle, $this->namespaceId, $comment );
+    }
+
 }

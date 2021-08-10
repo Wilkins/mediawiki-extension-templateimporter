@@ -101,7 +101,6 @@ class PageImage extends Page {
             '/dev/null',
             $this->factory
 		);
-		// throw new Exception( "setComment" );
-		//$pagetext->setComment( $comment );
+        $pagetext->setComment( $comment );
 	}
 }
