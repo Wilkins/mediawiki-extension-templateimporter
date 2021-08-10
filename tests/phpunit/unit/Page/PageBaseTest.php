@@ -11,8 +11,8 @@ class PageBaseTest extends MediaWikiUnitTestCase {
 	public $mediawikiPath;
 	public $lang = 'fr';
 	public $repository;
-    public $repositoryClass;
-    public $fixtureDir = __DIR__ . '/../../../fixtures';
+	public $repositoryClass;
+	public $fixtureDir = __DIR__ . '/../../../fixtures';
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";

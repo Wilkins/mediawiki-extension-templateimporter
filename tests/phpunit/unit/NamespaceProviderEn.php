@@ -4,6 +4,9 @@ namespace TemplateImporter;
 
 class NamespaceProviderEn {
 
+	/**
+	 * @see https://www.mediawiki.org/wiki/Extension_default_namespaces
+	 */
 	public static function providerNamespacesCore() {
 		return [
 			[ -2, 'NS_MEDIA', 'Media' ],

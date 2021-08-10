@@ -134,42 +134,28 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase {
 		$this->assertequals( $namespaceName, $detectedName );
 	}
 
-	public abstract function dataProviderNamespaceCore();
+	abstract public function dataProviderNamespaceCore();
 
-	public function dataProviderNamespaceSemantic() {
-		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceSemantic" );
-	}
+	abstract public function dataProviderNamespaceSemantic();
 
-	public function dataProviderNamespaceTravel() {
-		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceTravel" );
-    }
+	abstract public function dataProviderNamespaceTravel();
 
 	/**
-     * @dataProvider dataProviderNamespaceTravel
-     * @expectedException TemplateImporter\Exception\MissingFileException
+	 * @dataProvider dataProviderNamespaceTravel
 	 */
 	public function testMissingFileNamespaceIdResolutionExtensions(
 		$namespaceId, $namespaceConstant, $namespaceName ) {
+		$this->expectException( 'TemplateImporter\Exception\MissingFileException' );
 		$this->loadNamespacesTravel( 'missing-lang' );
-
-		$detectedName = $this->manager->getNamespaceName( $namespaceId );
-		$this->assertequals( $namespaceName, $detectedName );
 	}
 
-
-	/**
-     * @expectedException TemplateImporter\Exception\MissingNamespaceException
-	 */
-    public function testMissingNamespaceFromName() {
-		$detectedName = $this->manager->getNamespaceFromName( 'Thibault' );
+	public function testMissingNamespaceFromName() {
+		$this->expectException( 'TemplateImporter\Exception\MissingNamespaceException' );
+		$detectedName = $this->manager->getNamespaceFromName( 'FakeDummyNamespace' );
 	}
 
-	/**
-     * @expectedException TemplateImporter\Exception\MissingNamespaceException
-	 */
-    public function testMissingNamespaceFromId() {
+	public function testMissingNamespaceFromId() {
+		$this->expectException( 'TemplateImporter\Exception\MissingNamespaceException' );
 		$detectedName = $this->manager->getNamespaceName( 87984654 );
 	}
-
-
 }

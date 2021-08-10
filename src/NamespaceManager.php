@@ -125,10 +125,10 @@ class NamespaceManager {
 			return $wgNamespaceAliases[$searchName];
 		}
 
-        throw new MissingNamespaceException(
-            "Namespace name « ${searchName} » was not found in TemplateImporter."
-            . " This should not happen, please contact developpers extension with tag: Error101"
-        );
+		throw new MissingNamespaceException(
+			"Namespace name « ${searchName} » was not found in TemplateImporter."
+			. " This should not happen, please contact developpers extension with tag: Error101"
+		);
 	}
 
 	/**
@@ -147,9 +147,9 @@ class NamespaceManager {
 			return $wgExtraNamespaces[$nsId];
 		}
 
-        throw new MissingNamespaceException( 
-            "Namespace name « ${nsId} » was not found in TemplateImporter."
-            . " This should not happen, please contact developpers extension with tag: Error102"
-        );
+		throw new MissingNamespaceException(
+			"Namespace name « ${nsId} » was not found in TemplateImporter."
+			. " This should not happen, please contact developpers extension with tag: Error102"
+		);
 	}
 }

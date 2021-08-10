@@ -2,8 +2,8 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Repository\PageRepositoryInterface;
 use TemplateImporter\Command\CommandInterface;
+use TemplateImporter\Repository\PageRepositoryInterface;
 
 class PageText extends Page {
 	public $textFile;
@@ -13,7 +13,12 @@ class PageText extends Page {
 		return "#\.txt$#";
 	}
 
-	public function __construct( $pageName, $path = '/dev/null', PageRepositoryInterface $repository, CommandInterface $command = null ) {
+	public function __construct(
+		$pageName,
+		$path = '/dev/null',
+		PageRepositoryInterface $repository,
+		CommandInterface $command = null
+	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
 		parent::__construct( $pageName, $path, $repository, $command );
 		$this->textFile = file_get_contents( $this->path );
@@ -55,15 +60,15 @@ class PageText extends Page {
 	 *
 	 * @return void
 	 */
-    public function import( $comment, $mediawikiPath ) {
-        $php = $this->command->which( 'php' );
+	public function import( $comment, $mediawikiPath ) {
+		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importTextFiles.php";
 		$config = "$mediawikiPath/LocalSettings.php";
 		$path = $this->path;
 
 		$command = "$php $maintenanceScript --conf=$config "
 			. " -s '$comment' --overwrite --rc \"$path\"";
-        $res = $this->command->execute( $command );
-        return $res;
+		$res = $this->command->execute( $command );
+		return $res;
 	}
 }

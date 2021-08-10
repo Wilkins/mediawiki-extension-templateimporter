@@ -22,8 +22,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 	public $groupName = 'templateimporter';
 
 	/**
-	 * @constructor
-	 *
 	 * @param string $name the name of the SpecialPage
 	 *
 	 * @return void
@@ -52,10 +50,9 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * @return the lang code
 	 */
 	public function getLang() {
-		global $wgLang;
 		// FIXME Voir aussi les namespaces
 		return 'fr';
-		return $wgLang->getCode();
+		// return $this->getLanguage()->getCode();
 	}
 
 	/**
@@ -81,12 +78,11 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * @return bool the status of the rendered page
 	 */
 	public function execute( $par ) {
-		global $wgOut, $wgRequest;
 		$this->setHeaders();
 
 		$this->showForm();
 
-		if ( $wgRequest->getText( 'action' ) != 'import' ) {
+		if ( $this->getRequest()->getText( 'action' ) != 'import' ) {
 			return Status::newGood();
 		}
 
@@ -95,17 +91,17 @@ class BaseSpecialImportPages extends \SpecialPage {
 		try {
 			$files = $this->importer->listFiles( $this->getLangTemplateDir() );
 			foreach ( $files as $displayName => $page ) {
-				$wgOut->addWikiText( "Import de $displayName" );
+				$this->getOutput()->addWikiText( "Import de $displayName" );
 				$page->checkVersion( $this->getVersion() );
 				if ( $page->needsUpdate() && $page->hasChanged() ) {
 					$page->import( $this->getNewComment() );
 				}
 			}
 		} catch ( Exception $e ) {
-			$wgOut->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
+			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
 		} catch ( \Exception $e ) {
-			$wgOut->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
+			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
 		}
 		$this->redirect();
@@ -118,8 +114,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * @return void
 	 */
 	protected function showForm() {
-		global $wgScript;
-
 		if ( $this->mIncluding ) {
 			return false;
 		}
@@ -164,7 +158,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$output->addHTML( '</table>' );
 
 		$output->addHTML(
-			Xml::openElement( 'form', [ 'action' => $wgScript ] ) .
+			Xml::openElement( 'form', [ 'action' => $this->getConfig()->get() ] ) .
 			Html::hidden( 'title', $this->getPageTitle()->getPrefixedText() ) .
 			Html::hidden( 'action', 'import' ) .
 			Xml::openElement( 'fieldset' ) .

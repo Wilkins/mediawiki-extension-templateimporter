@@ -9,8 +9,6 @@ class BaseImporter {
 	public $lang;
 
 	/**
-	 * @constructor
-	 *
 	 * @param string $lang the 2 chars lang
 	 */
 	public function __construct( $lang ) {
