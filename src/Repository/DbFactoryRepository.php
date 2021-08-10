@@ -2,6 +2,9 @@
 
 namespace TemplateImporter\Repository;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DbFactoryRepository implements FactoryRepositoryInterface {
 
     public function createPageTextRepository() : PageTextRepositoryInterface {

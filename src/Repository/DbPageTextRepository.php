@@ -83,7 +83,7 @@ class DbPageTextRepository implements PageTextRepositoryInterface {
 	 *
 	 * @see https://www.mediawiki.org/wiki/Manual:Database_access
 	 */
-	public function getCurrentRevision( $pageTitle, $namespaceId ) {
+	private function getCurrentRevision( $pageTitle, $namespaceId ) {
 		$dbr = wfGetDb( DB_MASTER );
 
 		// error_log( "page_title = '{$pageTitle}' and page_namespace={$namespaceId}" );

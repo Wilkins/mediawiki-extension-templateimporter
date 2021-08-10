@@ -13,9 +13,6 @@ class MemoryPageTextRepository implements PageTextRepositoryInterface {
 	public function getCurrentText( $pageTitle, $namespaceId ) {
 	}
 
-	public function getCurrentRevision( $pageTitle, $namespaceId ) {
-	}
-
     public function setComment( $pageTitle, $namespaceId, $comment ) {
         $this->comment = $comment;
 	}
