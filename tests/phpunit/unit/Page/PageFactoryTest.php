@@ -2,7 +2,13 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Repository\MemoryFactoryRepository;
+
 class PageFactoryTest extends PageBaseTest {
+
+    public function getRepositoryClass() {
+        return $this->factory->createPageTextRepository();
+    }
 
 	public function dataProviderPages() {
 		return [
@@ -35,14 +41,14 @@ class PageFactoryTest extends PageBaseTest {
 	public function testPageDetection( $filename, $expectedClass, $repoClass ) {
 		$file = $this->getFixture( $filename );
 
-		$repo = new $repoClass();
+        $factory = new MemoryFactoryRepository();
 
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-			$repo
+			$factory
 		);
 
 		if ( $expectedClass !== null ) {

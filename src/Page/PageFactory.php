@@ -3,20 +3,21 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
-use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageFactory {
 
 	public static function create(
 		$basename,
-		$pathname,
-		PageRepositoryInterface $repository,
+        $pathname,
+        FactoryRepositoryInterface $factory,
+//		PageRepositoryInterface $repository,
 		CommandInterface $command = null
 	) {
-		if ( PageText::match( $basename ) ) {
-			return new PageText( $basename, $pathname, $repository, $command );
+        if ( PageText::match( $basename ) ) {
+			return new PageText( $basename, $pathname, $factory, $command );
 		} elseif ( PageImage::match( $basename ) ) {
-			return new PageImage( $basename, $pathname, $repository, $command );
+			return new PageImage( $basename, $pathname, $factory, $command );
 		}
 		return null;
 	}

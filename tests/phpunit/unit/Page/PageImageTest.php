@@ -2,9 +2,13 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Repository\MemoryFactoryRepository;
+
 class PageImageTest extends PageBaseTest {
 
-	public $repositoryClass = 'TemplateImporter\Repository\MemoryPageImageRepository';
+    public function getRepositoryClass() {
+        return $this->factory->createPageImageRepository();
+    }
 
 	public function dataProviderPages() {
 		// Filename
@@ -27,7 +31,7 @@ class PageImageTest extends PageBaseTest {
 		$page = new PageImage(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->repository
+			$this->factory
 		);
 
 		$constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;

@@ -3,10 +3,13 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\FakeCommand;
+use TemplateImporter\Repository\MemoryFactoryRepository;
 
 class PageTextTest extends PageBaseTest {
 
-	public $repositoryClass = 'TemplateImporter\Repository\MemoryPageTextRepository';
+    public function getRepositoryClass() {
+        return $this->factory->createPageTextRepository();
+    }
 
 	public function dataProviderVersionsMatch() {
 		return [
@@ -23,12 +26,12 @@ class PageTextTest extends PageBaseTest {
 	public function testPageDetectVersion(
 		$filename, $expectedVersion, $comment ) {
 		$file = $this->getFixture( $filename );
-		$this->repository->comment = $comment;
+		$this->factory->comment = $comment;
 
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->repository
+            $this->factory
 		);
 
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
@@ -71,12 +74,12 @@ class PageTextTest extends PageBaseTest {
 	public function testPageDetectVersionChange(
 		$filename, $currentVersion, $targetVersion, $expectedStatus, $sameContent, $needsChange ) {
 		$file = $this->getFixture( $filename );
-		$this->repository->comment = $currentVersion;
+		$this->factory->comment = $currentVersion;
 
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->repository
+			$this->factory
 		);
 		$page->textFile = "dummy";
 		$page->textBase = ( $sameContent ? "" : "no" ) . "dummy";
@@ -116,7 +119,7 @@ class PageTextTest extends PageBaseTest {
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->repository
+			$this->factory
 		);
 
 		$constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;
@@ -155,7 +158,7 @@ class PageTextTest extends PageBaseTest {
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->repository
+			$this->factory
 		);
 
 		$this->assertSame( $expectedIcone, $page->getWikiIcone(),
@@ -207,13 +210,12 @@ class PageTextTest extends PageBaseTest {
 		$file = $this->getFixture( $filename );
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
-		$repo = new $repoClass();
 
 		$command = new FakeCommand();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-			$repo,
+			$this->factory,
 			$command
 		);
 

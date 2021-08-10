@@ -3,7 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
-use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageText extends Page {
 	public $textFile;
@@ -16,13 +16,15 @@ class PageText extends Page {
 	public function __construct(
 		$pageName,
 		$path = '/dev/null',
-		PageRepositoryInterface $repository,
+		FactoryRepositoryInterface $factory,
 		CommandInterface $command = null
 	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
-		parent::__construct( $pageName, $path, $repository, $command );
+		parent::__construct( $pageName, $path, $factory, $command );
+        $this->repository = $factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );
+		$this->detectVersion();
 	}
 
 	/**

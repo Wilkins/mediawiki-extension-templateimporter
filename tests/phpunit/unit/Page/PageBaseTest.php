@@ -5,21 +5,22 @@ namespace TemplateImporter\Page;
 use MediaWikiUnitTestCase;
 use SplFileInfo;
 use TemplateImporter\NamespaceManager;
+use TemplateImporter\Repository\MemoryFactoryRepository;
 
-class PageBaseTest extends MediaWikiUnitTestCase {
+abstract class PageBaseTest extends MediaWikiUnitTestCase {
 
 	public $mediawikiPath;
 	public $lang = 'fr';
 	public $repository;
 	public $repositoryClass;
-	public $fixtureDir = __DIR__ . '/../../../fixtures';
+    public $fixtureDir = __DIR__ . '/../../../fixtures';
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";
-		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
-		if ( $this->repositoryClass ) {
-			$this->repository = new $this->repositoryClass();
-		}
+        $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+
+        $this->factory = new MemoryFactoryRepository();
+        $this->repository = $this->getRepositoryClass();
 	}
 
 	public function getFixture( $filename ) {

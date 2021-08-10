@@ -3,7 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
-use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageImage extends Page {
 	public $fileSize;
@@ -21,12 +21,14 @@ class PageImage extends Page {
 	public function __construct(
 		$pageName,
 		$path,
-		PageRepositoryInterface $repository,
+		FactoryRepositoryInterface $factory,
 		CommandInterface $command = null
 	) {
-		parent::__construct( $pageName, $path, $repository, $command );
+        parent::__construct( $pageName, $path, $factory, $command );
+        $this->repository = $factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
+		$this->detectVersion();
 	}
 
 	/**
@@ -97,7 +99,7 @@ class PageImage extends Page {
 		$pagetext = new PageText(
 			$pageName,
             '/dev/null',
-			new \TemplateImporter\Repository\MemoryPageTextRepository()
+            $this->factory
 		);
 		// throw new Exception( "setComment" );
 		//$pagetext->setComment( $comment );

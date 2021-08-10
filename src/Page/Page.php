@@ -5,7 +5,7 @@ namespace TemplateImporter\Page;
 use TemplateImporter\Command\CommandInterface;
 use TemplateImporter\Command\ShellCommand;
 use TemplateImporter\NamespaceManager;
-use TemplateImporter\Repository\PageRepositoryInterface;
+use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 abstract class Page {
 
@@ -26,6 +26,10 @@ abstract class Page {
 	public $comment;
 	public $extensionVersion;
 	/**
+	 * @var FactoryRepositoryInterface
+	 */
+	public $factory;
+	/**
 	 * @var PageRepositoryInterface
 	 */
 	public $repository;
@@ -43,12 +47,12 @@ abstract class Page {
 	public function __construct(
 		$pageName,
 		$path,
-		PageRepositoryInterface $repository,
+		FactoryRepositoryInterface $factory,
 		CommandInterface $command = null
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
-		$this->repository = $repository;
+		$this->factory = $factory;
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
@@ -62,7 +66,6 @@ abstract class Page {
 		$this->namespaceId = NamespaceManager::getNamespaceFromName( $this->namespace );
 // file_put_contents( '/tmp/base-'.$pageName, $this->textBase );
 // 		file_put_contents( '/tmp/file-'.$pageName, $this->textFile );
-		$this->detectVersion();
 	}
 
 	/**
