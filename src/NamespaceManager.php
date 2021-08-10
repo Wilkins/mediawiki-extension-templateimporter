@@ -2,6 +2,9 @@
 
 namespace TemplateImporter;
 
+use TemplateImporter\Exception\MissingFileException;
+use TemplateImporter\Exception\MissingNamespaceException;
+
 /**
  * @license GPL-2.0-or-later
  *
@@ -22,7 +25,7 @@ class NamespaceManager {
 
 	public function checkFileExists( $filename ) {
 		if ( !file_exists( $filename ) ) {
-			throw new Exception( "File $filename does not exist." );
+			throw new MissingFileException( "File $filename does not exist." );
 		}
 	}
 
@@ -122,8 +125,10 @@ class NamespaceManager {
 			return $wgNamespaceAliases[$searchName];
 		}
 
-		throw new Exception( "Namespace name « ${searchName} » was not found in TemplateImporter."
-			. " This should not happen, please contact developpers extension with tag: Error101" );
+        throw new MissingNamespaceException(
+            "Namespace name « ${searchName} » was not found in TemplateImporter."
+            . " This should not happen, please contact developpers extension with tag: Error101"
+        );
 	}
 
 	/**
@@ -142,7 +147,9 @@ class NamespaceManager {
 			return $wgExtraNamespaces[$nsId];
 		}
 
-		throw new Exception( "Namespace name « ${nsId} » was not found in TemplateImporter."
-			. " This should not happen, please contact developpers extension with tag: Error102" );
+        throw new MissingNamespaceException( 
+            "Namespace name « ${nsId} » was not found in TemplateImporter."
+            . " This should not happen, please contact developpers extension with tag: Error102"
+        );
 	}
 }

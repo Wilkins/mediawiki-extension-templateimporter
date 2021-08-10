@@ -134,9 +134,7 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase {
 		$this->assertequals( $namespaceName, $detectedName );
 	}
 
-	public function dataProviderNamespaceCore() {
-		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceCore" );
-	}
+	public abstract function dataProviderNamespaceCore();
 
 	public function dataProviderNamespaceSemantic() {
 		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceSemantic" );
@@ -144,6 +142,34 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase {
 
 	public function dataProviderNamespaceTravel() {
 		throw new Exception( "Please use a specific dataProvider for dataProviderNamespaceTravel" );
+    }
+
+	/**
+     * @dataProvider dataProviderNamespaceTravel
+     * @expectedException TemplateImporter\Exception\MissingFileException
+	 */
+	public function testMissingFileNamespaceIdResolutionExtensions(
+		$namespaceId, $namespaceConstant, $namespaceName ) {
+		$this->loadNamespacesTravel( 'missing-lang' );
+
+		$detectedName = $this->manager->getNamespaceName( $namespaceId );
+		$this->assertequals( $namespaceName, $detectedName );
 	}
+
+
+	/**
+     * @expectedException TemplateImporter\Exception\MissingNamespaceException
+	 */
+    public function testMissingNamespaceFromName() {
+		$detectedName = $this->manager->getNamespaceFromName( 'Thibault' );
+	}
+
+	/**
+     * @expectedException TemplateImporter\Exception\MissingNamespaceException
+	 */
+    public function testMissingNamespaceFromId() {
+		$detectedName = $this->manager->getNamespaceName( 87984654 );
+	}
+
 
 }
