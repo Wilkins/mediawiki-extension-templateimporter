@@ -24,5 +24,9 @@ class ShellCommand implements CommandInterface {
 
 	public function getFileContents( $filename ) {
 		return file_get_contents( $filename );
+    }
+
+    public function getGlob( $dir, $file ) {
+        return glob( $dir . '/*:' . $file );
 	}
 }

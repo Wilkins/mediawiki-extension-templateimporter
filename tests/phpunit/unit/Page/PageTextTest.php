@@ -189,7 +189,7 @@ class PageTextTest extends PageBaseTest {
 			],
 			[
 				'Toureiffel.jpg',
-				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . $this->fixtureDir . " --from=\"Toureiffel.jpg\" --comment-file=\"" . $this->fixtureDir . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
+				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . realpath($this->fixtureDir) . " --from=\"Toureiffel.jpg\" --comment-file=\"" . realpath($this->fixtureDir) . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
 			],
 			/*
 			[ 'Modèle:Radian.txt', 'TXT' ],

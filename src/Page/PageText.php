@@ -7,11 +7,13 @@ use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageText extends Page {
+
+    public const EXTENSION = 'txt';
 	public $textFile;
-	public $textBase;
+    public $textBase;
 
 	public static function getRegexp( ConfigInterface $config ) {
-		return "#\.txt$#";
+		return "#\.".static::EXTENSION."$#";
 	}
 
 	public function __construct(
@@ -19,7 +21,7 @@ class PageText extends Page {
 		$path = '/dev/null',
         ConfigInterface $config = null
 	) {
-		$pageName = preg_replace( "#.txt$#", "", $pageName );
+		$pageName = preg_replace( "#.".static::EXTENSION."$#", "", $pageName );
 		parent::__construct( $pageName, $path, $config );
 		$this->repository = $this->factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
@@ -74,8 +76,7 @@ class PageText extends Page {
 	}
 
 	public function setComment( $comment ) {
-		$repository = $this->factory->createPageTextRepository();
-		return $repository->setComment( $this->pageTitle, $this->namespaceId, $comment );
+		return $this->repository->setComment( $this->pageTitle, $this->namespaceId, $comment );
 	}
 
 }

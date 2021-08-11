@@ -80,11 +80,14 @@ class PageImage extends Page {
 	}
 
     private function getDir() {
-        return dirname( $this->path );
+        return realpath( dirname( $this->path ) );
     }
 
     private function getMatchingTextFile() : array {
-        return glob( $this->getDir() . '/*:' . $this->pageName . '.txt' );
+        return $this->config->getCommand()->getGlob(
+            $this->getDir(),
+            $this->pageName.".".PageText::EXTENSION
+        );
     }
     private function getCommentFile()
     {

@@ -12,12 +12,12 @@ use TemplateImporter\Repository\DbFactoryRepository;
 
 abstract class Page {
 
-	public const PAGE_NEW = "NEW";
-	public const PAGE_UNKNOWN = "UNKNOWN";
-	public const PAGE_WILLUPDATE = "WILLUPDATE";
-	public const PAGE_UPTODATE = "UPTODATE";
-	public const PAGE_UNCHANGED = "UNCHANGED";
-	public const VERSION_REGEXP = "\(v(\d+\.\d+\.\d+)\)";
+	protected const PAGE_NEW = "NEW";
+	protected const PAGE_UNKNOWN = "UNKNOWN";
+	protected const PAGE_WILLUPDATE = "WILLUPDATE";
+	protected const PAGE_UPTODATE = "UPTODATE";
+	protected const PAGE_UNCHANGED = "UNCHANGED";
+	protected const VERSION_REGEXP = "\(v(\d+\.\d+\.\d+)\)";
 
 	public $pageName;
 	public $pageTitle;

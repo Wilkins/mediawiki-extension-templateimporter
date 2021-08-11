@@ -10,6 +10,8 @@ interface CommandInterface {
 
 	public function getFileSize( $filename );
 
-	public function getFileContents( $filename );
+    public function getFileContents( $filename );
+
+    public function getGlob( $dir, $file );
 
 }
