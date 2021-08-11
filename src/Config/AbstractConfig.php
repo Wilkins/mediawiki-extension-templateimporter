@@ -21,9 +21,11 @@ abstract class AbstractConfig implements ConfigInterface {
         $this->command = $command;
     }
 
+    /*
     public function getLang() {
         return $this->lang;
     }
+    */
 
     public function getFactory() {
         return $this->factory;

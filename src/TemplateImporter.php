@@ -2,6 +2,11 @@
 
 namespace TemplateImporter;
 
+use TemplateImporter\Command\ShellCommand;
+use TemplateImporter\Config\ConfigInterface;
+use TemplateImporter\Config\MediaWikiConfig;
+use TemplateImporter\Repository\DbFactoryRepository;
+
 class TemplateImporter {
 	public static function addExtensionCSS( &$parser, &$text ) {
 		global $wgTemplateImporterCSSLoaded;
@@ -28,5 +33,13 @@ class TemplateImporter {
 		$wgTemplateImporterMWPath = realpath( '.' );
 
 		define( 'TI_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'N/A' );
-	}
+    }
+
+    public static function getDefaultConfig() : ConfigInterface {
+        return new MediaWikiConfig(
+            'fr',
+            new DbFactoryRepository(),
+            new ShellCommand()
+        );
+    }
 }

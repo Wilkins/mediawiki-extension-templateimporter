@@ -22,9 +22,6 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
         );
 
     }
-    public function testDummy() {
-        $this->assertTrue( true );
-    }
 
 
     public function testListFiles() {
@@ -49,6 +46,17 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
         $this->assertTrue( true );
     }
 
+
+    public function testConstructWithDefaultConfig() {
+        $importer = new BaseImporter();
+        $this->assertEquals(
+            'TemplateImporter\Config\MediaWikiConfig',
+            get_class( $importer->config ),
+            "Default config is not a MediaWikiConfig"
+
+         );
+
+    }
 
     /*
     public function testConstructWithLang() {

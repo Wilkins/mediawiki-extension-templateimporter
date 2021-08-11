@@ -17,8 +17,12 @@ class BaseImporter {
 	/**
 	 * @param string $lang the 2 chars lang
 	 */
-    public function __construct( ConfigInterface $config ) {
-        $this->config = $config;
+    public function __construct( ConfigInterface $config = null ) {
+        if ( $config ){
+            $this->config = $config;
+        } else {
+            $this->config = TemplateImporter::getDefaultConfig();
+        }
 	}
 
 	/**
