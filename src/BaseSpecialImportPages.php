@@ -68,7 +68,25 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public function getNewComment() {
 		return "Update from $this->name (v" . $this->getVersion() . ")";
-	}
+    }
+
+    public function isWikiContent( $content ) {
+        if ( preg_match( '#\[\[#', $content ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Decide wether we display HTML or WikiText
+     */
+    public function addContentAutodetected( $content ) {
+        if ( $this->isWikiContent( $content ) ) {
+            $this->getOutput()->addWikiText( $content );
+        } else {
+            $this->getOutput()->addHtml( $content );
+        }
+    }
 
 	/**
 	 * Execute the Special Page
@@ -127,13 +145,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 			$status = $this->msg( 'templateimporter-specialimportpages-status-'
 				. $page->getVersionTag() )->text();
 			$output->addHTML( '<tr class="status-' . $page->getVersionTag() . '"><td>' );
-			// Small hack to decide wether we display HTML or WikiText
 			$icone = $page->getWikiIcone();
-			if ( preg_match( '#\[\[#', $icone ) ) {
-				$output->addWikiText( $icone );
-			} else {
-				$output->addHtml( $icone );
-			}
+            $this->addContentAutodetected( $icone );
 			$output->addHTML( '</td><td>' );
 			$output->addWikiText( $page->getWikiText() );
 			$output->addHTML( '</td>' );
