@@ -32,7 +32,7 @@ class PageText extends Page {
 	 *
 	 * @return bool
 	 */
-	public function hasChanged() {
+    protected function hasChanged() {
 		return trim( $this->textBase ) != trim( $this->textFile );
 	}
 
@@ -66,10 +66,9 @@ class PageText extends Page {
 		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importTextFiles.php";
 		$config = "$mediawikiPath/LocalSettings.php";
-		$path = $this->path;
 
 		$command = "$php $maintenanceScript --conf=$config "
-			. " -s '$comment' --overwrite --rc \"$path\"";
+			. " -s '$comment' --overwrite --rc \"{$this->path}\"";
 		$res = $this->command->execute( $command );
 		return $res;
 	}

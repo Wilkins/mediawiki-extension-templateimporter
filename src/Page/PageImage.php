@@ -33,7 +33,7 @@ class PageImage extends Page {
 	 *
 	 * @return bool
 	 */
-	public function hasChanged() {
+	protected function hasChanged() {
 		return trim( $this->fileSize ) != trim( $this->currentSize );
 	}
 
@@ -47,7 +47,7 @@ class PageImage extends Page {
 
 	public function getWikiText() {
 		return $this->pageName . ' (contenu)';
-	}
+    }
 
 	/**
 	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
@@ -63,23 +63,11 @@ class PageImage extends Page {
 		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importImages.php";
 		$config = "$mediawikiPath/LocalSettings.php";
-		$dir = dirname( $this->path );
-		$path = $this->path;
-		$from = $this->pageName;
-		$files = glob( $dir . '/*:' . $from . '.txt' );
-		if ( count( $files ) != 1 ) {
-			throw new Exception(
-				"Unable to find the correct metadata file for $this->pageName"
-				. " found multiples possibilities : <br>"
-				. implode( '<br>\n', $files )
-			);
-		} else {
-			$commentFile = $files[0];
-		}
+		$commentFile = $this->getCommentFile();
 		$ext = implode( ',', $this->config->getFileExtensions() );
 
 		$command = "$php $maintenanceScript --conf=$config"
-			. " $dir --from=\"$from\""
+			. " ".$this->getDir()." --from=\"$this->pageName\""
 			. " --comment-file=\"$commentFile\""
 			. " --extensions=$ext"
 			. " --limit=1 --overwrite "
@@ -91,7 +79,27 @@ class PageImage extends Page {
         return $result;
 	}
 
-	public function updateMetadataDescription( $pageName, $comment ) {
+    private function getDir() {
+        return dirname( $this->path );
+    }
+
+    private function getMatchingTextFile() : array {
+        return glob( $this->getDir() . '/*:' . $this->pageName . '.txt' );
+    }
+    private function getCommentFile()
+    {
+        $files = $this->getMatchingTextFile();
+		if ( count( $files ) != 1 ) {
+			throw new Exception(
+				"Unable to find the correct metadata file for $this->pageName"
+				. " found multiples possibilities : <br>"
+				. implode( '<br>\n', $files )
+			);
+        }
+        return $files[0];
+    }
+
+	private function updateMetadataDescription( $pageName, $comment ) {
 		$pagetext = new PageText(
 			$pageName,
             '/dev/null',
