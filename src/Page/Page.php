@@ -4,6 +4,8 @@ namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
 use TemplateImporter\Command\ShellCommand;
+use TemplateImporter\Config\ConfigInterface;
+use TemplateImporter\Config\MediaWikiConfig;
 use TemplateImporter\NamespaceManager;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
 
@@ -38,17 +40,18 @@ abstract class Page {
 	 */
 	public $command;
 
-	public static function match( $filename ) {
-		return preg_match( static::getRegexp(), $filename );
+	public static function match( $filename, ConfigInterface $config ) {
+		return preg_match( static::getRegexp( $config ), $filename );
 	}
 
-	abstract public static function getRegexp();
+	abstract public static function getRegexp( ConfigInterface $config );
 
 	public function __construct(
 		$pageName,
 		$path,
 		FactoryRepositoryInterface $factory,
-		CommandInterface $command = null
+		CommandInterface $command = null,
+        ConfigInterface $config = null
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
@@ -62,6 +65,11 @@ abstract class Page {
 			$this->command = $command;
 		} else {
 			$this->command = new ShellCommand();
+		}
+		if ( $config ) {
+			$this->config = $config;
+		} else {
+			$this->config = new MediaWikiConfig();
 		}
 		$this->namespaceId = NamespaceManager::getNamespaceFromName( $this->namespace );
 // file_put_contents( '/tmp/base-'.$pageName, $this->textBase );

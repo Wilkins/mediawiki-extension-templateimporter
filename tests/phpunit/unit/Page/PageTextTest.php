@@ -3,6 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\FakeCommand;
+use TemplateImporter\Config\FakeConfig;
 
 class PageTextTest extends PageBaseTest {
 
@@ -206,7 +207,8 @@ class PageTextTest extends PageBaseTest {
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
 
-		$command = new FakeCommand();
+        $command = new FakeCommand();
+        $config = new FakeConfig();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
@@ -222,15 +224,16 @@ class PageTextTest extends PageBaseTest {
 
 	public function testImportMissing() {
 		$file = $this->getFixture( 'Missing.jpg' );
-		global $wgFileExtensions;
-		$wgFileExtensions = [ 'jpg', 'png' ];
 
-		$command = new FakeCommand();
+        $command = new FakeCommand();
+        $config = new FakeConfig();
+
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
 			$this->factory,
-			$command
+            $command,
+            $config
 		);
 
         $this->expectException( "TemplateImporter\Exception\Exception" );

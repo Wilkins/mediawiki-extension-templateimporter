@@ -3,13 +3,14 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
+use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageText extends Page {
 	public $textFile;
 	public $textBase;
 
-	public static function getRegexp() {
+	public static function getRegexp( ConfigInterface $config ) {
 		return "#\.txt$#";
 	}
 
@@ -17,10 +18,11 @@ class PageText extends Page {
 		$pageName,
 		$path = '/dev/null',
 		FactoryRepositoryInterface $factory,
-		CommandInterface $command = null
+		CommandInterface $command = null,
+        ConfigInterface $config = null
 	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
-		parent::__construct( $pageName, $path, $factory, $command );
+		parent::__construct( $pageName, $path, $factory, $command, $config );
 		$this->repository = $factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );

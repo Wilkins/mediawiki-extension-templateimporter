@@ -2,6 +2,8 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Command\FakeCommand;
+use TemplateImporter\Config\FakeConfig;
 use TemplateImporter\Repository\MemoryFactoryRepository;
 
 class PageFactoryTest extends PageBaseTest {
@@ -39,12 +41,14 @@ class PageFactoryTest extends PageBaseTest {
 
 		$factory = new MemoryFactoryRepository();
 
-		global $wgFileExtensions;
-		$wgFileExtensions = [ 'jpg', 'png' ];
+        $command = new FakeCommand();
+        $config = new FakeConfig();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-			$factory
+            $factory,
+            $command,
+            $config
 		);
 
 		if ( $expectedClass !== null ) {

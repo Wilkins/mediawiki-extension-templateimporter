@@ -3,6 +3,7 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
+use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
 use TemplateImporter\Exception\Exception;
 
@@ -10,12 +11,8 @@ class PageImage extends Page {
 	public $fileSize;
 	public $currentSize;
 
-	public static function getRegexp() {
-		global $wgFileExtensions;
-		if ( !isset( $wgFileExtensions ) ) {
-			$wgFileExtensions = [];
-		}
-		$ext = implode( '|', $wgFileExtensions );
+	public static function getRegexp( ConfigInterface $config ) {
+		$ext = implode( '|', $config->getFileExtensions() );
 		return "#\.($ext)$#";
 	}
 
@@ -23,9 +20,10 @@ class PageImage extends Page {
 		$pageName,
 		$path,
 		FactoryRepositoryInterface $factory,
-		CommandInterface $command = null
+		CommandInterface $command = null,
+        ConfigInterface $config = null
 	) {
-        parent::__construct( $pageName, $path, $factory, $command );
+        parent::__construct( $pageName, $path, $factory, $command, $config );
         $this->repository = $factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
@@ -64,7 +62,6 @@ class PageImage extends Page {
 	 * @return void
 	 */
 	public function import( $comment, $mediawikiPath ) {
-		global $wgFileExtensions;
 		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importImages.php";
 		$config = "$mediawikiPath/LocalSettings.php";
@@ -81,7 +78,7 @@ class PageImage extends Page {
 		} else {
 			$commentFile = $files[0];
 		}
-		$ext = implode( ',', $wgFileExtensions );
+		$ext = implode( ',', $this->config->getFileExtensions() );
 
 		$command = "$php $maintenanceScript --conf=$config"
 			. " $dir --from=\"$from\""
