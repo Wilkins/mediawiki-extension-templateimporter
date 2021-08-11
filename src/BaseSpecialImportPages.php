@@ -116,25 +116,12 @@ class BaseSpecialImportPages extends \SpecialPage {
 	protected function showForm() {
 		if ( $this->mIncluding ) {
 			return false;
-		}
+        }
+
+        $this->showFormHeader();
+
 		$output = $this->getOutput();
-
 		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
-		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );
-		$output->addHTML( '<th colspan="2">'
-			. $this->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-packageversion' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-pageversion' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-status' )->text()
-			. '</th>' );
-		$output->addHTML( '</tr>' );
-
 		foreach ( $files as $displayName => $page ) {
 			$page->checkVersion( $this->getVersion() );
 			$status = $this->msg( 'templateimporter-specialimportpages-status-'
@@ -157,6 +144,37 @@ class BaseSpecialImportPages extends \SpecialPage {
 		}
 		$output->addHTML( '</table>' );
 
+        $this->showFormFooter();
+
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function showFormHeader() {
+		$output = $this->getOutput();
+
+		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );
+		$output->addHTML( '<th colspan="2">'
+			. $this->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
+			. '</th>' );
+		$output->addHTML( '<th>'
+			. $this->msg( 'templateimporter-specialimportpages-column-packageversion' )->text()
+			. '</th>' );
+		$output->addHTML( '<th>'
+			. $this->msg( 'templateimporter-specialimportpages-column-pageversion' )->text()
+			. '</th>' );
+		$output->addHTML( '<th>'
+			. $this->msg( 'templateimporter-specialimportpages-column-status' )->text()
+			. '</th>' );
+		$output->addHTML( '</tr>' );
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function showFormFooter() {
+		$output = $this->getOutput();
 		$output->addHTML(
 			Xml::openElement( 'form', [ 'action' => $this->getConfig()->get() ] ) .
 			Html::hidden( 'title', $this->getPageTitle()->getPrefixedText() ) .
@@ -168,11 +186,12 @@ class BaseSpecialImportPages extends \SpecialPage {
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' )
 		);
-	}
+    }
 
 	/**
 	 * Wether the page is cachable
 	 *
+     * @codeCoverageIgnore
 	 * @return bool
 	 */
 	public function isCacheable() {
@@ -182,6 +201,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	/**
 	 * Get the description
 	 *
+     * @codeCoverageIgnore
 	 * @return string
 	 */
 	public function getDescription() {
@@ -191,6 +211,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	/**
 	 * Get the groupe name
 	 *
+     * @codeCoverageIgnore
 	 * @return string
 	 */
 	protected function getGroupName() {
