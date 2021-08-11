@@ -17,7 +17,7 @@ abstract class NamespaceManagerBase extends MediaWikiUnitTestCase {
 
 	public function loadNamespacesTravel( $lang ) {
 		$this->manager->loadCustomNamespaces(
-			__DIR__ . "/../../fixtures/customNamespaces.SemanticTravel.$lang.php" );
+			__DIR__ . "/../../fixtures/namespaces/customNamespaces.SemanticTravel.$lang.php" );
 	}
 
 	/**

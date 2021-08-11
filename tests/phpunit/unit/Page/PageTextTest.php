@@ -218,4 +218,23 @@ class PageTextTest extends PageBaseTest {
 		$this->assertSame( $expectedCommand, $result );
 	}
 
+
+	public function testImportMissing() {
+		$file = $this->getFixture( 'Missing.jpg' );
+		global $wgFileExtensions;
+		$wgFileExtensions = [ 'jpg', 'png' ];
+
+		$command = new FakeCommand();
+		$page = PageFactory::create(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->factory,
+			$command
+		);
+
+        $this->expectException( "TemplateImporter\Exception\Exception" );
+		$result = $page->import( "Test", "/path/to/mediawiki" );
+
+	}
+
 }

@@ -15,6 +15,7 @@ class PageImageTest extends PageBaseTest {
 		// Get Link
 		return [
 			[ 'Toureiffel.jpg', false, 0, 'Toureiffel.jpg (contenu)' ],
+			[ 'Missing.jpg', false, 0, 'Missing.jpg (contenu)' ],
 			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
 		];
 	}
@@ -44,5 +45,6 @@ class PageImageTest extends PageBaseTest {
 		$this->assertSame( $expectedLinkText, $page->getWikiText(),
 			"Detected linktext does not match expected"
 		);
-	}
+    }
+
 }

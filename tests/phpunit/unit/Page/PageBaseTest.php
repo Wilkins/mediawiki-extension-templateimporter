@@ -13,7 +13,7 @@ abstract class PageBaseTest extends MediaWikiUnitTestCase {
 	public $lang = 'fr';
 	public $repository;
 	public $repositoryClass;
-	public $fixtureDir = __DIR__ . '/../../../fixtures';
+	public $fixtureDir = __DIR__ . '/../../../fixtures/pages';
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";
