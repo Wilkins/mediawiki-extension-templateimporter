@@ -19,11 +19,9 @@ class PageImage extends Page {
 	public function __construct(
 		$pageName,
 		$path,
-		FactoryRepositoryInterface $factory = null,
-		CommandInterface $command = null,
         ConfigInterface $config = null
 	) {
-        parent::__construct( $pageName, $path, $factory, $command, $config );
+        parent::__construct( $pageName, $path, $config );
         $this->repository = $this->factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
@@ -97,7 +95,7 @@ class PageImage extends Page {
 		$pagetext = new PageText(
 			$pageName,
             '/dev/null',
-            $this->factory
+            $this->config
 		);
         $pagetext->setComment( $comment );
 	}

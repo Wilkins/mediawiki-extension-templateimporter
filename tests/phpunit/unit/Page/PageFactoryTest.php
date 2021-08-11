@@ -39,16 +39,10 @@ class PageFactoryTest extends PageBaseTest {
 	public function testPageDetection( $filename, $expectedClass ) {
 		$file = $this->getFixture( $filename );
 
-		$factory = new MemoryFactoryRepository();
-
-        $command = new FakeCommand();
-        $config = new FakeConfig();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-            $factory,
-            $command,
-            $config
+            $this->config
 		);
 
 		if ( $expectedClass !== null ) {

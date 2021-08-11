@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Config;
 
-class MediaWikiConfig implements ConfigInterface {
+class MediaWikiConfig extends AbstractConfig {
 
     public function getFileExtensions() {
         global $wgFileExtensions;

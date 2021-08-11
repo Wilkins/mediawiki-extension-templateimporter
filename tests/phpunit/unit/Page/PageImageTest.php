@@ -30,7 +30,7 @@ class PageImageTest extends PageBaseTest {
 		$page = new PageImage(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 
 		$constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;
@@ -59,12 +59,12 @@ class PageImageTest extends PageBaseTest {
 	public function testPageDetectVersion(
 		$filename, $expectedVersion, $comment ) {
 		$file = $this->getFixture( $filename );
-		$this->factory->comment = $comment;
+		$this->config->getFactory()->comment = $comment;
 
 		$page = new PageImage(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
@@ -105,12 +105,12 @@ class PageImageTest extends PageBaseTest {
 	public function testPageDetectVersionChange(
 		$filename, $currentVersion, $targetVersion, $expectedStatus, $sameContent, $needsChange ) {
 		$file = $this->getFixture( $filename );
-		$this->factory->comment = $currentVersion;
+		$this->config->getFactory()->comment = $currentVersion;
 
 		$page = new PageImage(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
         $page->fileSize = 1234;
         $page->currentSize = ( $sameContent ? 0 : 1000 ) + 1234;
@@ -131,7 +131,7 @@ class PageImageTest extends PageBaseTest {
 		// Filename
 		// Get Wiki Icone
 		return [
-			[ 'Missing.jpg', '<img src="data:image/png;base64, /9j/4AAQSkZJRgABAQEASABIAMx5fG3IPqLPLhy/2LdNm1wV4X0W7cRTRTG2tO8o/iTg8v8A0deAf+Zjhp/ZzgfoO8I/81nDn+bWmf2c4H6D3CT/ADW8Of5taZ/UHB7uPwv4aYlE28Xh3sbGtzPWbdrQcC3T1+vpTZgHn/Q54e/5CbN/8Fwv6oH6Wm7V2vol3x9G23oGk347ul7D0/Hxa/nR0n51qimfOAfQgAAAAAAAAAAAAAAAAA//2Qo=" alt="Missing.jpg" width="20px"/>' ],
+			[ 'Missing.jpg', '<img src="data:image/png;base64, TG9yZW0gaXBzdW0gZmlsZSBjb250ZW50" alt="Missing.jpg" width="20px"/>' ],
 			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
 		];
 	}
@@ -145,8 +145,8 @@ class PageImageTest extends PageBaseTest {
 		$page = new PageImage(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
-		);
+			$this->config
+        );
 
 		$this->assertSame( $expectedIcone, $page->getWikiIcone(),
 			"Detected icone does not match expected"

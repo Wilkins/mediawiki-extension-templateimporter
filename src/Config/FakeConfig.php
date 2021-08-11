@@ -2,7 +2,7 @@
 
 namespace TemplateImporter\Config;
 
-class FakeConfig implements ConfigInterface {
+class FakeConfig extends AbstractConfig {
 
     public function getFileExtensions() {
         return ['jpg', 'png'];

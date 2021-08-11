@@ -17,12 +17,10 @@ class PageText extends Page {
 	public function __construct(
 		$pageName,
 		$path = '/dev/null',
-		FactoryRepositoryInterface $factory = null,
-		CommandInterface $command = null,
         ConfigInterface $config = null
 	) {
 		$pageName = preg_replace( "#.txt$#", "", $pageName );
-		parent::__construct( $pageName, $path, $factory, $command, $config );
+		parent::__construct( $pageName, $path, $config );
 		$this->repository = $this->factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
 		$this->textBase = $this->repository->getCurrentText( $this->pageTitle, $this->namespaceId );

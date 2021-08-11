@@ -15,6 +15,12 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
     public function setUp() : void {
         $this->mediawikiPath = __DIR__ . "/../../../../../";
         $this->manager = new NamespaceManager( $this->mediawikiPath, 'fr' );
+        $this->config = new FakeConfig(
+            'fr',
+            new MemoryFactoryRepository(),
+            new FakeCommand()
+        );
+
     }
     public function testDummy() {
         $this->assertTrue( true );
@@ -24,10 +30,7 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
     public function testListFiles() {
 
         $importer = new BaseImporter( 
-            'fr',
-            new MemoryFactoryRepository(),
-            new FakeCommand(),
-            new FakeConfig()
+            $this->config
 		 );
         $importer->listFiles( $this->fixturesDir );
 
@@ -38,10 +41,7 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
     public function testListFilesNotADirectory() {
 
         $importer = new BaseImporter( 
-            'fr',
-            new MemoryFactoryRepository(),
-            new FakeCommand(),
-            new FakeConfig()
+            $this->config
         );
         $this->expectException( 'TemplateImporter\Exception\Exception' );
         $importer->listFiles( 'MissingDirectory' );
@@ -50,16 +50,15 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
     }
 
 
+    /*
     public function testConstructWithLang() {
         $this->expectException( 'TemplateImporter\Exception\Exception' );
         $importer = new BaseImporter( 
-            null,
-            new MemoryFactoryRepository(),
-            new FakeCommand(),
-            new FakeConfig()
+            $this->config
 		 );
 
     }
+     */
 
 
 }

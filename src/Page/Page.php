@@ -50,33 +50,19 @@ abstract class Page {
 	public function __construct(
 		$pageName,
 		$path,
-		FactoryRepositoryInterface $factory = null,
-		CommandInterface $command = null,
         ConfigInterface $config = null
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
         //$this->factory = $factory;
-		if ( $factory ) {
-			$this->factory = $factory;
-        } else {
-            $this->factory = new DbFactoryRepository();
-		}
+		$this->config = $config;
+        $this->factory = $this->config->getFactory();
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
 			list( $this->namespace, $this->pageTitle ) = [ '', $this->pageName ];
 		}
-		if ( $command ) {
-			$this->command = $command;
-		} else {
-			$this->command = new ShellCommand();
-		}
-		if ( $config ) {
-			$this->config = $config;
-		} else {
-			$this->config = new MediaWikiConfig();
-		}
+        $this->command = $this->config->getCommand();
 		$this->namespaceId = NamespaceManager::getNamespaceFromName( $this->namespace );
 // file_put_contents( '/tmp/base-'.$pageName, $this->textBase );
 // 		file_put_contents( '/tmp/file-'.$pageName, $this->textFile );

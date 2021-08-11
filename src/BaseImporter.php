@@ -12,27 +12,12 @@ use TemplateImporter\Exception\Exception;
 
 class BaseImporter {
 
-    public $lang;
-    public $factory;
-    public $command;
     public $config;
 
 	/**
 	 * @param string $lang the 2 chars lang
 	 */
-    public function __construct( $lang,
-        FactoryRepositoryInterface $factory,
-        CommandInterface $command,
-        ConfigInterface $config
-    ) {
-		if ( !$lang ) {
-			throw new Exception(
-				"Lang parameter not defined, could not construct the Importer object"
-			   );
-		}
-        $this->lang = $lang;
-        $this->factory = $factory;
-        $this->command = $command;
+    public function __construct( ConfigInterface $config ) {
         $this->config = $config;
 	}
 
@@ -65,8 +50,6 @@ class BaseImporter {
 			$page = PageFactory::create(
 				$file->getBasename(),
                 $file->getPathname(),
-                $this->factory,
-                $this->command,
                 $this->config
 			);
 			if ( $page ) {

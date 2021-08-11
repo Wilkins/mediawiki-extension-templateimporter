@@ -27,12 +27,12 @@ class PageTextTest extends PageBaseTest {
 	public function testPageDetectVersion(
 		$filename, $expectedVersion, $comment ) {
 		$file = $this->getFixture( $filename );
-		$this->factory->comment = $comment;
+		$this->config->getFactory()->comment = $comment;
 
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
@@ -75,12 +75,12 @@ class PageTextTest extends PageBaseTest {
 	public function testPageDetectVersionChange(
 		$filename, $currentVersion, $targetVersion, $expectedStatus, $sameContent, $needsChange ) {
 		$file = $this->getFixture( $filename );
-		$this->factory->comment = $currentVersion;
+		$this->config->getFactory()->comment = $currentVersion;
 
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 		$page->textFile = "dummy";
 		$page->textBase = ( $sameContent ? "" : "no" ) . "dummy";
@@ -120,7 +120,7 @@ class PageTextTest extends PageBaseTest {
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 
 		$constantValue = $namespaceConstant ? constant( $namespaceConstant ) : 0;
@@ -159,7 +159,7 @@ class PageTextTest extends PageBaseTest {
 		$page = new PageText(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory
+			$this->config
 		);
 
 		$this->assertSame( $expectedIcone, $page->getWikiIcone(),
@@ -207,13 +207,10 @@ class PageTextTest extends PageBaseTest {
 		global $wgFileExtensions;
 		$wgFileExtensions = [ 'jpg', 'png' ];
 
-        $command = new FakeCommand();
-        $config = new FakeConfig();
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory,
-			$command
+			$this->config
 		);
 
 		$result = $page->import( "Test", "/path/to/mediawiki" );
@@ -225,15 +222,10 @@ class PageTextTest extends PageBaseTest {
 	public function testImportMissing() {
 		$file = $this->getFixture( 'Missing.jpg' );
 
-        $command = new FakeCommand();
-        $config = new FakeConfig();
-
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-			$this->factory,
-            $command,
-            $config
+			$this->config
 		);
 
         $this->expectException( "TemplateImporter\Exception\Exception" );

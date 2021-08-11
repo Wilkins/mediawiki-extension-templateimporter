@@ -6,6 +6,8 @@ use MediaWikiUnitTestCase;
 use SplFileInfo;
 use TemplateImporter\NamespaceManager;
 use TemplateImporter\Repository\MemoryFactoryRepository;
+use TemplateImporter\Command\FakeCommand;
+use TemplateImporter\Config\FakeConfig;
 
 abstract class PageBaseTest extends MediaWikiUnitTestCase {
 
@@ -17,9 +19,14 @@ abstract class PageBaseTest extends MediaWikiUnitTestCase {
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../../";
-		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+        $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+        $this->config = new FakeConfig(
+            $this->lang,
+            new MemoryFactoryRepository(),
+            new FakeCommand()
+        );
+        $this->factory = $this->config->getFactory();
 
-		$this->factory = new MemoryFactoryRepository();
 		$this->repository = $this->getRepositoryClass();
 	}
 
