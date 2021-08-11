@@ -19,12 +19,12 @@ class PageImage extends Page {
 	public function __construct(
 		$pageName,
 		$path,
-		FactoryRepositoryInterface $factory,
+		FactoryRepositoryInterface $factory = null,
 		CommandInterface $command = null,
         ConfigInterface $config = null
 	) {
         parent::__construct( $pageName, $path, $factory, $command, $config );
-        $this->repository = $factory->createPageImageRepository();
+        $this->repository = $this->factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
 		$this->detectVersion();

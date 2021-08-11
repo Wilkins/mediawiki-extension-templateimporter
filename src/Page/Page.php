@@ -8,6 +8,7 @@ use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Config\MediaWikiConfig;
 use TemplateImporter\NamespaceManager;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
+use TemplateImporter\Repository\DbFactoryRepository;
 
 abstract class Page {
 
@@ -49,13 +50,18 @@ abstract class Page {
 	public function __construct(
 		$pageName,
 		$path,
-		FactoryRepositoryInterface $factory,
+		FactoryRepositoryInterface $factory = null,
 		CommandInterface $command = null,
         ConfigInterface $config = null
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
-		$this->factory = $factory;
+        //$this->factory = $factory;
+		if ( $factory ) {
+			$this->factory = $factory;
+        } else {
+            $this->factory = new DbFactoryRepository();
+		}
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {

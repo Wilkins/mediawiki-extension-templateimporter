@@ -12,7 +12,7 @@ class PageFactory {
 	public static function create(
 		$basename,
 		$pathname,
-		FactoryRepositoryInterface $factory,
+		FactoryRepositoryInterface $factory = null,
 // PageRepositoryInterface $repository,
         CommandInterface $command = null,
         ConfigInterface $config = null

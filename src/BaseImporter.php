@@ -3,21 +3,37 @@
 namespace TemplateImporter;
 
 use DirectoryIterator;
+use TemplateImporter\Page\PageFactory;
+use TemplateImporter\Repository\FactoryRepositoryInterface;
+use TemplateImporter\Command\CommandInterface;
+use TemplateImporter\Config\ConfigInterface;
+use TemplateImporter\Exception\Exception;
+
 
 class BaseImporter {
 
-	public $lang;
+    public $lang;
+    public $factory;
+    public $command;
+    public $config;
 
 	/**
 	 * @param string $lang the 2 chars lang
 	 */
-	public function __construct( $lang ) {
+    public function __construct( $lang,
+        FactoryRepositoryInterface $factory,
+        CommandInterface $command,
+        ConfigInterface $config
+    ) {
 		if ( !$lang ) {
 			throw new Exception(
 				"Lang parameter not defined, could not construct the Importer object"
 			   );
 		}
-		$this->lang = $lang;
+        $this->lang = $lang;
+        $this->factory = $factory;
+        $this->command = $command;
+        $this->config = $config;
 	}
 
 	/**
@@ -44,17 +60,19 @@ class BaseImporter {
 				&& $file->getBasename() != 'Fichier:Pin-village.png.txt' ) {
 				continue;
 			}
-			 */
+			*/
 
 			$page = PageFactory::create(
 				$file->getBasename(),
-				$file->getPathname()
+                $file->getPathname(),
+                $this->factory,
+                $this->command,
+                $this->config
 			);
-			if ( !$page ) {
-				continue;
+			if ( $page ) {
+			    $files[ $page->pageName ] = $page;
 			}
 
-			$files[ $page->pageName ] = $page;
 		}
 
 		ksort( $files );
