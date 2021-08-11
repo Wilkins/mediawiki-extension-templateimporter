@@ -15,6 +15,7 @@ class PageTextTest extends PageBaseTest {
 			[ 'Attribut:Longueur.txt', "1.12.1", "Update (v1.12.1)" ],
 			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
 			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
+			[ 'Fichier:Toureiffel.jpg.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
 			// [ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
 		];
 	}
