@@ -40,7 +40,7 @@ class PageImage extends Page {
 	}
 
 	public function getWikiIcone() {
-		$base64 = base64_encode( file_get_contents( $this->path ) );
+		$base64 = base64_encode( $this->command->getFileContents( $this->path ) );
 
 		return '<img src="data:image/png;base64, '
 			. $base64 . '" alt="' . $this->pageName
