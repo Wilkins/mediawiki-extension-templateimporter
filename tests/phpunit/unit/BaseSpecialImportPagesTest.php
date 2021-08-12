@@ -40,9 +40,8 @@ class BaseSpecialImportPagesTest extends TemplateImporterTest {
     public function testShowForm() {
 
         $specialPage = new BaseSpecialImportPages( 'TemplateImporter' );
-        $importer = new BaseImporter( $this->config );
-        $specialPage->setLangTemplateDir( $this->fixtureDir );
-        $specialPage->initImporter( $importer );
+        $importer = new BaseImporter( $this->fixtureDir, $this->config );
+        $specialPage->setImporter( $importer );
         $context = new FakeContext();
         $generatedContent = $specialPage->generatePageTable( $context );
 

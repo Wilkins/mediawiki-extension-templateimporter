@@ -22,7 +22,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 	public $importer;
 	public $version;
     public $groupName = 'templateimporter';
-    public $templateDir;
 
 	/**
 	 * @param string $name the name of the SpecialPage
@@ -34,18 +33,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$this->mIncludable = false;
 	}
 
-	public function initImporter( $importer ) {
+	public function setImporter( $importer ) {
 		$this->importer = $importer;
-	}
-
-    public function setLangTemplateDir( $templateDir ) {
-        $this->templateDir = $templateDir;
-    }
-    public function getLangTemplateDir() {
-        if ( !$this->templateDir ) {
-    		throw new Exception( "You must declare a templateDir with setLangTemplateDir method " );
-        }
-        return $this->templateDir;
 	}
 
 	public function getVersion() {
@@ -116,7 +105,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$output = $this->getOutput();
 
 		try {
-			$files = $this->importer->listFiles( $this->getLangTemplateDir() );
+			$files = $this->importer->listFiles();
 			foreach ( $files as $displayName => $page ) {
 				$this->getOutput()->addWikiText( "Import de $displayName" );
 				$page->checkVersion( $this->getVersion() );
@@ -124,9 +113,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 					$page->import( $this->getNewComment() );
 				}
 			}
-		} catch ( Exception $e ) {
-			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
-			return Status::newFatal( $e->getMessage() );
 		} catch ( \Exception $e ) {
 			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
@@ -144,7 +130,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 
         $html = $this->generatePageTableHeader( $context );
 
-		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
+		$files = $this->importer->listFiles();
         foreach ( $files as $displayName => $page ) {
             $formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
             $page->checkVersion( $this->getVersion() );

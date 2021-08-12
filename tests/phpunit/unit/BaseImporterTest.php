@@ -11,9 +11,10 @@ class BaseImporterTest extends TemplateImporterTest {
     public function testListFiles() {
 
         $importer = new BaseImporter( 
+            $this->fixtureDir,
             $this->config
 		 );
-        $importer->listFiles( $this->fixtureDir );
+        $importer->listFiles();
 
         $this->assertTrue( true );
     }
@@ -21,18 +22,17 @@ class BaseImporterTest extends TemplateImporterTest {
 
     public function testListFilesNotADirectory() {
 
+        $this->expectException( 'TemplateImporter\Exception\Exception' );
         $importer = new BaseImporter( 
+            'MissingDirectory',
             $this->config
         );
-        $this->expectException( 'TemplateImporter\Exception\Exception' );
-        $importer->listFiles( 'MissingDirectory' );
 
-        $this->assertTrue( true );
     }
 
 
     public function testConstructWithDefaultConfig() {
-        $importer = new BaseImporter();
+        $importer = new BaseImporter( $this->fixtureDir );
         $this->assertEquals(
             'TemplateImporter\Config\MediaWikiConfig',
             get_class( $importer->config ),

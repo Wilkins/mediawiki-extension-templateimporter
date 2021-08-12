@@ -13,15 +13,23 @@ use TemplateImporter\Exception\Exception;
 class BaseImporter {
 
     public $config;
+    public $templateDir;
 
 	/**
 	 * @param string $lang the 2 chars lang
 	 */
-    public function __construct( ConfigInterface $config = null ) {
+    public function __construct( 
+        string $templateDir = null,
+        ConfigInterface $config = null 
+    ) {
         if ( !$config ){
             $config = TemplateImporter::getDefaultConfig();
         }
+		if ( !is_dir( $templateDir ) ) {
+			throw new Exception( "Directory $templateDir does not exist." );
+		}
         $this->config = $config;
+        $this->templateDir = $templateDir;
 	}
 
 	/**
@@ -29,12 +37,9 @@ class BaseImporter {
 	 *
 	 * @return array the list of importable files
 	 */
-    public function listFiles( $filesDir ) {
-		if ( !is_dir( $filesDir ) ) {
-			throw new Exception( "Directory $filesDir does not exist." );
-		}
+    public function listFiles( ) {
 		$files = [];
-		foreach ( new DirectoryIterator( $filesDir ) as $file ) {
+		foreach ( new DirectoryIterator( $this->templateDir ) as $file ) {
 			if ( $file->isDot() ) {
 				continue;
 			}
