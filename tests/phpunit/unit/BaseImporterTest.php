@@ -2,26 +2,10 @@
 
 namespace TemplateImporter;
 
-use MediaWikiUnitTestCase;
-use TemplateImporter\Repository\MemoryFactoryRepository;
-use TemplateImporter\Command\FakeCommand;
-use TemplateImporter\Config\FakeConfig;
 
 
-class BaseImporterTest extends MediaWikiUnitTestCase {
 
-    public $fixturesDir = __DIR__.'/../../fixtures/pages';
-
-    public function setUp() : void {
-        $this->mediawikiPath = __DIR__ . "/../../../../../";
-        $this->manager = new NamespaceManager( $this->mediawikiPath, 'fr' );
-        $this->config = new FakeConfig(
-            'fr',
-            new MemoryFactoryRepository(),
-            new FakeCommand()
-        );
-
-    }
+class BaseImporterTest extends TemplateImporterTest {
 
 
     public function testListFiles() {
@@ -29,7 +13,7 @@ class BaseImporterTest extends MediaWikiUnitTestCase {
         $importer = new BaseImporter( 
             $this->config
 		 );
-        $importer->listFiles( $this->fixturesDir );
+        $importer->listFiles( $this->fixtureDir );
 
         $this->assertTrue( true );
     }

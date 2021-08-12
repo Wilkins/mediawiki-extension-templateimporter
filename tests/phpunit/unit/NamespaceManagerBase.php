@@ -4,16 +4,7 @@ namespace TemplateImporter;
 
 use MediaWikiUnitTestCase;
 
-abstract class NamespaceManagerBase extends MediaWikiUnitTestCase {
-
-	public $mediawikiPath;
-	public $manager;
-	public $lang;
-
-	public function setUp(): void {
-		$this->mediawikiPath = __DIR__ . "/../../../../../";
-		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
-	}
+abstract class NamespaceManagerBase extends TemplateImporterTest {
 
 	public function loadNamespacesTravel( $lang ) {
 		$this->manager->loadCustomNamespaces(

@@ -2,13 +2,8 @@
 
 namespace TemplateImporter;
 
-use MediaWikiUnitTestCase;
-use TemplateImporter\Context\FakeContext;
-use TemplateImporter\Repository\MemoryFactoryRepository;
-use TemplateImporter\Command\FakeCommand;
-use TemplateImporter\Config\FakeConfig;
 
-class BaseSpecialImportPagesTest extends MediaWikiUnitTestCase {
+class BaseSpecialImportPagesTest extends TemplateImporterTest {
 
 
 
