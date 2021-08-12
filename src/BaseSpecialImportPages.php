@@ -6,6 +6,7 @@ use Html;
 use Status;
 use Xml;
 use TemplateImporter\Exception\Exception;
+use TemplateImporter\Formatter\HtmlPageFormatter;
 
 /**
  * Special page that allow importing templates
@@ -44,6 +45,7 @@ class BaseSpecialImportPages extends \SpecialPage {
         if ( !$this->templateDir ) {
     		throw new Exception( "You must declare a templateDir with setLangTemplateDir method " );
         }
+        return $this->templateDir;
 	}
 
 	public function getVersion() {
@@ -65,6 +67,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * Redirects to special page
 	 *
 	 * @return void
+     * @codeCoverageIgnore
 	 */
 	public function redirect() {
 		$url = $_SERVER['REQUEST_URI'];
@@ -104,7 +107,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	public function execute( $par ) {
 		$this->setHeaders();
 
-		$this->showForm( $this );
+		$this->showPageTable( $this );
 
 		if ( $this->getRequest()->getText( 'action' ) != 'import' ) {
 			return Status::newGood();
@@ -137,66 +140,64 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return void
 	 */
-	public function showForm( $context ) {
+    public function generatePageTable( $context ) {
+
+        $html = $this->generatePageTableHeader( $context );
+
+		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
+        foreach ( $files as $displayName => $page ) {
+            $formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
+            $page->checkVersion( $this->getVersion() );
+            $html .= $formatter->render( $context );
+		}
+
+        $html .= $this->generatePageTableFooter( $context );
+
+        return $html;
+    }
+
+	/**
+	 * Display the templates status page
+	 *
+	 * @return void
+     * @codeCoverageIgnore
+     */
+	public function showPageTable( $context ) {
 		if ( $this->mIncluding ) {
 			return false;
         }
 
-        //$this->showFormHeader( $context );
-
-
-		$output = $this->getOutput();
-		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
-        foreach ( $files as $displayName => $page ) {
-            $formatter = new HtmlFormatter( $page );
-            $page->checkVersion( $this->getVersion() );
-
-
-			$status = $context->msg( 'templateimporter-specialimportpages-status-'
-				. $page->getVersionTag() )->text();
-			$output->addHTML( '<tr class="status-' . $page->getVersionTag() . '"><td>' );
-			$icone = $page->getWikiIcone();
-            $this->addContentAutodetected( $icone );
-			$output->addHTML( '</td><td>' );
-			$output->addWikiText( $page->getWikiText() );
-			$output->addHTML( '</td>' );
-
-			$output->addHTML( '<td>' . $this->getVersion() . '</td>' );
-			$output->addHTML( '<td>' . $page->getVersion() . '</td>' );
-			$output->addHTML( '<td>' . $status . '</td></tr>' );
-		}
-		$output->addHTML( '</table>' );
-
-        //$this->showFormFooter( $context );
-
+        $output = $this->getOutput();
+        $output->addHTML( $this->generatePageTable( $context ) );
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    protected function showFormHeader( $context ) {
-		$output = $this->getOutput();
+    protected function generatePageTableHeader( $context ) {
 
-		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );
-		$output->addHTML( '<th colspan="2">'
+		$html = '<table id="templateimporter-import-form"><tr>'
+		. '<th colspan="2">'
 			. $context->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
+		. '</th>'
+		. '<th>'
 			. $context->msg( 'templateimporter-specialimportpages-column-packageversion' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
+		. '</th>'
+		. '<th>'
 			. $context->msg( 'templateimporter-specialimportpages-column-pageversion' )->text()
-			. '</th>' );
-		$output->addHTML( '<th>'
+		. '</th>'
+		. '<th>'
 			. $context->msg( 'templateimporter-specialimportpages-column-status' )->text()
-			. '</th>' );
-		$output->addHTML( '</tr>' );
+		. '</th>'
+        . '</tr>';
+        return $html;
+    }
+
+    protected function generatePageTableFooter() {
+        return "</table>";
     }
 
     /**
      * @codeCoverageIgnore
      */
-    protected function showFormFooter() {
+    protected function showForm() {
 		$output = $this->getOutput();
 		$output->addHTML(
 			Xml::openElement( 'form', [ 'action' => $this->getConfig()->get() ] ) .

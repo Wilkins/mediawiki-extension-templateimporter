@@ -29,7 +29,7 @@ class BaseImporter {
 	 *
 	 * @return array the list of importable files
 	 */
-	public function listFiles( $filesDir ) {
+    public function listFiles( $filesDir ) {
 		if ( !is_dir( $filesDir ) ) {
 			throw new Exception( "Directory $filesDir does not exist." );
 		}
