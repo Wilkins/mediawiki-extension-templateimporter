@@ -231,6 +231,45 @@ class PageTextTest extends PageBaseTest {
         $this->expectException( "TemplateImporter\Exception\Exception" );
 		$result = $page->import( "Test", "/path/to/mediawiki" );
 
+    }
+
+	public function dataProviderPagesViewModel() {
+		// Filename
+		// is a Category page
+		// Constant namespace
+		// Get Link
+		return [
+			[ 'Attribut:Longueur.txt', false, 'TXT', '[[Attribut:Longueur]]' ],
+			[ 'Catégorie:Voyages.txt', true, 'CAT', '[[:Catégorie:Voyages]]' ],
+			[ 'Modèle:Radian.txt', false, 'TXT', '[[Modèle:Radian]]' ],
+			[ 'Fichier:Toureiffel.jpg.txt', false, '[[Fichier:Toureiffel.jpg|20px]]', '[[:Fichier:Toureiffel.jpg]] (Metadata)' ],
+			[ 'Toureiffel.jpg', false, '<img src="data:image/png;base64, TG9yZW0gaXBzdW0gZmlsZSBjb250ZW50" alt="Toureiffel.jpg" width="20px"/>', 'Toureiffel.jpg (contenu)' ],
+			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
+		];
 	}
+
+	/**
+	 * @dataProvider dataProviderPagesViewModel
+	 */
+    public function testGetViewModel(
+        $filename, $expectedCategoryStatus, $expectedIcon, $expectedLinkText
+    ) {
+
+        $file = $this->getFixture( $filename );
+
+
+		$page = PageFactory::create(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->config
+        );
+        $page->checkVersion( "1.4.0" );
+        $viewmodel = $page->getViewModel();
+        $this->assertSame( $expectedLinkText, $viewmodel->name );
+        $this->assertSame( $expectedIcon, $viewmodel->icon );
+        //print_r( $viewmodel );
+
+
+    }
 
 }

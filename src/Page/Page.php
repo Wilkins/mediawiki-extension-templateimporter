@@ -143,5 +143,18 @@ abstract class Page {
 		}
 	}
 
-	abstract public function import( $comment, $mediawikiPath );
+    abstract public function import( $comment, $mediawikiPath );
+    abstract public function getWikiText();
+
+
+    public function getViewModel() {
+        $viewmodel = new PageViewModel();
+        $viewmodel->name = $this->getWikiText();
+        $viewmodel->version = $this->getVersion();
+        $viewmodel->status = $this->getVersionTag();
+        $viewmodel->icon = $this->getWikiIcone();
+        return $viewmodel;
+
+            
+    }
 }

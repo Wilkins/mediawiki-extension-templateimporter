@@ -3,19 +3,13 @@
 namespace TemplateImporter;
 
 use MediaWikiUnitTestCase;
+use TemplateImporter\Context\FakeContext;
+use TemplateImporter\Repository\MemoryFactoryRepository;
+use TemplateImporter\Command\FakeCommand;
+use TemplateImporter\Config\FakeConfig;
 
 class BaseSpecialImportPagesTest extends MediaWikiUnitTestCase {
 
-
-    public function testCreation() {
-
-        //$c = new BaseSpecialImportPages( 'SpecialPageTest' );
-        //$c->execute(null);
-
-
-        $this->assertTrue( true );
-
-    }
 
 
     public function dataProviderWikiContents() {
@@ -47,6 +41,23 @@ class BaseSpecialImportPagesTest extends MediaWikiUnitTestCase {
 
     }
 
+/*
+    public function testShowForm() {
+
+        $this->config = new FakeConfig(
+            'fr',
+            new MemoryFactoryRepository(),
+            new FakeCommand()
+        );
+
+        $specialPage = new BaseSpecialImportPages( 'TemplateImporter' );
+        $importer = new BaseImporter( $this->config );
+        $specialPage->initImporter( $importer );
+        $context = new FakeContext();
+        //echo $specialPage->showForm( $context );
+
+    }
+ */
 
 
 

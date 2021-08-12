@@ -18,11 +18,10 @@ class BaseImporter {
 	 * @param string $lang the 2 chars lang
 	 */
     public function __construct( ConfigInterface $config = null ) {
-        if ( $config ){
-            $this->config = $config;
-        } else {
-            $this->config = TemplateImporter::getDefaultConfig();
+        if ( !$config ){
+            $config = TemplateImporter::getDefaultConfig();
         }
+        $this->config = $config;
 	}
 
 	/**
@@ -43,14 +42,6 @@ class BaseImporter {
 				continue;
 			}
 
-			// FIXME
-			/*
-			if ( $file->getBasename() != 'Pin-village.png'
-				&& $file->getBasename() != 'Fichier:Pin-village.png.txt' ) {
-				continue;
-			}
-			*/
-
 			$page = PageFactory::create(
 				$file->getBasename(),
                 $file->getPathname(),
@@ -59,7 +50,6 @@ class BaseImporter {
 			if ( $page ) {
 			    $files[ $page->pageName ] = $page;
 			}
-
 		}
 
 		ksort( $files );

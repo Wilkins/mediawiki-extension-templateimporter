@@ -5,6 +5,7 @@ namespace TemplateImporter;
 use Html;
 use Status;
 use Xml;
+use TemplateImporter\Exception\Exception;
 
 /**
  * Special page that allow importing templates
@@ -19,7 +20,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public $importer;
 	public $version;
-	public $groupName = 'templateimporter';
+    public $groupName = 'templateimporter';
+    public $templateDir;
 
 	/**
 	 * @param string $name the name of the SpecialPage
@@ -35,9 +37,13 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$this->importer = $importer;
 	}
 
-	public function getLangTemplateDir() {
-		throw new Exception( "You must declare a getLangTemplateDir method "
-			. "in you SpecialPage class, where we can find the templates text files" );
+    public function setLangTemplateDir( $templateDir ) {
+        $this->templateDir = $templateDir;
+    }
+    public function getLangTemplateDir() {
+        if ( !$this->templateDir ) {
+    		throw new Exception( "You must declare a templateDir with setLangTemplateDir method " );
+        }
 	}
 
 	public function getVersion() {
@@ -98,7 +104,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	public function execute( $par ) {
 		$this->setHeaders();
 
-		$this->showForm();
+		$this->showForm( $this );
 
 		if ( $this->getRequest()->getText( 'action' ) != 'import' ) {
 			return Status::newGood();
@@ -131,18 +137,22 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return void
 	 */
-	protected function showForm() {
+	public function showForm( $context ) {
 		if ( $this->mIncluding ) {
 			return false;
         }
 
-        $this->showFormHeader();
+        //$this->showFormHeader( $context );
+
 
 		$output = $this->getOutput();
 		$files = $this->importer->listFiles( $this->getLangTemplateDir() );
-		foreach ( $files as $displayName => $page ) {
-			$page->checkVersion( $this->getVersion() );
-			$status = $this->msg( 'templateimporter-specialimportpages-status-'
+        foreach ( $files as $displayName => $page ) {
+            $formatter = new HtmlFormatter( $page );
+            $page->checkVersion( $this->getVersion() );
+
+
+			$status = $context->msg( 'templateimporter-specialimportpages-status-'
 				. $page->getVersionTag() )->text();
 			$output->addHTML( '<tr class="status-' . $page->getVersionTag() . '"><td>' );
 			$icone = $page->getWikiIcone();
@@ -157,28 +167,28 @@ class BaseSpecialImportPages extends \SpecialPage {
 		}
 		$output->addHTML( '</table>' );
 
-        $this->showFormFooter();
+        //$this->showFormFooter( $context );
 
     }
 
     /**
      * @codeCoverageIgnore
      */
-    protected function showFormHeader() {
+    protected function showFormHeader( $context ) {
 		$output = $this->getOutput();
 
 		$output->addHTML( '<table id="templateimporter-import-form"><tr>' );
 		$output->addHTML( '<th colspan="2">'
-			. $this->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
+			. $context->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
 			. '</th>' );
 		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-packageversion' )->text()
+			. $context->msg( 'templateimporter-specialimportpages-column-packageversion' )->text()
 			. '</th>' );
 		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-pageversion' )->text()
+			. $context->msg( 'templateimporter-specialimportpages-column-pageversion' )->text()
 			. '</th>' );
 		$output->addHTML( '<th>'
-			. $this->msg( 'templateimporter-specialimportpages-column-status' )->text()
+			. $context->msg( 'templateimporter-specialimportpages-column-status' )->text()
 			. '</th>' );
 		$output->addHTML( '</tr>' );
     }
