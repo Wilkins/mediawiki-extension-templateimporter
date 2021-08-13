@@ -17,13 +17,13 @@ abstract class TemplateImporterTest extends MediaWikiUnitTestCase {
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../";
-		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
 		$this->config = new FakeConfig(
 			$this->lang,
 			new MemoryFactoryRepository(),
             new FakeCommand(),
             $this->mediawikiPath
 		);
+        $this->manager = new NamespaceManager( $this->config );
 		$this->factory = $this->config->getFactory();
 	}
 

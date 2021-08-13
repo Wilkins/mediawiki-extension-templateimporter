@@ -4,6 +4,7 @@ namespace TemplateImporter;
 
 use TemplateImporter\Exception\MissingFileException;
 use TemplateImporter\Exception\MissingNamespaceException;
+use TemplateImporter\Config\ConfigInterface;
 
 /**
  * @license GPL-2.0-or-later
@@ -15,11 +16,11 @@ class NamespaceManager {
 	public $defaultLang = 'en';
 	private $mediawikiPath;
 
-	public function __construct( $mediawikiPath, $lang ) {
-		$this->mediawikiPath = $mediawikiPath;
+    public function __construct( ConfigInterface $config ) {
+		$this->mediawikiPath = $config->getMediaWikiPath();
 		$this->loadNamespaceData( $this->defaultLang );
-		if ( $lang != $this->defaultLang ) {
-			$this->loadNamespaceData( $lang );
+		if ( $config->getLang() != $this->defaultLang ) {
+			$this->loadNamespaceData( $config->getLang() );
 		}
 	}
 
