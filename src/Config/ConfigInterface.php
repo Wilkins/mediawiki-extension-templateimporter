@@ -4,6 +4,6 @@ namespace TemplateImporter\Config;
 
 interface ConfigInterface {
 
-    public function getFileExtensions();
+	public function getFileExtensions();
 
 }

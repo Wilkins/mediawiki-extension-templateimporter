@@ -2,9 +2,7 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Command\CommandInterface;
 use TemplateImporter\Config\ConfigInterface;
-use TemplateImporter\Repository\FactoryRepositoryInterface;
 use TemplateImporter\Exception\Exception;
 
 class PageImage extends Page {
@@ -19,10 +17,10 @@ class PageImage extends Page {
 	public function __construct(
 		$pageName,
 		$path,
-        ConfigInterface $config = null
+		ConfigInterface $config = null
 	) {
-        parent::__construct( $pageName, $path, $config );
-        $this->repository = $this->factory->createPageImageRepository();
+		parent::__construct( $pageName, $path, $config );
+		$this->repository = $this->factory->createPageImageRepository();
 		$this->fileSize = $this->command->getFileSize( $this->path );
 		$this->currentSize = $this->repository->getCurrentSize( $this->pageTitle, $this->namespaceId );
 		$this->detectVersion();
@@ -47,7 +45,7 @@ class PageImage extends Page {
 
 	public function getWikiText() {
 		return $this->pageName . ' (contenu)';
-    }
+	}
 
 	/**
 	 * Import the file into the wiki database using the maintenance/importTextFiles.php script
@@ -67,47 +65,47 @@ class PageImage extends Page {
 		$ext = implode( ',', $this->config->getFileExtensions() );
 
 		$command = "$php $maintenanceScript --conf=$config"
-			. " ".$this->getDir()." --from=\"$this->pageName\""
+			. " " . $this->getDir() . " --from=\"$this->pageName\""
 			. " --comment-file=\"$commentFile\""
 			. " --extensions=$ext"
 			. " --limit=1 --overwrite "
 			. " --summary=\"$comment\"";
 
-        $result = $this->command->execute( $command );
+		$result = $this->command->execute( $command );
 
-        $this->updateMetadataDescription( "File:" . $this->pageName, $comment );
-        return $result;
+		$this->updateMetadataDescription( "File:" . $this->pageName, $comment );
+		return $result;
 	}
 
-    private function getDir() {
-        return realpath( dirname( $this->path ) );
-    }
+	private function getDir() {
+		return realpath( dirname( $this->path ) );
+	}
 
-    private function getMatchingTextFile() : array {
-        return $this->config->getCommand()->getGlob(
-            $this->getDir(),
-            $this->pageName.".".PageText::EXTENSION
-        );
-    }
-    private function getCommentFile()
-    {
-        $files = $this->getMatchingTextFile();
+	private function getMatchingTextFile(): array {
+		return $this->config->getCommand()->getGlob(
+			$this->getDir(),
+			$this->pageName . "." . PageText::EXTENSION
+		);
+	}
+
+	private function getCommentFile() {
+		$files = $this->getMatchingTextFile();
 		if ( count( $files ) != 1 ) {
 			throw new Exception(
 				"Unable to find the correct metadata file for $this->pageName"
 				. " found multiples possibilities : <br>"
 				. implode( '<br>\n', $files )
 			);
-        }
-        return $files[0];
-    }
+		}
+		return $files[0];
+	}
 
 	private function updateMetadataDescription( $pageName, $comment ) {
 		$pagetext = new PageText(
 			$pageName,
-            '/dev/null',
-            $this->config
+			'/dev/null',
+			$this->config
 		);
-        $pagetext->setComment( $comment );
+		$pagetext->setComment( $comment );
 	}
 }

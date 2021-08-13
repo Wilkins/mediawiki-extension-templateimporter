@@ -8,9 +8,9 @@ use TemplateImporter\Config\MediaWikiConfig;
 use TemplateImporter\Repository\DbFactoryRepository;
 
 class TemplateImporter {
-    /**
-     * @codeCoverageIgnore Nothing testable here
-     */
+	/**
+	 * @codeCoverageIgnore Nothing testable here
+	 */
 	public static function addExtensionCSS( &$parser, &$text ) {
 		global $wgTemplateImporterCSSLoaded;
 		if ( $wgTemplateImporterCSSLoaded === true ) {
@@ -28,9 +28,9 @@ class TemplateImporter {
 		return true;
 	}
 
-    /**
-     * @codeCoverageIgnore Unable to test this, because in the PhpUnit env, the extension is already loaded
-     */
+	/**
+	 * @codeCoverageIgnore Unable to test this, because in the PhpUnit env, the extension is already loaded
+	 */
 	public static function initExtension( $credits = [] ) {
 		global $wgTemplateImporterMWPath;
 
@@ -39,13 +39,13 @@ class TemplateImporter {
 		$wgTemplateImporterMWPath = realpath( '.' );
 
 		define( 'TI_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'N/A' );
-    }
+	}
 
-    public static function getDefaultConfig() : ConfigInterface {
-        return new MediaWikiConfig(
-            'fr',
-            new DbFactoryRepository(),
-            new ShellCommand()
-        );
-    }
+	public static function getDefaultConfig(): ConfigInterface {
+		return new MediaWikiConfig(
+			'fr',
+			new DbFactoryRepository(),
+			new ShellCommand()
+		);
+	}
 }

@@ -4,9 +4,8 @@ namespace TemplateImporter;
 
 use Html;
 use Status;
-use Xml;
-use TemplateImporter\Exception\Exception;
 use TemplateImporter\Formatter\HtmlPageFormatter;
+use Xml;
 
 /**
  * Special page that allow importing templates
@@ -21,7 +20,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public $importer;
 	public $version;
-    public $groupName = 'templateimporter';
+	public $groupName = 'templateimporter';
 
 	/**
 	 * @param string $name the name of the SpecialPage
@@ -56,7 +55,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * Redirects to special page
 	 *
 	 * @return void
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	public function redirect() {
 		$url = $_SERVER['REQUEST_URI'];
@@ -66,7 +65,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public function getNewComment() {
 		return "Update from $this->name (v" . $this->getVersion() . ")";
-    }
+	}
 
 	/**
 	 * Execute the Special Page
@@ -75,16 +74,16 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return bool the status of the rendered page
 	 */
-    public function executeAction() {
-        $html = "";
-        foreach ( $this->importer->listFiles() as $displayName => $page ) {
-            $html .= "Import de $displayName";
-            $page->checkVersion( $this->getVersion() );
-            if ( $page->needsUpdate() && $page->hasChanged() ) {
-                $page->import( $this->getNewComment() );
-            }
-        }
-        return $html;
+	public function executeAction() {
+		$html = "";
+		foreach ( $this->importer->listFiles() as $displayName => $page ) {
+			$html .= "Import de $displayName";
+			$page->checkVersion( $this->getVersion() );
+			if ( $page->needsUpdate() && $page->hasChanged() ) {
+				$page->import( $this->getNewComment() );
+			}
+		}
+		return $html;
 	}
 
 	/**
@@ -92,8 +91,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @param string $par the url part
 	 *
-     * @return bool the status of the rendered page
-     * @codeCoverageIgnore
+	 * @return bool the status of the rendered page
+	 * @codeCoverageIgnore
 	 */
 	public function execute( $par ) {
 		$this->setHeaders();
@@ -103,9 +102,9 @@ class BaseSpecialImportPages extends \SpecialPage {
 			return Status::newGood();
 		}
 
-        try {
-            $generatedHtml = $this->executeAction();
-            $this->getOutput()->addWikiText( $generatedHtml );
+		try {
+			$generatedHtml = $this->executeAction();
+			$this->getOutput()->addWikiText( $generatedHtml );
 		} catch ( \Exception $e ) {
 			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
@@ -119,38 +118,36 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return void
 	 */
-    public function generatePageTable( $context ) {
+	public function generatePageTable( $context ) {
+		$html = $this->generatePageTableHeader( $context );
 
-        $html = $this->generatePageTableHeader( $context );
-
-        foreach ( $this->importer->listFiles() as $displayName => $page ) {
-            $formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
-            $page->checkVersion( $this->getVersion() );
-            $html .= $formatter->render( $context );
+		foreach ( $this->importer->listFiles() as $displayName => $page ) {
+			$formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
+			$page->checkVersion( $this->getVersion() );
+			$html .= $formatter->render( $context );
 		}
 
-        $html .= $this->generatePageTableFooter( $context );
+		$html .= $this->generatePageTableFooter( $context );
 
-        return $html;
-    }
+		return $html;
+	}
 
 	/**
 	 * Display the templates status page
 	 *
 	 * @return void
-     * @codeCoverageIgnore
-     */
+	 * @codeCoverageIgnore
+	 */
 	public function showPageTable( $context ) {
 		if ( $this->mIncluding ) {
 			return false;
-        }
+		}
 
-        $output = $this->getOutput();
-        $output->addHTML( $this->generatePageTable( $context ) );
-    }
+		$output = $this->getOutput();
+		$output->addHTML( $this->generatePageTable( $context ) );
+	}
 
-    protected function generatePageTableHeader( $context ) {
-
+	protected function generatePageTableHeader( $context ) {
 		$html = '<table id="templateimporter-import-form"><tr>'
 		. '<th colspan="2">'
 			. $context->msg( 'templateimporter-specialimportpages-column-pagename' )->text()
@@ -164,18 +161,18 @@ class BaseSpecialImportPages extends \SpecialPage {
 		. '<th>'
 			. $context->msg( 'templateimporter-specialimportpages-column-status' )->text()
 		. '</th>'
-        . '</tr>';
-        return $html;
-    }
+		. '</tr>';
+		return $html;
+	}
 
-    protected function generatePageTableFooter() {
-        return "</table>";
-    }
+	protected function generatePageTableFooter() {
+		return "</table>";
+	}
 
-    /**
-     * @codeCoverageIgnore
-     */
-    protected function showForm() {
+	/**
+	 * @codeCoverageIgnore
+	 */
+	protected function showForm() {
 		$output = $this->getOutput();
 		$output->addHTML(
 			Xml::openElement( 'form', [ 'action' => $this->getConfig()->get() ] ) .
@@ -188,12 +185,12 @@ class BaseSpecialImportPages extends \SpecialPage {
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' )
 		);
-    }
+	}
 
 	/**
 	 * Wether the page is cachable
 	 *
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 * @return bool
 	 */
 	public function isCacheable() {
@@ -203,7 +200,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	/**
 	 * Get the description
 	 *
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 * @return string
 	 */
 	public function getDescription() {
@@ -213,7 +210,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 	/**
 	 * Get the groupe name
 	 *
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 * @return string
 	 */
 	protected function getGroupName() {

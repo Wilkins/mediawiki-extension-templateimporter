@@ -2,8 +2,6 @@
 
 namespace TemplateImporter;
 
-use MediaWikiUnitTestCase;
-
 abstract class NamespaceManagerBase extends TemplateImporterTest {
 
 	public function loadNamespacesTravel( $lang ) {

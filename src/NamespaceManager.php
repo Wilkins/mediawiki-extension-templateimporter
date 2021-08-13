@@ -63,40 +63,40 @@ class NamespaceManager {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
 		if ( defined( 'PF_VERSION' ) ) {
 
-            $filemessages = $this->mediawikiPath . "/extensions/PageForms/languages/PF_Namespaces.php";
-            $this->checkFileExists( $filemessages );
-            include $filemessages;
+			$filemessages = $this->mediawikiPath . "/extensions/PageForms/languages/PF_Namespaces.php";
+			$this->checkFileExists( $filemessages );
+			include $filemessages;
 
-            foreach ( $namespaceNames[$lang] as $nsId => $nsName ) {
-                $wgCanonicalNamespaceNames[$nsId] = $nsName;
-                $wgExtraNamespaces[$nsId] = $nsName;
-                $wgNamespaceAliases[$nsName] = $nsId;
-            }
+			foreach ( $namespaceNames[$lang] as $nsId => $nsName ) {
+				$wgCanonicalNamespaceNames[$nsId] = $nsName;
+				$wgExtraNamespaces[$nsId] = $nsName;
+				$wgNamespaceAliases[$nsName] = $nsId;
+			}
 		}
 	}
 
 	public function loadNamespacesSMW( $lang ) {
 		global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
 		if ( defined( 'SMW_VERSION' ) ) {
-            // We clear the \SMW\NamespaceManager::$initLanguageCode
-            // to avoid the SiteLanguageChangeException from
-            // extensions/SemanticMediaWiki/src/NamespaceManager.php
-            \SMW\NamespaceManager::clear();
-            $lg = \SMW\Lang\Lang::getInstance();
-            $lg = $lg->fetch( $lang );
-            $vars = array_merge( $GLOBALS, [ 'wgLanguageCode' => $lang ] );
-            $ns = \SMW\NamespaceManager::initCustomNamespace(
-                $vars,
-                $lg
-            );
-            $namespaceNames = $lg->getNamespaces();
-            foreach ( $namespaceNames as $nsId => $nsName ) {
-                if ( is_int( $nsId ) ) {
-                    $wgCanonicalNamespaceNames[$nsId] = $nsName;
-                    $wgExtraNamespaces[$nsId] = $nsName;
-                    $wgNamespaceAliases[$nsName] = $nsId;
-                }
-            }
+			// We clear the \SMW\NamespaceManager::$initLanguageCode
+			// to avoid the SiteLanguageChangeException from
+			// extensions/SemanticMediaWiki/src/NamespaceManager.php
+			\SMW\NamespaceManager::clear();
+			$lg = \SMW\Lang\Lang::getInstance();
+			$lg = $lg->fetch( $lang );
+			$vars = array_merge( $GLOBALS, [ 'wgLanguageCode' => $lang ] );
+			$ns = \SMW\NamespaceManager::initCustomNamespace(
+				$vars,
+				$lg
+			);
+			$namespaceNames = $lg->getNamespaces();
+			foreach ( $namespaceNames as $nsId => $nsName ) {
+				if ( is_int( $nsId ) ) {
+					$wgCanonicalNamespaceNames[$nsId] = $nsName;
+					$wgExtraNamespaces[$nsId] = $nsName;
+					$wgNamespaceAliases[$nsName] = $nsId;
+				}
+			}
 		}
 	}
 

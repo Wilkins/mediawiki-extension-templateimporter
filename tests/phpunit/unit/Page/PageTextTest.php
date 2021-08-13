@@ -2,9 +2,6 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Command\FakeCommand;
-use TemplateImporter\Config\FakeConfig;
-
 class PageTextTest extends PageBaseTest {
 
 	public function getRepositoryClass() {
@@ -189,7 +186,7 @@ class PageTextTest extends PageBaseTest {
 			],
 			[
 				'Toureiffel.jpg',
-				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . realpath($this->fixtureDir) . " --from=\"Toureiffel.jpg\" --comment-file=\"" . realpath($this->fixtureDir) . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
+				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . realpath( $this->fixtureDir ) . " --from=\"Toureiffel.jpg\" --comment-file=\"" . realpath( $this->fixtureDir ) . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
 			],
 			/*
 			[ 'Modèle:Radian.txt', 'TXT' ],
@@ -218,7 +215,6 @@ class PageTextTest extends PageBaseTest {
 		$this->assertSame( $expectedCommand, $result );
 	}
 
-
 	public function testImportMissing() {
 		$file = $this->getFixture( 'Missing.jpg' );
 
@@ -228,10 +224,9 @@ class PageTextTest extends PageBaseTest {
 			$this->config
 		);
 
-        $this->expectException( "TemplateImporter\Exception\Exception" );
+		$this->expectException( "TemplateImporter\Exception\Exception" );
 		$result = $page->import( "Test", "/path/to/mediawiki" );
-
-    }
+	}
 
 	public function dataProviderPagesViewModel() {
 		// Filename
@@ -251,25 +246,21 @@ class PageTextTest extends PageBaseTest {
 	/**
 	 * @dataProvider dataProviderPagesViewModel
 	 */
-    public function testGetViewModel(
-        $filename, $expectedCategoryStatus, $expectedIcon, $expectedLinkText
-    ) {
-
-        $file = $this->getFixture( $filename );
-
+	public function testGetViewModel(
+		$filename, $expectedCategoryStatus, $expectedIcon, $expectedLinkText
+	) {
+		$file = $this->getFixture( $filename );
 
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
 			$this->config
-        );
-        $page->checkVersion( "1.4.0" );
-        $viewmodel = $page->getViewModel();
-        $this->assertSame( $expectedLinkText, $viewmodel->name );
-        $this->assertSame( $expectedIcon, $viewmodel->icon );
-        //print_r( $viewmodel );
-
-
-    }
+		);
+		$page->checkVersion( "1.4.0" );
+		$viewmodel = $page->getViewModel();
+		$this->assertSame( $expectedLinkText, $viewmodel->name );
+		$this->assertSame( $expectedIcon, $viewmodel->icon );
+		// print_r( $viewmodel );
+	}
 
 }

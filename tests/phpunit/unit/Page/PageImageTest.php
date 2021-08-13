@@ -45,7 +45,7 @@ class PageImageTest extends PageBaseTest {
 		$this->assertSame( $expectedLinkText, $page->getWikiText(),
 			"Detected linktext does not match expected"
 		);
-    }
+	}
 
 	public function dataProviderVersionsMatch() {
 		return [
@@ -72,7 +72,6 @@ class PageImageTest extends PageBaseTest {
 		);
 	}
 
-
 	public function dataProviderVersionsChange() {
 		// Filename
 		// Current comment
@@ -82,15 +81,15 @@ class PageImageTest extends PageBaseTest {
 		// Template will be updated ?
 		return [
 			// Not the same content
-            [ 'Toureiffel.jpg', -1, "2.0.0", 'new', false, true ],
-            [ 'Toureiffel.jpg', "(v2.0.0)", "2.0.0", 'uptodate', false, false ],
-            [ 'Toureiffel.jpg', "(v1.3.0)", "2.0.0", 'willupdate', false, true ],
+			[ 'Toureiffel.jpg', -1, "2.0.0", 'new', false, true ],
+			[ 'Toureiffel.jpg', "(v2.0.0)", "2.0.0", 'uptodate', false, false ],
+			[ 'Toureiffel.jpg', "(v1.3.0)", "2.0.0", 'willupdate', false, true ],
 			// Same Content
-            [ 'Toureiffel.jpg', -1, "2.0.0", 'new', true, true ],
-            [ 'Toureiffel.jpg', "(v1.2.0)", "2.0.0", 'unchanged', true, false ],
+			[ 'Toureiffel.jpg', -1, "2.0.0", 'new', true, true ],
+			[ 'Toureiffel.jpg', "(v1.2.0)", "2.0.0", 'unchanged', true, false ],
 			// Undetected current content
-            [ 'Toureiffel.jpg', "foobar", "2.0.0", 'unknown', true, false ],
-            [ 'Toureiffel.jpg', "foobar", "2.0.0", 'unknown', false, false ],
+			[ 'Toureiffel.jpg', "foobar", "2.0.0", 'unknown', true, false ],
+			[ 'Toureiffel.jpg', "foobar", "2.0.0", 'unknown', false, false ],
 			/*
 			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
 			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
@@ -112,8 +111,8 @@ class PageImageTest extends PageBaseTest {
 			$file->getPathname(),
 			$this->config
 		);
-        $page->fileSize = 1234;
-        $page->currentSize = ( $sameContent ? 0 : 1000 ) + 1234;
+		$page->fileSize = 1234;
+		$page->currentSize = ( $sameContent ? 0 : 1000 ) + 1234;
 
 		$page->checkVersion( $targetVersion );
 		$resultStatus = $page->getVersionTag();
@@ -122,10 +121,10 @@ class PageImageTest extends PageBaseTest {
 			"Detected version does not match expected"
 		);
 
-        $this->assertSame( $needsChange, $page->needsUpdate(),
+		$this->assertSame( $needsChange, $page->needsUpdate(),
 			"Detected update change does not match expected"
-        );
-    }
+		);
+	}
 
 	public function dataProviderPagesIcone() {
 		// Filename
@@ -146,7 +145,7 @@ class PageImageTest extends PageBaseTest {
 			$file->getBasename(),
 			$file->getPathname(),
 			$this->config
-        );
+		);
 
 		$this->assertSame( $expectedIcone, $page->getWikiIcone(),
 			"Detected icone does not match expected"

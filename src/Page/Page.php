@@ -3,12 +3,9 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Command\CommandInterface;
-use TemplateImporter\Command\ShellCommand;
 use TemplateImporter\Config\ConfigInterface;
-use TemplateImporter\Config\MediaWikiConfig;
 use TemplateImporter\NamespaceManager;
 use TemplateImporter\Repository\FactoryRepositoryInterface;
-use TemplateImporter\Repository\DbFactoryRepository;
 
 abstract class Page {
 
@@ -50,18 +47,18 @@ abstract class Page {
 	public function __construct(
 		$pageName,
 		$path,
-        ConfigInterface $config = null
+		ConfigInterface $config = null
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
 		$this->config = $config;
-        $this->factory = $this->config->getFactory();
+		$this->factory = $this->config->getFactory();
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
 		} else {
 			list( $this->namespace, $this->pageTitle ) = [ '', $this->pageName ];
 		}
-        $this->command = $this->config->getCommand();
+		$this->command = $this->config->getCommand();
 		$this->namespaceId = NamespaceManager::getNamespaceFromName( $this->namespace );
 	}
 
@@ -143,18 +140,16 @@ abstract class Page {
 		}
 	}
 
-    abstract public function import( $comment, $mediawikiPath );
-    abstract public function getWikiText();
+	abstract public function import( $comment, $mediawikiPath );
 
+	abstract public function getWikiText();
 
-    public function getViewModel() {
-        $viewmodel = new PageViewModel();
-        $viewmodel->name = $this->getWikiText();
-        $viewmodel->version = $this->getVersion();
-        $viewmodel->status = $this->getVersionTag();
-        $viewmodel->icon = $this->getWikiIcone();
-        return $viewmodel;
-
-            
-    }
+	public function getViewModel() {
+		$viewmodel = new PageViewModel();
+		$viewmodel->name = $this->getWikiText();
+		$viewmodel->version = $this->getVersion();
+		$viewmodel->status = $this->getVersionTag();
+		$viewmodel->icon = $this->getWikiIcone();
+		return $viewmodel;
+	}
 }

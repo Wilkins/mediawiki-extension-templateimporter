@@ -9,8 +9,7 @@ abstract class PageBaseTest extends TemplateImporterTest {
 	public $repositoryClass;
 
 	public function setUp(): void {
-
-        parent::setUp();
+		parent::setUp();
 
 		$this->repository = $this->getRepositoryClass();
 	}

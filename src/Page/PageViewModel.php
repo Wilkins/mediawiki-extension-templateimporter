@@ -3,8 +3,8 @@
 namespace TemplateImporter\Page;
 
 class PageViewModel {
-    public $name;
-    public $status;
-    public $version;
-    public $icon;
+	public $name;
+	public $status;
+	public $version;
+	public $icon;
 }

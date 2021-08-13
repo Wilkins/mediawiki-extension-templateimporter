@@ -2,10 +2,6 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Command\FakeCommand;
-use TemplateImporter\Config\FakeConfig;
-use TemplateImporter\Repository\MemoryFactoryRepository;
-
 class PageFactoryTest extends PageBaseTest {
 
 	public function getRepositoryClass() {
@@ -42,7 +38,7 @@ class PageFactoryTest extends PageBaseTest {
 		$page = PageFactory::create(
 			$file->getBasename(),
 			$file->getPathname(),
-            $this->config
+			$this->config
 		);
 
 		if ( $expectedClass !== null ) {

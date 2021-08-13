@@ -2,26 +2,24 @@
 
 namespace TemplateImporter\Page;
 
-use TemplateImporter\Command\CommandInterface;
 use TemplateImporter\Config\ConfigInterface;
-use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 class PageText extends Page {
 
-    public const EXTENSION = 'txt';
+	public const EXTENSION = 'txt';
 	public $textFile;
-    public $textBase;
+	public $textBase;
 
 	public static function getRegexp( ConfigInterface $config ) {
-		return "#\.".static::EXTENSION."$#";
+		return "#\." . static::EXTENSION . "$#";
 	}
 
 	public function __construct(
 		$pageName,
 		$path = '/dev/null',
-        ConfigInterface $config = null
+		ConfigInterface $config = null
 	) {
-		$pageName = preg_replace( "#.".static::EXTENSION."$#", "", $pageName );
+		$pageName = preg_replace( "#." . static::EXTENSION . "$#", "", $pageName );
 		parent::__construct( $pageName, $path, $config );
 		$this->repository = $this->factory->createPageTextRepository();
 		$this->textFile = $this->command->getFileContents( $this->path );
@@ -34,7 +32,7 @@ class PageText extends Page {
 	 *
 	 * @return bool
 	 */
-    protected function hasChanged() {
+	protected function hasChanged() {
 		return trim( $this->textBase ) != trim( $this->textFile );
 	}
 

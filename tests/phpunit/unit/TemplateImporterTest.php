@@ -2,11 +2,11 @@
 
 namespace TemplateImporter;
 
-use SplFileInfo;
 use MediaWikiUnitTestCase;
-use TemplateImporter\Repository\MemoryFactoryRepository;
+use SplFileInfo;
 use TemplateImporter\Command\FakeCommand;
 use TemplateImporter\Config\FakeConfig;
+use TemplateImporter\Repository\MemoryFactoryRepository;
 
 abstract class TemplateImporterTest extends MediaWikiUnitTestCase {
 	public $mediawikiPath;
@@ -17,14 +17,13 @@ abstract class TemplateImporterTest extends MediaWikiUnitTestCase {
 
 	public function setUp(): void {
 		$this->mediawikiPath = __DIR__ . "/../../../../../";
-        $this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
-        $this->config = new FakeConfig(
-            $this->lang,
-            new MemoryFactoryRepository(),
-            new FakeCommand()
-        );
-        $this->factory = $this->config->getFactory();
-
+		$this->manager = new NamespaceManager( $this->mediawikiPath, $this->lang );
+		$this->config = new FakeConfig(
+			$this->lang,
+			new MemoryFactoryRepository(),
+			new FakeCommand()
+		);
+		$this->factory = $this->config->getFactory();
 	}
 
 	public function getFixture( $filename ) {

@@ -3,33 +3,30 @@
 namespace TemplateImporter;
 
 use DirectoryIterator;
-use TemplateImporter\Page\PageFactory;
-use TemplateImporter\Repository\FactoryRepositoryInterface;
-use TemplateImporter\Command\CommandInterface;
 use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Exception\Exception;
-
+use TemplateImporter\Page\PageFactory;
 
 class BaseImporter {
 
-    public $config;
-    public $templateDir;
+	public $config;
+	public $templateDir;
 
 	/**
-	 * @param string $lang the 2 chars lang
+	 * @param string|null $lang the 2 chars lang
 	 */
-    public function __construct( 
-        string $templateDir = null,
-        ConfigInterface $config = null 
-    ) {
-        if ( !$config ){
-            $config = TemplateImporter::getDefaultConfig();
-        }
+	public function __construct(
+		string $templateDir = null,
+		ConfigInterface $config = null
+	) {
+		if ( !$config ) {
+			$config = TemplateImporter::getDefaultConfig();
+		}
 		if ( !is_dir( $templateDir ) ) {
 			throw new Exception( "Directory $templateDir does not exist." );
 		}
-        $this->config = $config;
-        $this->templateDir = $templateDir;
+		$this->config = $config;
+		$this->templateDir = $templateDir;
 	}
 
 	/**
@@ -37,7 +34,7 @@ class BaseImporter {
 	 *
 	 * @return array the list of importable files
 	 */
-    public function listFiles( ) {
+	public function listFiles() {
 		$files = [];
 		foreach ( new DirectoryIterator( $this->templateDir ) as $file ) {
 			if ( $file->isDot() ) {
@@ -49,11 +46,11 @@ class BaseImporter {
 
 			$page = PageFactory::create(
 				$file->getBasename(),
-                $file->getPathname(),
-                $this->config
+				$file->getPathname(),
+				$this->config
 			);
 			if ( $page ) {
-			    $files[ $page->pageName ] = $page;
+				$files[ $page->pageName ] = $page;
 			}
 		}
 

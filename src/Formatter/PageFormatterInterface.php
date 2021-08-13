@@ -4,7 +4,6 @@ namespace TemplateImporter\Formatter;
 
 interface PageFormatterInterface {
 
-    public function render( $context );
-
+	public function render( $context );
 
 }

@@ -18,14 +18,14 @@ class FakeCommand implements CommandInterface {
 
 	public function getFileContents( $filename ) {
 		return "Lorem ipsum file content";
-    }
+	}
 
-    public function getGlob( $dir, $file ) {
-        if ( $file == 'Toureiffel.jpg.txt' ) {
-            return [
-                realpath( __DIR__."/../../tests/fixtures/pages/Fichier:$file" )
-            ];
-        } 
-        return [];
-    }
+	public function getGlob( $dir, $file ) {
+		if ( $file == 'Toureiffel.jpg.txt' ) {
+			return [
+				realpath( __DIR__ . "/../../tests/fixtures/pages/Fichier:$file" )
+			];
+		}
+		return [];
+	}
 }
