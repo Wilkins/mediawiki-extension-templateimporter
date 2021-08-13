@@ -2,6 +2,8 @@
 
 namespace TemplateImporter;
 
+use TemplateImporter\Exception\MissingDirectoryException;
+
 class BaseImporterTest extends TemplateImporterTest {
 
 	public function testListFiles() {
@@ -15,7 +17,7 @@ class BaseImporterTest extends TemplateImporterTest {
 	}
 
 	public function testListFilesNotADirectory() {
-		$this->expectException( 'TemplateImporter\Exception\Exception' );
+		$this->expectException( 'TemplateImporter\Exception\MissingDirectoryException' );
 		$importer = new BaseImporter(
 			'MissingDirectory',
 			$this->config

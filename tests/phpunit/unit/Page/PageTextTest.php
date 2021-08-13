@@ -2,6 +2,10 @@
 
 namespace TemplateImporter\Page;
 
+use TemplateImporter\Exception\MetadataFileNotFoundException;
+use TemplateImporter\Exception\MetadataFileMultipleException;
+
+
 class PageTextTest extends PageBaseTest {
 
 	public function getRepositoryClass() {
@@ -224,7 +228,7 @@ class PageTextTest extends PageBaseTest {
 			$this->config
 		);
 
-		$this->expectException( "TemplateImporter\Exception\Exception" );
+		$this->expectException( "TemplateImporter\Exception\MetadataFileNotFoundException" );
 		$result = $page->import( "Test", "/path/to/mediawiki" );
 	}
 
@@ -238,7 +242,7 @@ class PageTextTest extends PageBaseTest {
 			$this->config
 		);
 
-		$this->expectException( "TemplateImporter\Exception\Exception" );
+		$this->expectException( "TemplateImporter\Exception\MetadataFileMultipleException" );
 		$result = $page->import( "Test", "/path/to/mediawiki" );
 	}
 

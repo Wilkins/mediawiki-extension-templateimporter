@@ -4,7 +4,7 @@ namespace TemplateImporter;
 
 use DirectoryIterator;
 use TemplateImporter\Config\ConfigInterface;
-use TemplateImporter\Exception\Exception;
+use TemplateImporter\Exception\MissingDirectoryException;
 use TemplateImporter\Page\PageFactory;
 
 class BaseImporter {
@@ -23,7 +23,7 @@ class BaseImporter {
 			$config = TemplateImporter::getDefaultConfig();
 		}
 		if ( !is_dir( $templateDir ) ) {
-			throw new Exception( "Directory $templateDir does not exist." );
+			throw new MissingDirectoryException( "Directory $templateDir does not exist." );
 		}
 		$this->config = $config;
 		$this->templateDir = $templateDir;

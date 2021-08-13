@@ -3,6 +3,7 @@
 namespace TemplateImporter;
 
 use TemplateImporter\Context\FakeContext;
+use TemplateImporter\Exception\MissingConfigurationParameterException;
 
 class BaseSpecialImportPagesTest extends TemplateImporterTest {
 
@@ -48,7 +49,7 @@ class BaseSpecialImportPagesTest extends TemplateImporterTest {
         $this->config->getFactory()->comment = "(v1.2.0)";
         $importer = new BaseImporter( $this->fixtureDir, $this->config );
         $specialPage->setImporter( $importer );
-        $this->expectException( "TemplateImporter\Exception\Exception" );
+        $this->expectException( "TemplateImporter\Exception\MissingConfigurationParameterException" );
         $html = $specialPage->executeAction();
     }
 

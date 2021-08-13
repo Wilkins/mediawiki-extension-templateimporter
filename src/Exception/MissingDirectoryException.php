@@ -11,5 +11,5 @@ namespace TemplateImporter\Exception;
  * @license GPL-2.0-or-later
  * @author  Thibault Taillandier <thibault@taillandier.name>
  */
-abstract class Exception extends \Exception {
+class MissingDirectoryException extends Exception {
 }

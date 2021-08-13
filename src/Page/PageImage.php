@@ -3,7 +3,8 @@
 namespace TemplateImporter\Page;
 
 use TemplateImporter\Config\ConfigInterface;
-use TemplateImporter\Exception\Exception;
+use TemplateImporter\Exception\MetadataFileMultipleException;
+use TemplateImporter\Exception\MetadataFileNotFoundException;
 
 class PageImage extends Page {
 	public $fileSize;
@@ -92,12 +93,12 @@ class PageImage extends Page {
 	private function getCommentFile() {
         $files = $this->getMatchingTextFile();
         if ( count( $files ) == 0 ) {
-			throw new Exception(
+			throw new MetadataFileNotFoundException(
 				"Unable to find the correct metadata file for $this->pageName in ".$this->getDir()
 			);
         } else if ( count( $files ) > 1 ) {
             $message = "";
-			throw new Exception(
+			throw new MetadataFileMultipleException(
 				"Unable to find the correct metadata file for $this->pageName"
 				. " found multiples possibilities : <br>"
 				. implode( '<br>\n', $files )

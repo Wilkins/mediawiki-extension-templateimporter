@@ -5,7 +5,7 @@ namespace TemplateImporter;
 use Html;
 use Status;
 use TemplateImporter\Formatter\HtmlPageFormatter;
-use TemplateImporter\Exception\Exception;
+use TemplateImporter\Exception\MissingConfigurationParameterException;
 use Xml;
 
 /**
@@ -69,7 +69,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 
     public function getExtensionName() {
         if ( ! $this->name ) {
-            throw new Exception(
+            throw new MissingConfigurationParameterException(
                 "The SpecialImportPages attribute \$name must be defined"
                 ." in the subclass extending BaseSpecialImportPages."
             );
