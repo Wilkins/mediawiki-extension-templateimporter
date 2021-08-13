@@ -13,9 +13,9 @@ use TemplateImporter\Config\ConfigInterface;
  */
 class NamespaceManager {
 
-	public $defaultLang = 'en';
+	private $defaultLang = 'en';
     private $mediawikiPath;
-    protected $config;
+    private $config;
 
     public function __construct( ConfigInterface $config ) {
         $this->config = $config;

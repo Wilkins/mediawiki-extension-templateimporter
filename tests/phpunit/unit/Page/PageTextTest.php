@@ -19,7 +19,6 @@ class PageTextTest extends PageBaseTest {
 			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
 			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
 			[ 'Fichier:Toureiffel.jpg.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
-			//[ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
 		];
 	}
 
@@ -51,8 +50,6 @@ class PageTextTest extends PageBaseTest {
 
 	/**
 	 * @dataProvider dataProviderMetaNamespaceUnknown
-     */
-    /*
      */
 	public function testPageDetectMetaNamespaceUnknown(
 		$filename, $metaNamespace ) {
@@ -122,11 +119,6 @@ class PageTextTest extends PageBaseTest {
 			// Undetected current content
 			[ 'Attribut:Longueur.txt', "foobar", "2.0.0", 'unknown', false, false ],
 			[ 'Attribut:Longueur.txt', "machinbidule", "2.0.0", 'unknown', false, false ],
-			/*
-			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
-			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
-			 */
-			// [ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
 		];
 	}
 
@@ -167,7 +159,6 @@ class PageTextTest extends PageBaseTest {
 			[ 'Modèle:Radian.txt', false, 'NS_TEMPLATE', '[[Modèle:Radian]]' ],
 			[ 'Fichier:Toureiffel.jpg.txt', false, 'NS_FILE', '[[:Fichier:Toureiffel.jpg]] (Metadata)' ],
 			[ 'Toureiffel.jpg', false, null, '[[Toureiffel.jpg]]' ],
-			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
 		];
 	}
 
@@ -207,7 +198,6 @@ class PageTextTest extends PageBaseTest {
 			[ 'Modèle:Radian.txt', 'TXT' ],
 			[ 'Fichier:Toureiffel.jpg.txt', '[[Fichier:Toureiffel.jpg|20px]]' ],
 			[ 'Toureiffel.jpg', 'TXT' ],
-			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
 		];
 	}
 
@@ -252,11 +242,6 @@ class PageTextTest extends PageBaseTest {
 				'Toureiffel.jpg',
 				"Executing /dev/null/php /path/to/mediawiki/maintenance/importImages.php --conf=/path/to/mediawiki/LocalSettings.php " . realpath( $this->fixtureDir ) . " --from=\"Toureiffel.jpg\" --comment-file=\"" . realpath( $this->fixtureDir ) . "/Fichier:Toureiffel.jpg.txt\" --extensions=jpg,png --limit=1 --overwrite  --summary=\"Test\" OK",
 			],
-			/*
-			[ 'Modèle:Radian.txt', 'TXT' ],
-			[ 'Fichier:Toureiffel.jpg.txt', '[[Fichier:Toureiffel.jpg|20px]]' ],
-			[ 'Toureiffel.jpg', 'TXT' ],
-			 */
 		];
 	}
 
@@ -315,7 +300,6 @@ class PageTextTest extends PageBaseTest {
 			[ 'Modèle:Radian.txt', false, 'TXT', '[[Modèle:Radian]]' ],
 			[ 'Fichier:Toureiffel.jpg.txt', false, '[[Fichier:Toureiffel.jpg|20px]]', '[[:Fichier:Toureiffel.jpg]] (Metadata)' ],
 			[ 'Toureiffel.jpg', false, '<img src="data:image/png;base64, TG9yZW0gaXBzdW0gZmlsZSBjb250ZW50" alt="Toureiffel.jpg" width="20px"/>', 'Toureiffel.jpg (contenu)' ],
-			// [ 'Voyage:Tourisme.txt', false, 'NS_PROJECT' ],
 		];
 	}
 
