@@ -4,6 +4,7 @@ namespace TemplateImporter\Page;
 
 use TemplateImporter\Exception\MetadataFileNotFoundException;
 use TemplateImporter\Exception\MetadataFileMultipleException;
+use TemplateImporter\NamespaceManager;
 
 
 class PageTextTest extends PageBaseTest {
@@ -41,10 +42,39 @@ class PageTextTest extends PageBaseTest {
 		);
     }
 
-	public function dataProviderMetaNamespace() {
+	public function dataProviderMetaNamespaceUnknown() {
 		return [
             [ 'Unknown:Longueur.txt', 'FakeNamespace' ],
+            [ 'Unknown:Longueur.txt', null ],
+		];
+	}
+
+	/**
+	 * @dataProvider dataProviderMetaNamespaceUnknown
+     */
+    /*
+     */
+	public function testPageDetectMetaNamespaceUnknown(
+		$filename, $metaNamespace ) {
+        $file = $this->getFixture( $filename );
+        if ( $metaNamespace ) {
+            $this->config->setMetaNamespace( $metaNamespace );
+        }
+        $this->manager = new NamespaceManager( $this->config );
+
+        $this->expectException( "TemplateImporter\Exception\MissingNamespaceException" );
+		$page = new PageText(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->config
+		);
+
+    }
+
+	public function dataProviderMetaNamespace() {
+		return [
             [ 'Voyage:Tourisme.txt', 'Voyage' ],
+            [ 'Project:Longueur.txt', 'Project' ],
 		];
 	}
 
@@ -52,10 +82,12 @@ class PageTextTest extends PageBaseTest {
 	 * @dataProvider dataProviderMetaNamespace
      */
     /*
+     */
 	public function testPageDetectMetaNamespace(
 		$filename, $metaNamespace ) {
         $file = $this->getFixture( $filename );
         $this->config->setMetaNamespace( $metaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
 
 		$page = new PageText(
 			$file->getBasename(),
@@ -63,11 +95,10 @@ class PageTextTest extends PageBaseTest {
 			$this->config
 		);
 
-		$this->assertEquals( $expectedVersion, $page->getVersion(),
-			"Detected version does not match expected"
+        $this->assertEquals( 4, $page->namespaceId,
+			"Detected namespace does not match expected"
 		);
     }
-     */
 
 
 	public function dataProviderVersionsChange() {
