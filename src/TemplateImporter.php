@@ -6,6 +6,7 @@ use TemplateImporter\Command\ShellCommand;
 use TemplateImporter\Config\ConfigInterface;
 use TemplateImporter\Config\MediaWikiConfig;
 use TemplateImporter\Repository\DbFactoryRepository;
+use MediaWiki\MediaWikiServices;
 
 class TemplateImporter {
 	/**
@@ -29,7 +30,8 @@ class TemplateImporter {
 	}
 
 	/**
-	 * @codeCoverageIgnore Unable to test this, because in the PhpUnit env, the extension is already loaded
+     * @codeCoverageIgnore
+     * Unable to test this, because in the PhpUnit env, the extension is already loaded
 	 */
 	public static function initExtension( $credits = [] ) {
 		global $wgTemplateImporterMWPath;
@@ -42,8 +44,9 @@ class TemplateImporter {
 	}
 
 	public static function getDefaultConfig(): ConfigInterface {
-		return new MediaWikiConfig(
-			'fr',
+        return new MediaWikiConfig(
+            MediaWikiServices::getInstance()->getContentLanguage(),
+			//'fr',
 			new DbFactoryRepository(),
 			new ShellCommand()
 		);

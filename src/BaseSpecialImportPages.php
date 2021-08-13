@@ -5,6 +5,7 @@ namespace TemplateImporter;
 use Html;
 use Status;
 use TemplateImporter\Formatter\HtmlPageFormatter;
+use TemplateImporter\Exception\Exception;
 use Xml;
 
 /**
@@ -36,7 +37,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$this->importer = $importer;
 	}
 
-	public function getVersion() {
+	public function getExtensionVersion() {
 		return $this->version;
 	}
 
@@ -44,12 +45,14 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 * Get the lang of templates
 	 *
 	 * @return the lang code
-	 */
+     */
+    /*
 	public function getLang() {
 		// FIXME Voir aussi les namespaces
 		return 'fr';
 		// return $this->getLanguage()->getCode();
-	}
+    }
+     */
 
 	/**
 	 * Redirects to special page
@@ -61,10 +64,20 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$url = $_SERVER['REQUEST_URI'];
 		$url = preg_replace( '#&action=import#', '', $url );
 		header( "Location: $url" );
-	}
+    }
+
+    public function getExtensionName() {
+        if ( !isset( $this->name ) ) {
+            return new Exception(
+                "The SpecialImportPages attribute \$name must be defined"
+                ." in the subclass extending BaseSpecialImportPages."
+            );
+        }
+        return $this->name;
+    }
 
 	public function getNewComment() {
-		return "Update from $this->name (v" . $this->getVersion() . ")";
+		return "Update from ".$this->getName()." (v" . $this->getExtensionVersion() . ")";
 	}
 
 	/**
@@ -76,13 +89,17 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 */
 	public function executeAction() {
 		$html = "";
-		foreach ( $this->importer->listFiles() as $displayName => $page ) {
-			$html .= "Import de $displayName";
-			$page->checkVersion( $this->getVersion() );
-			if ( $page->needsUpdate() && $page->hasChanged() ) {
-				$page->import( $this->getNewComment() );
+        foreach ( $this->importer->listFiles() as $displayName => $page ) {
+            $html .= "* Import de ".$page->getWikiText()."\n";
+			$page->checkVersion( $this->getExtensionVersion() );
+            if ( $page->needsUpdate() && $page->hasChanged() ) {
+                $comment = $this->importer->getNewComment(
+                    $this->getExtensionName(), $this->getExtensionVersion()
+                );
+				$page->import( $comment );
 			}
-		}
+        }
+        $html .= "\n";
 		return $html;
 	}
 
@@ -122,8 +139,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 		$html = $this->generatePageTableHeader( $context );
 
 		foreach ( $this->importer->listFiles() as $displayName => $page ) {
-			$formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
-			$page->checkVersion( $this->getVersion() );
+			$formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getExtensionVersion() );
+			$page->checkVersion( $this->getExtensionVersion() );
 			$html .= $formatter->render( $context );
 		}
 

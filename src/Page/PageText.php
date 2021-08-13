@@ -32,7 +32,7 @@ class PageText extends Page {
 	 *
 	 * @return bool
 	 */
-	protected function hasChanged() {
+	public function hasChanged() {
 		return trim( $this->textBase ) != trim( $this->textFile );
 	}
 

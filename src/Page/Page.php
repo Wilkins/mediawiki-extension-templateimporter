@@ -142,7 +142,9 @@ abstract class Page {
 
 	abstract public function import( $comment, $mediawikiPath );
 
-	abstract public function getWikiText();
+    abstract public function getWikiText();
+
+	abstract public function hasChanged();
 
 	public function getViewModel() {
 		$viewmodel = new PageViewModel();

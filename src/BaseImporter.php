@@ -27,7 +27,11 @@ class BaseImporter {
 		}
 		$this->config = $config;
 		$this->templateDir = $templateDir;
-	}
+    }
+
+    public function getNewComment( $extensionName, $extensionVersion ) {
+        return sprintf( "Update from %s (v%s)", $extensionName, $extensionVersion );
+    }
 
 	/**
 	 * List all the importable files from the given lang

@@ -31,7 +31,7 @@ class PageImage extends Page {
 	 *
 	 * @return bool
 	 */
-	protected function hasChanged() {
+	public function hasChanged() {
 		return trim( $this->fileSize ) != trim( $this->currentSize );
 	}
 
