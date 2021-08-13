@@ -62,7 +62,8 @@ class PageText extends Page {
 	 *
 	 * @return void
 	 */
-	public function import( $comment, $mediawikiPath ) {
+    public function import( $comment ) {
+        $mediawikiPath = $this->config->getMediaWikiPath();
 		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importTextFiles.php";
 		$config = "$mediawikiPath/LocalSettings.php";

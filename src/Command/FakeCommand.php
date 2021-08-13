@@ -20,12 +20,10 @@ class FakeCommand implements CommandInterface {
 		return "Lorem ipsum file content";
 	}
 
+    /**
+     * We all a real glob call to be able to handle fixtures files
+     */
 	public function getGlob( $dir, $file ) {
-		if ( $file == 'Toureiffel.jpg.txt' ) {
-			return [
-				realpath( __DIR__ . "/../../tests/fixtures/pages/Fichier:$file" )
-			];
-		}
-		return [];
+        return glob( $dir . '/*:' . $file );
 	}
 }

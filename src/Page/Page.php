@@ -37,6 +37,10 @@ abstract class Page {
 	 * @var CommandInterface
 	 */
 	public $command;
+	/**
+	 * @var ConfigInterface
+	 */
+	public $config;
 
 	public static function match( $filename, ConfigInterface $config ) {
 		return preg_match( static::getRegexp( $config ), $filename );
@@ -51,7 +55,7 @@ abstract class Page {
 	) {
 		$this->pageName = $pageName;
 		$this->path = $path;
-		$this->config = $config;
+        $this->config = $config;
 		$this->factory = $this->config->getFactory();
 		if ( preg_match( '#:#', $this->pageName ) ) {
 			list( $this->namespace, $this->pageTitle ) = explode( ':', $this->pageName );
@@ -140,7 +144,7 @@ abstract class Page {
 		}
 	}
 
-	abstract public function import( $comment, $mediawikiPath );
+	abstract public function import( $comment );
 
     abstract public function getWikiText();
 

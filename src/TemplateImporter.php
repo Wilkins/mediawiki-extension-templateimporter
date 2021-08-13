@@ -43,12 +43,14 @@ class TemplateImporter {
 		define( 'TI_VERSION', isset( $credits['version'] ) ? $credits['version'] : 'N/A' );
 	}
 
-	public static function getDefaultConfig(): ConfigInterface {
+    public static function getDefaultConfig(): ConfigInterface {
+        global $IP;
         return new MediaWikiConfig(
             MediaWikiServices::getInstance()->getContentLanguage(),
 			//'fr',
 			new DbFactoryRepository(),
-			new ShellCommand()
+            new ShellCommand(),
+            $IP
 		);
 	}
 }

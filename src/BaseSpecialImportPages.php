@@ -21,7 +21,8 @@ class BaseSpecialImportPages extends \SpecialPage {
 
 	public $importer;
 	public $version;
-	public $groupName = 'templateimporter';
+    public $groupName = 'templateimporter';
+    public $name;
 
 	/**
 	 * @param string $name the name of the SpecialPage
@@ -67,18 +68,14 @@ class BaseSpecialImportPages extends \SpecialPage {
     }
 
     public function getExtensionName() {
-        if ( !isset( $this->name ) ) {
-            return new Exception(
+        if ( ! $this->name ) {
+            throw new Exception(
                 "The SpecialImportPages attribute \$name must be defined"
                 ." in the subclass extending BaseSpecialImportPages."
             );
         }
         return $this->name;
     }
-
-	public function getNewComment() {
-		return "Update from ".$this->getName()." (v" . $this->getExtensionVersion() . ")";
-	}
 
 	/**
 	 * Execute the Special Page

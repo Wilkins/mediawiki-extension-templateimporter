@@ -21,7 +21,8 @@ abstract class TemplateImporterTest extends MediaWikiUnitTestCase {
 		$this->config = new FakeConfig(
 			$this->lang,
 			new MemoryFactoryRepository(),
-			new FakeCommand()
+            new FakeCommand(),
+            $this->mediawikiPath
 		);
 		$this->factory = $this->config->getFactory();
 	}

@@ -57,7 +57,8 @@ class PageImage extends Page {
 	 *
 	 * @return void
 	 */
-	public function import( $comment, $mediawikiPath ) {
+	public function import( $comment ) {
+        $mediawikiPath = $this->config->getMediaWikiPath();
 		$php = $this->command->which( 'php' );
 		$maintenanceScript = "$mediawikiPath/maintenance/importImages.php";
 		$config = "$mediawikiPath/LocalSettings.php";
@@ -89,8 +90,13 @@ class PageImage extends Page {
 	}
 
 	private function getCommentFile() {
-		$files = $this->getMatchingTextFile();
-		if ( count( $files ) != 1 ) {
+        $files = $this->getMatchingTextFile();
+        if ( count( $files ) == 0 ) {
+			throw new Exception(
+				"Unable to find the correct metadata file for $this->pageName in ".$this->getDir()
+			);
+        } else if ( count( $files ) > 1 ) {
+            $message = "";
 			throw new Exception(
 				"Unable to find the correct metadata file for $this->pageName"
 				. " found multiples possibilities : <br>"

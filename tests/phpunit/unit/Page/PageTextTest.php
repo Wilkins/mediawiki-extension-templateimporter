@@ -202,7 +202,21 @@ class PageTextTest extends PageBaseTest {
 	public function testImport( $filename, $expectedCommand ) {
 		$file = $this->getFixture( $filename );
 		global $wgFileExtensions;
-		$wgFileExtensions = [ 'jpg', 'png' ];
+        $wgFileExtensions = [ 'jpg', 'png' ];
+
+        $this->config->setMediaWikiPath( "/path/to/mediawiki" );
+
+		$page = PageFactory::create(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->config
+        );
+		$result = $page->import( "Test" );
+		$this->assertSame( $expectedCommand, $result );
+	}
+
+	public function testImportMissing() {
+		$file = $this->getFixture( 'Missing.jpg' );
 
 		$page = PageFactory::create(
 			$file->getBasename(),
@@ -210,13 +224,13 @@ class PageTextTest extends PageBaseTest {
 			$this->config
 		);
 
+		$this->expectException( "TemplateImporter\Exception\Exception" );
 		$result = $page->import( "Test", "/path/to/mediawiki" );
-
-		$this->assertSame( $expectedCommand, $result );
 	}
 
-	public function testImportMissing() {
-		$file = $this->getFixture( 'Missing.jpg' );
+    public function testImportDouble() {
+        $this->fixtureDir = __DIR__ . '/../../../fixtures/errorPages';
+        $file = $this->getFixture( 'Double.jpg' );
 
 		$page = PageFactory::create(
 			$file->getBasename(),
@@ -260,7 +274,6 @@ class PageTextTest extends PageBaseTest {
 		$viewmodel = $page->getViewModel();
 		$this->assertSame( $expectedLinkText, $viewmodel->name );
 		$this->assertSame( $expectedIcon, $viewmodel->icon );
-		// print_r( $viewmodel );
 	}
 
 }
