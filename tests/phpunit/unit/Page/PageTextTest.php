@@ -18,7 +18,7 @@ class PageTextTest extends PageBaseTest {
 			[ 'Catégorie:Voyages.txt', "1.12.1", "(v1.12.1) Foo" ],
 			[ 'Modèle:Radian.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
 			[ 'Fichier:Toureiffel.jpg.txt', "1.12.1", "Foo (v1.12.1) Bar" ],
-			// [ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
+			//[ 'Voyage:Tourisme.txt', "1.12.1", "Update (v1.12.1)" ],
 		];
 	}
 
@@ -39,7 +39,36 @@ class PageTextTest extends PageBaseTest {
 		$this->assertEquals( $expectedVersion, $page->getVersion(),
 			"Detected version does not match expected"
 		);
+    }
+
+	public function dataProviderMetaNamespace() {
+		return [
+            [ 'Unknown:Longueur.txt', 'FakeNamespace' ],
+            [ 'Voyage:Tourisme.txt', 'Voyage' ],
+		];
 	}
+
+	/**
+	 * @dataProvider dataProviderMetaNamespace
+     */
+    /*
+	public function testPageDetectMetaNamespace(
+		$filename, $metaNamespace ) {
+        $file = $this->getFixture( $filename );
+        $this->config->setMetaNamespace( $metaNamespace );
+
+		$page = new PageText(
+			$file->getBasename(),
+			$file->getPathname(),
+			$this->config
+		);
+
+		$this->assertEquals( $expectedVersion, $page->getVersion(),
+			"Detected version does not match expected"
+		);
+    }
+     */
+
 
 	public function dataProviderVersionsChange() {
 		// Filename
@@ -205,8 +234,6 @@ class PageTextTest extends PageBaseTest {
 	 */
 	public function testImport( $filename, $expectedCommand ) {
 		$file = $this->getFixture( $filename );
-		global $wgFileExtensions;
-        $wgFileExtensions = [ 'jpg', 'png' ];
 
         $this->config->setMediaWikiPath( "/path/to/mediawiki" );
 

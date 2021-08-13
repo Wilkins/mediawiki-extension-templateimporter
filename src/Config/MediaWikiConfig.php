@@ -12,4 +12,9 @@ class MediaWikiConfig extends AbstractConfig {
 		return $wgFileExtensions;
 	}
 
+	public function getMetaNamespace() {
+		global $wgMetaNamespace;
+		return $wgMetaNamespace;
+	}
+
 }

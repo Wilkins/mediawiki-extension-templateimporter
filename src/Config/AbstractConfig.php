@@ -7,10 +7,11 @@ use TemplateImporter\Repository\FactoryRepositoryInterface;
 
 abstract class AbstractConfig implements ConfigInterface {
 
-	private $lang;
-	private $factory;
-    private $command;
-    private $mediaWikiPath;
+	protected $lang;
+	protected $factory;
+    protected $command;
+    protected $mediaWikiPath;
+    protected $metaNamespace;
 
 	public function __construct(
 		$lang,
@@ -45,9 +46,6 @@ abstract class AbstractConfig implements ConfigInterface {
         return $this->mediaWikiPath;
 	}
 
-	public function setMediaWikiPath( $mediaWikiPath ) {
-		$this->mediaWikiPath = $mediaWikiPath;
-	}
-
 	abstract public function getFileExtensions();
+	abstract public function getMetaNamespace();
 }
