@@ -14,9 +14,11 @@ use TemplateImporter\Config\ConfigInterface;
 class NamespaceManager {
 
 	public $defaultLang = 'en';
-	private $mediawikiPath;
+    private $mediawikiPath;
+    protected $config;
 
     public function __construct( ConfigInterface $config ) {
+        $this->config = $config;
 		$this->mediawikiPath = $config->getMediaWikiPath();
 		$this->loadNamespaceData( $this->defaultLang );
 		if ( $config->getLang() != $this->defaultLang ) {
@@ -40,7 +42,32 @@ class NamespaceManager {
 			$wgCanonicalNamespaceNames[$nsId] = $nsName;
 			$wgExtraNamespaces[$nsId] = $nsName;
 			$wgNamespaceAliases[$nsName] = $nsId;
-		}
+        }
+	}
+
+    public function loadMetaNamespaces() {
+        global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
+        $name = $this->config->getMetaNamespace();
+        if ( $name ) {
+
+
+
+        $metaNamespaces = [
+            '4' => $this->config->getMetaNamespace(),
+        ];
+        //print_r( [ $metaNamespaces ] );
+		foreach ( $metaNamespaces as $nsId => $nsName ) {
+			$wgCanonicalNamespaceNames[$nsId] = $nsName;
+			$wgExtraNamespaces[$nsId] = $nsName;
+			$wgNamespaceAliases[$nsName] = $nsId;
+        }
+        }
+        /*
+        throw new \Exception();
+        print_r( [
+            $wgNamespaceAliases
+        ] );
+         */
 	}
 
 	public function loadCustomNamespaces( $filename ) {
@@ -103,6 +130,7 @@ class NamespaceManager {
 
 	public function loadNamespaceData( $lang ) {
 		$this->loadNamespacesMediawiki( $lang );
+        $this->loadMetaNamespaces();
 		$this->loadNamespacesPageForms( $lang );
 		$this->loadNamespacesSMW( $lang );
 	}

@@ -4,6 +4,8 @@ namespace TemplateImporter;
 
 abstract class NamespaceManagerBase extends TemplateImporterTest {
 
+    protected $dummyMetaNamespace = 'FooBar';
+
 	public function loadNamespacesTravel( $lang ) {
 		$this->manager->loadCustomNamespaces(
 			__DIR__ . "/../../fixtures/namespaces/customNamespaces.SemanticTravel.$lang.php" );
@@ -146,5 +148,25 @@ abstract class NamespaceManagerBase extends TemplateImporterTest {
 	public function testMissingNamespaceFromId() {
 		$this->expectException( 'TemplateImporter\Exception\MissingNamespaceException' );
 		$detectedName = $this->manager->getNamespaceName( 87984654 );
-	}
+    }
+
+    public function testMetaNamespaceName() {
+        $this->config->setMetaNamespace( $this->dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $name = $this->manager->getNamespaceName( 4 );
+        $this->assertEquals( $name, $this->dummyMetaNamespace );
+    }
+
+    public function testMetaNamespaceId() {
+        $this->config->setMetaNamespace( $this->dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $id = $this->manager->getNamespaceFromName( $this->dummyMetaNamespace );
+        $this->assertEquals( 4, $id );
+    }
+
+    /*
+    abstract public function testMetaNamespaceTalkName();
+    abstract public function testMetaNamespaceTalkId();
+     */
+
 }

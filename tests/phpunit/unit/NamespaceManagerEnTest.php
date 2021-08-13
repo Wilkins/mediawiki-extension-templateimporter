@@ -22,4 +22,22 @@ class NamespaceManagerEnTest extends NamespaceManagerBase {
 		return NamespaceProviderEn::providerNamespacesTravel();
 	}
 
+    /*
+    public function testMetaNamespaceTalkName() {
+        $dummyMetaNamespace = 'FooBar';
+        $this->config->setMetaNamespace( $dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $name = $this->manager->getNamespaceName( 4 );
+        $this->assertEquals( $name, $dummyMetaNamespace );
+    }
+
+    public function testMetaNamespaceTalkId() {
+        $dummyMetaNamespace = 'FooBar';
+        $this->config->setMetaNamespace( $dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $id = $this->manager->getNamespaceFromName( $dummyMetaNamespace );
+        $this->assertEquals( 4, $id );
+        $this->assertEquals( 5, $id );
+    }
+*/
 }
