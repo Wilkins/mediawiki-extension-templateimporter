@@ -68,24 +68,6 @@ class BaseSpecialImportPages extends \SpecialPage {
 		return "Update from $this->name (v" . $this->getVersion() . ")";
     }
 
-    public function isWikiContent( $content ) {
-        if ( preg_match( '#\[\[#', $content ) ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Decide wether we display HTML or WikiText
-     */
-    public function addContentAutodetected( $content ) {
-        if ( $this->isWikiContent( $content ) ) {
-            $this->getOutput()->addWikiText( $content );
-        } else {
-            $this->getOutput()->addHtml( $content );
-        }
-    }
-
 	/**
 	 * Execute the Special Page
 	 *
@@ -93,26 +75,37 @@ class BaseSpecialImportPages extends \SpecialPage {
 	 *
 	 * @return bool the status of the rendered page
 	 */
+    public function executeAction() {
+        $html = "";
+        foreach ( $this->importer->listFiles() as $displayName => $page ) {
+            $html .= "Import de $displayName";
+            $page->checkVersion( $this->getVersion() );
+            if ( $page->needsUpdate() && $page->hasChanged() ) {
+                $page->import( $this->getNewComment() );
+            }
+        }
+        return $html;
+	}
+
+	/**
+	 * Execute the Special Page
+	 *
+	 * @param string $par the url part
+	 *
+     * @return bool the status of the rendered page
+     * @codeCoverageIgnore
+	 */
 	public function execute( $par ) {
 		$this->setHeaders();
-
 		$this->showPageTable( $this );
 
 		if ( $this->getRequest()->getText( 'action' ) != 'import' ) {
 			return Status::newGood();
 		}
 
-		$output = $this->getOutput();
-
-		try {
-			$files = $this->importer->listFiles();
-			foreach ( $files as $displayName => $page ) {
-				$this->getOutput()->addWikiText( "Import de $displayName" );
-				$page->checkVersion( $this->getVersion() );
-				if ( $page->needsUpdate() && $page->hasChanged() ) {
-					$page->import( $this->getNewComment() );
-				}
-			}
+        try {
+            $generatedHtml = $this->executeAction();
+            $this->getOutput()->addWikiText( $generatedHtml );
 		} catch ( \Exception $e ) {
 			$this->getOutput()->addWikiText( '<span class="error">' . $e->getMessage() . '</span>' );
 			return Status::newFatal( $e->getMessage() );
@@ -130,8 +123,7 @@ class BaseSpecialImportPages extends \SpecialPage {
 
         $html = $this->generatePageTableHeader( $context );
 
-		$files = $this->importer->listFiles();
-        foreach ( $files as $displayName => $page ) {
+        foreach ( $this->importer->listFiles() as $displayName => $page ) {
             $formatter = new HtmlPageFormatter( $page->getViewModel(), $this->getVersion() );
             $page->checkVersion( $this->getVersion() );
             $html .= $formatter->render( $context );

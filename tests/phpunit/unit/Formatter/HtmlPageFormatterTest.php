@@ -47,8 +47,6 @@ class HtmlPageFormatterTest extends PageBaseTest {
 	/**
 	 * @dataProvider dataProviderPagesHtml
      */
-    /*
-     */
     public function testPageDetectPagesHtml(
         $pageName, $pageVersion, $pageStatus, $pageIcon, $expectedHtml
     ) {
@@ -66,6 +64,31 @@ class HtmlPageFormatterTest extends PageBaseTest {
         $this->assertSame( $expectedHtml, $html,
 			"Rendered html does not match expected"
 		);
+    }
+
+    public function dataProviderWikiContents() {
+        // Content
+        // is wiki content ?
+        return [
+            [ '[[Link]]', true ],
+            [ 'foo [[Link]] bar', true ],
+            [ '[[Link|20px]]', true ],
+            [ 'foo [[Link|20px]] bar', true ],
+            [ 'foo [[Link|20px]] bar <a src="hello.jpg">', true ],
+            [ '<img src="hello.jpg">', false ],
+            [ 'Lorem ipsum', false ],
+            [ '', false ],
+            [ null, false ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider dataProviderWikiContents
+     */
+    public function testCheckWikiContent( $content, $isWiki ) {
+        $formatter = new HtmlPageFormatter( new PageViewModel, "1.2.0" );
+        $this->assertSame( $isWiki, $formatter->isWikiContent( $content ) );
     }
 
 }

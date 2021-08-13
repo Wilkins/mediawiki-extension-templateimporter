@@ -17,6 +17,26 @@ class HtmlPageFormatter implements PageFormatterInterface {
         //$this->parser = MediaWikiServices::getInstance()->getParserFactory()->create();
     }
 
+    public function isWikiContent( $content ) {
+        if ( preg_match( '#\[\[#', $content ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Decide wether we display HTML or WikiText
+     */
+    /*
+    public function addContentAutodetected( $content ) {
+        if ( $this->isWikiContent( $content ) ) {
+            $this->getOutput()->addWikiText( $content );
+        } else {
+            $this->getOutput()->addHtml( $content );
+        }
+    }
+     */
+
 
     public function render( $context ) {
         $status = $context->msg(
