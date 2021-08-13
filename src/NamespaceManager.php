@@ -49,25 +49,17 @@ class NamespaceManager {
         global $wgNamespaceAliases, $wgExtraNamespaces, $wgCanonicalNamespaceNames;
         $name = $this->config->getMetaNamespace();
         if ( $name ) {
-
-
-
-        $metaNamespaces = [
-            '4' => $this->config->getMetaNamespace(),
-        ];
-        //print_r( [ $metaNamespaces ] );
-		foreach ( $metaNamespaces as $nsId => $nsName ) {
-			$wgCanonicalNamespaceNames[$nsId] = $nsName;
-			$wgExtraNamespaces[$nsId] = $nsName;
-			$wgNamespaceAliases[$nsName] = $nsId;
+            $genericMetaNamespaceTalk = $wgExtraNamespaces[5];
+            $metaNamespaces = [
+                '4' => $name,
+                '5' => str_replace( '$1', $name, $genericMetaNamespaceTalk ),
+            ];
+            foreach ( $metaNamespaces as $nsId => $nsName ) {
+                $wgCanonicalNamespaceNames[$nsId] = $nsName;
+                $wgExtraNamespaces[$nsId] = $nsName;
+                $wgNamespaceAliases[$nsName] = $nsId;
+            }
         }
-        }
-        /*
-        throw new \Exception();
-        print_r( [
-            $wgNamespaceAliases
-        ] );
-         */
 	}
 
 	public function loadCustomNamespaces( $filename ) {

@@ -5,6 +5,7 @@ namespace TemplateImporter;
 class NamespaceManagerFrTest extends NamespaceManagerBase {
 
 	public $lang = 'fr';
+    protected $dummyMetaNamespaceTalk = 'Discussion_FooBar';
 
 	public function dataProviderNamespaceCore() {
 		return NamespaceProviderFr::providerNamespacesCore();

@@ -164,9 +164,18 @@ abstract class NamespaceManagerBase extends TemplateImporterTest {
         $this->assertEquals( 4, $id );
     }
 
-    /*
-    abstract public function testMetaNamespaceTalkName();
-    abstract public function testMetaNamespaceTalkId();
-     */
+    public function testMetaNamespaceTalkName() {
+        $this->config->setMetaNamespace( $this->dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $name = $this->manager->getNamespaceName( 5 );
+        $this->assertEquals( $name, $this->dummyMetaNamespaceTalk );
+    }
+
+    public function testMetaNamespaceTalkId() {
+        $this->config->setMetaNamespace( $this->dummyMetaNamespace );
+        $this->manager = new NamespaceManager( $this->config );
+        $id = $this->manager->getNamespaceFromName( $this->dummyMetaNamespaceTalk );
+        $this->assertEquals( 5, $id );
+    }
 
 }
